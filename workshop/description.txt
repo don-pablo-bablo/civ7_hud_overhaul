@@ -1,0 +1,89 @@
+This mod reworks the main game screen, drawing on Civilization VI and on popular UI mods for Civ VI and VII. It does three things:
+
+[list]
+[*][b]Less wasted space[/b]: oversized elements are smaller and sit flush with the screen's edges. They still follow the game's text size and UI scaling.
+[*][b]More information at a glance[/b]: the top bar gains pills for food, production, your units, happiness levels, trade routes, resources, treasure convoys, great works, religion and victory standings.
+[*][b]Compact and detailed tooltips[/b]: hover a pill for a summary, or click it for a complete breakdown, settlement by settlement and source by source. Your whole game is there from the main screen.
+[/list]
+
+It aims to work alongside other UI mods: see Compatibility below for the ones tested with it. The screenshots show it before and after, and each detailed tooltip.
+
+[h2]Top bar, dock and Journal[/h2]
+
+[h3]Two rows of pills[/h3]
+
+The top bar's text is smaller, and it adds these to the game's gold, science, culture, happiness, influence and settlements:
+
+[list]
+[*]Celebrations, in the happiness pill
+[*]Food
+[*]Production
+[*]Cities and towns, with your population, in the settlements pill
+[*]Units, military and civilian
+[*]Happiness levels of your settlements
+[*]Trade routes
+[*]Resources
+[*]Treasure convoys
+[*]Great works
+[*]Religion
+[*]Victory standings
+[/list]
+
+The pills sit on two rows, with room between them. On a small screen or with large text, any that do not fit go on a third row; turn off the ones you need least to keep it to two. Religion and treasure convoys show only when they apply. The README on [url=https://github.com/don-pablo-bablo/civ7_hud_overhaul]GitHub[/url] has what each one shows.
+
+[h3]Dock and Journal on a panel[/h3]
+
+The dock's rings sit smaller and in a line under the top bar. The dock, with its rings and screen buttons, and the Journal sit on a panel, so they stand out from the map. The Journal scrolls when its quests do not fit, and hides when it has none.
+
+[h3]World Tracker[/h3]
+
+Straight from Civ VI: your current research and civic under the dock, with a progress bar and the turns left. Click a row to choose the next one, or the +/- on the heading to collapse it. You can show the World Tracker, the dock's research and civic rings, or both.
+
+[h2]Leader ribbon[/h2]
+
+The leader ribbon moves into the top right corner, as in Civ VI, smaller and with no gaps between leaders. Your own leader stays in the corner, and each leader you meet lines up to the left. Each leader's yields sit straight under the portrait, with their civ's symbol below, and you choose when they show.
+
+It adds rows for combat strength, religion with its share of the world, and in the Modern Age ideology. War support is a larger badge on the portrait's corner.
+
+Combat strength uses the formula from [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3734152860]Drongo's Leader Ribbons[/url], with thanks to its author, Drongo from One More Turn, so both mods show the same value. Each unit that can attack counts 4 to the power of its best strength divided by 17, so a unit 17 points stronger counts four times as much. This gives strong units more weight than adding the strengths up would, as in combat a few strong units can beat many weak ones.
+
+[h2]Minimap and turn dial[/h2]
+
+The minimap and the turn dial are smaller and sit flush in the bottom corners, as do the notifications above the dial.
+
+[h2]Themes and transparency[/h2]
+
+Don't like the panel colour from the main Civ VII theme? Choose another, such as Civ VI blue or my favourite, verdigris. You also set how much of the map shows through the top bar, the other panels and the leader ribbon, each on its own. Some themes look best at a lower opacity. The options are in Options > Add-ons.
+
+[h2]Tooltips[/h2]
+
+Hover a pill for its compact tooltip: where a yield comes from, settlement by settlement, with the treasury, current research or next celebration. Each settlement has an icon for a capital, city or town.
+
+Click the pill, or press the tooltip inspect key, K by default, for its detailed tooltip, and again to close it. It breaks each settlement's yield down by source, specialists and upkeep included, with a bar for its share, red for a loss. In a detailed tooltip, click:
+
+[list]
+[*][b]the title and values[/b] to open the screen the pill used to open, such as the yields report;
+[*][b]a settlement, or any line under it,[/b] to move the map there, or for a trade route, to the settlement it trades with;
+[*][b]a victory's leaders[/b] to open its tab on the victories screen;
+[*][b]a unit[/b] to select it and move the camera to it;
+[*][b]a group's heading[/b], such as Cities or a victory, to close or open it.
+[/list]
+
+[h2]Compatibility[/h2]
+
+HUD Overhaul changes the top bar, the dock, the leader ribbon, the minimap and the turn dial. Other mods that change the same parts can clash with it. It has been played with all of these enabled at once.
+
+Adjusted to work together: Drongo's Leader Ribbons, Map Trix, Ready or Not and No Gradients.
+
+No changes needed: Readable Happiness Icons, Demographics, Drongo's Wonder Screen, Detailed Map Tacks, REWIND: Replay Map History, City Hall, Pablo's Better Yield Tooltip, Leugi's Diplomacy Icon Tweaks, Friends and Rivals, Flag Corps, Resource Re-sorts, Resource Page Warehouse Indicator, Leonardfactory's Policy Yield Previews, MantisMaestro's Compact Production Chooser, Zatygold's Town Focus Info, Drongo's Syncretism Revealer, Discovery Lens, Concise Specialists Lens, More Lenses, Improved Archaeology Lens, Ends Movement Highlights, Orion's Bonus Icons+, Orion's Civilopedia+, Mattifus's Memento Editor and nasuellia-non-sticky-selection.
+
+[h2]Saves[/h2]
+
+The mod only changes the interface. You can add it to a game in progress or remove it without breaking the save.
+
+[h2]AI use[/h2]
+
+Claude Code was used to help create this mod.
+
+[h2]Source and bug reports[/h2]
+The code and the full README are on [url=https://github.com/don-pablo-bablo/civ7_hud_overhaul]GitHub[/url]. Report bugs there.

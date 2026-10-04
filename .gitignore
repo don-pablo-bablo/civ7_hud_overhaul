@@ -1,0 +1,8 @@
+# Link to the game's resources folder, for the mock pages
+/reference
+
+# civ7lab run folders, with the game's logs
+/runs
+
+# A capture for the mocks, before tools/mock/write-fixtures.mjs turns it into captured.js
+/capture.json

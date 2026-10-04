@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- UI only: it changes no rules, yields or definitions. AffectsSavedGames is 0, so it can be
+     added to or removed from a game in progress. -->
+<Mod id="pablo-hud-overhaul" version="1.0.0" xmlns="ModInfo">
+	<Properties>
+		<Name>Pablo's HUD Overhaul</Name>
+		<Description>Lays out the main game screen more like Civilization VI: a top bar and panels in a colour of your choice, a World Tracker under the tech and civic dock, coloured yield pills with more of them, your units, detailed tooltips, and a compact leader ribbon. Works with Drongo's Leader Ribbons, Map Trix, Ready or Not and No Gradients. Options are in Options > Add-ons.</Description>
+		<Authors>Pablo</Authors>
+		<AffectsSavedGames>0</AffectsSavedGames>
+		<Package>Mod</Package>
+	</Properties>
+	<Dependencies>
+		<Mod id="base-standard" title="LOC_MODULE_BASE_STANDARD_NAME"/>
+	</Dependencies>
+	<ActionCriteria>
+		<Criteria id="always">
+			<AlwaysMet/>
+		</Criteria>
+	</ActionCriteria>
+	<ActionGroups>
+		<ActionGroup id="pablo-hud-overhaul-ui" scope="game" criteria="always">
+			<Actions>
+				<UIScripts>
+					<!-- The layout's stylesheet: dock, Journal and the screen corners, and
+					     the option that turns the mod off. -->
+					<Item>ui/hud-overhaul-layout.js</Item>
+					<!-- Saved settings, the Add-ons tab and the off switch, for the other
+					     scripts. They import it; it is listed here too so the game is sure
+					     to serve it. -->
+					<Item>ui/hud-overhaul-settings.js</Item>
+					<!-- The colour and opacity of the top bar and plates, with their
+					     options. -->
+					<Item>ui/hud-overhaul-theme.js</Item>
+					<!-- Drawing for the World Tracker. The tracker imports it; it is listed
+					     here too so the game is sure to serve it. -->
+					<Item>ui/hud-overhaul-tracker-render.js</Item>
+					<!-- The World Tracker: reads research and civic, draws under the dock. -->
+					<Item>ui/hud-overhaul-tracker.js</Item>
+					<!-- Empire food and production, added to the top bar, and their option. -->
+					<Item>ui/hud-overhaul-yields.js</Item>
+					<!-- Turns to the next celebration, in the top bar's happiness pill, and
+					     its option. -->
+					<Item>ui/hud-overhaul-celebration.js</Item>
+					<!-- Coloured pills behind the top bar's yields. -->
+					<Item>ui/hud-overhaul-pills.js</Item>
+					<!-- The settlement count split into cities and towns, turning red when
+					     over the cap, with the happiness lost, and their options. -->
+					<Item>ui/hud-overhaul-settlements.js</Item>
+					<!-- Your military units and civilians, in the top bar after the
+					     settlements, and its option. -->
+					<Item>ui/hud-overhaul-units.js</Item>
+					<!-- Opens the commerce screen on a tab, for the resources, trade and
+					     treasure pills. They import it; it is listed here too so the game
+					     is sure to serve it. -->
+					<Item>ui/hud-overhaul-commerce.js</Item>
+					<!-- Settlements at each happiness level, in the top bar, and its
+					     option. The top bar's mod pills show in the order listed here, from
+					     this one to the victories. -->
+					<Item>ui/hud-overhaul-happiness.js</Item>
+					<!-- Trade routes in use against the limit, in the top bar, and its
+					     option. -->
+					<Item>ui/hud-overhaul-trade.js</Item>
+					<!-- The empire's resources by class, in the top bar, and its option. -->
+					<Item>ui/hud-overhaul-resources.js</Item>
+					<!-- Treasure convoys in the Exploration Age, in the top bar, and its
+					     option. -->
+					<Item>ui/hud-overhaul-treasure.js</Item>
+					<!-- Great works on display and in storage, in the top bar, and its
+					     option. -->
+					<Item>ui/hud-overhaul-greatworks.js</Item>
+					<!-- Religion's share of the world, in the top bar, and its option. -->
+					<Item>ui/hud-overhaul-religion.js</Item>
+					<!-- Your place in each victory, in the top bar, and its option. -->
+					<Item>ui/hud-overhaul-victories.js</Item>
+					<!-- The top bar's pills on two rows, in a fixed order. After the
+					     victories, which it moves to the end of the first row. -->
+					<Item>ui/hud-overhaul-rows.js</Item>
+					<!-- Detailed tooltips on the top bar's pills, which can be locked open.
+					     After the celebration script, whose countdown they show. -->
+					<Item>ui/hud-overhaul-tooltips.js</Item>
+					<!-- A compact leader ribbon: yields straight under the portrait, and its
+					     option. -->
+					<Item>ui/hud-overhaul-ribbon.js</Item>
+					<!-- Military strength as a row in the leader ribbon. -->
+					<Item>ui/hud-overhaul-military.js</Item>
+					<!-- Each leader's religion and its share of the world as a row in the
+					     leader ribbon. -->
+					<Item>ui/hud-overhaul-religion-row.js</Item>
+					<!-- Each leader's ideology as a row in the leader ribbon, in the
+					     Modern Age. -->
+					<Item>ui/hud-overhaul-ideology-row.js</Item>
+					<!-- This mod's leader ribbon over Drongo's Leader Ribbons, and its
+					     option, only while that mod is on. -->
+					<Item>ui/hud-overhaul-drongo.js</Item>
+				</UIScripts>
+				<!-- All the text players see: options, pills and tooltips. -->
+				<UpdateText>
+					<Item>text/en_us/InGameText.xml</Item>
+				</UpdateText>
+			</Actions>
+		</ActionGroup>
+	</ActionGroups>
+</Mod>
