@@ -288,10 +288,11 @@ All in **Options > Add-ons**, in three groups. Changes show at once.
   - **Top bar opacity** and **Panel opacity**: how much of the map shows
     through the top bar, and through the dock, the World Tracker and the
     Journal. Each goes from fully clear to fully solid.
-- **Pablo's HUD Overhaul: Parts**: each part of the screen on or off, and
-  its size. Untick a part to keep the game's own; the part's other options
-  then hide. Sizes go from 75% to 150% of HUD Overhaul's own, and each
-  slider says what the game's own size is, such as 125% for the turn dial.
+- **Pablo's HUD Overhaul: Size and layout**: each part of the screen on or
+  off, and its size. Turn off a part to use the game's version instead, and
+  its other options hide. Sizes go from 75% to 150% of the mod's default,
+  and each slider says what the base game's size is, such as 125% for the
+  turn dial.
   - **Top bar size**: the pills, and the turn and date at the top right.
   - **Detailed tooltips**, with **Tooltip size**: off, the pills show the
     game's text tooltips.
@@ -325,8 +326,8 @@ Adjusted to work together:
   its combat strength, at HUD Overhaul's size in the corner. Drongo's combat
   strength row takes the place of HUD Overhaul's, which gives the same
   value. The **With Drongo's Leader Ribbons** option picks this or HUD
-  Overhaul's own ribbon with every row in one list. Untick **Leader ribbon**
-  for Drongo's ribbon as its author made it, in case an update to either mod
+  Overhaul's own ribbon with every row in one list. To use Drongo's ribbon
+  unchanged, turn off **Leader ribbon**, in case an update to either mod
   clashes.
 - **[Map Trix](https://steamcommunity.com/sharedfiles/filedetails/?id=3507072814)**:
   its option for coloured top bar entries gives way to HUD Overhaul's pills

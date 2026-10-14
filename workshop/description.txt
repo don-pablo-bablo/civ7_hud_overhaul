@@ -57,7 +57,7 @@ Don't like the panel colour from the main Civ VII theme? Choose another, such as
 
 [h2]Sizes and parts[/h2]
 
-Too small for your screen? Each part has its own size, from 75% to 150%: the top bar, the tooltips, the rings, the World Tracker and Journal, the leader ribbon, the minimap, the turn dial and the notifications. Each slider says what the game's own size is. Want only some of the mod? Untick a part, such as the leader ribbon or the minimap, to keep the game's own.
+Too small for your screen? Each part has its own size, from 75% to 150%: the top bar, the tooltips, the rings, the World Tracker and Journal, the leader ribbon, the minimap, the turn dial and the notifications. Each slider says what the base game's size is. Want only some of the mod? Turn off a part, such as the leader ribbon or the minimap, to use the game's version instead.
 
 [h2]Tooltips[/h2]
 
