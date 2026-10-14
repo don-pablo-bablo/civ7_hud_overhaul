@@ -17,9 +17,10 @@
 // - Drongo's layout: Drongo's rows, second box and button, with Drongo's
 //   combat row in place of this mod's. The second box opens
 //   with the panel when this mod keeps it open.
-// - Off: Drongo's ribbon as its author made it, for when a change on
-//   either side clashes, without this mod's combat strength, religion and
-//   ideology rows.
+// - Off, while the Leader ribbon part is off: Drongo's ribbon as its author
+//   made it, for when a change on either side clashes, without this mod's
+//   combat strength, religion and ideology rows. The option shows only
+//   while the part is on.
 // Both of the first two set Drongo's sizes and position back to the game's,
 // which hud-overhaul-ribbon.js's rules build on.
 //
@@ -27,11 +28,11 @@
 // getPrimaryRibbonItems, on its prototype. Settings and the option go
 // through hud-overhaul-settings.js. Log and bail, never throw.
 
-import { addOptions, enabled as modEnabled, ENABLED_EVENT, OPTION_GROUPS, readSettings, setStyle, writeSetting } from "./hud-overhaul-settings.js";
+import { addOptions, enabled as modEnabled, ENABLED_EVENT, onPart, OPTION_GROUPS, partOn, readSettings, setStyle, writeSetting } from "./hud-overhaul-settings.js";
 
 const TAG = "[hud-overhaul]";
 // Bump on every edit to this file. UI.log then shows which build ran.
-const BUILD = "8";
+const BUILD = "9";
 const DRONGO = "drongos-leader-ribbons"; // the mod's id in its modinfo
 const COMBAT = "combat"; // Drongo's combat row's type
 const MILITARY = "military"; // this mod's combat strength row's type
@@ -96,15 +97,15 @@ function active() {
 	return [...Modding.getActiveMods()].some((handle) => Modding.getModInfo(handle)?.id === DRONGO);
 }
 
-// "own" (this mod's ribbon), "drongo" or "off".
+// "own", this mod's ribbon, or "drongo". A saved "off" now counts as the
+// Leader ribbon part off: see partOn in hud-overhaul-settings.js.
 function readMode() {
-	const value = readSettings().drongoRibbon;
-	return value === "own" || value === "off" ? value : "drongo";
+	return readSettings().drongoRibbon === "own" ? "own" : "drongo";
 }
 
-// The mode in force: "off" with the whole mod off.
+// The mode in force: "off" with the whole mod or the ribbon part off.
 function mode() {
-	return modEnabled() ? readMode() : "off";
+	return modEnabled() && partOn("ribbon") ? readMode() : "off";
 }
 
 // The ribbon's prototype, once its script has loaded, or null.
@@ -143,14 +144,14 @@ function apply() {
 const CHOICES = [
 	{ label: "LOC_HUD_OVERHAUL_OPTION_DRONGO_LAYOUT", value: "drongo" },
 	{ label: "LOC_HUD_OVERHAUL_OPTION_DRONGO_OWN", value: "own" },
-	{ label: "LOC_HUD_OVERHAUL_OPTION_DRONGO_OFF", value: "off" },
 ];
 
 function addOption() {
-	return addOptions(OPTION_GROUPS.GENERAL, (OptionType) => [
+	return addOptions(OPTION_GROUPS.PARTS, (OptionType) => [
 		{
 			type: OptionType.Dropdown,
 			id: "hud-overhaul-option-drongo-ribbon",
+			part: "ribbon",
 			label: "LOC_HUD_OVERHAUL_OPTION_DRONGO_RIBBON",
 			description: "LOC_HUD_OVERHAUL_OPTION_DRONGO_RIBBON_DESCRIPTION",
 			dropdownItems: CHOICES,
@@ -200,6 +201,9 @@ if (typeof engine !== "undefined") {
 			start();
 			// mode() is "off" while the whole mod is off.
 			window.addEventListener(ENABLED_EVENT, () => {
+				if (patched) apply();
+			});
+			onPart(["ribbon"], () => {
 				if (patched) apply();
 			});
 			addOption().catch((error) => console.error(`${TAG} drongo: option not added: ${error}`));

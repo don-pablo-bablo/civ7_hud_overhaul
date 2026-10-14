@@ -1,7 +1,18 @@
 // The top bar's pills on two rows: the yields per turn and the victories on
 // the first, your settlements, units and the rest on the second, spaced out
 // more than one row has room for. On a small screen or with large text,
-// pills that do not fit before the top right corner go on another row.
+// pills that do not fit before the top right corner go on another row. The
+// player can pick one row instead: every pill in a line, the victories last,
+// wrapping only at the top right corner.
+//
+// The top bar, and the turn and date at the top right, are drawn at the
+// player's size for the top bar, from their top corners. The scale goes on
+// each one's child, which fills it: the game slides both in with an
+// animated transform, which would replace the scale while it runs. The dark strip
+// behind the bar and the dock below follow the bar's box rather than what
+// is drawn, so each gets a bottom margin of what the size adds or takes
+// away, measured again whenever the bar's height changes: a pill that grows
+// can wrap onto another row.
 //
 // The game's five pills sit in the bar and this mod's in the mods' slot at
 // its end, a box of its own. The engine has no display: contents, so the
@@ -28,13 +39,15 @@
 // below the mod root. Log and bail, never throw.
 
 import { ModdingRegistry } from "../../core/ui/modding-registry-handler/modding-registry-handler.js";
-import { enabled, onTextSize, setStyle } from "./hud-overhaul-settings.js";
+import { addOptions, enabled, onSize, onTextSize, OPTION_GROUPS, readSettings, setStyle, size, writeSetting } from "./hud-overhaul-settings.js";
 
 const TAG = "[hud-overhaul]";
 // Bump on every edit to this file. UI.log then shows which build ran.
-const BUILD = "6";
+const BUILD = "9";
 const COMPONENT = "hud-overhaul-rows";
+const IN_SLOT = "hud-overhaul-in-slot"; // on the top bar while its pills are in the slot
 const TWO = "hud-overhaul-two-rows"; // on the top bar while it has two rows
+const SIZED = "hud-overhaul-sized"; // on the top bar while it is drawn at the player's size
 const BREAK = "hud-overhaul-row-break";
 const VICTORIES = "hud-overhaul-victories";
 // The game's own pills, in its order.
@@ -67,14 +80,38 @@ const ORDER = [
 // The diplomacy screens' top bar, the only one that hides its nav help.
 const DIPLOMACY = 'panel-yield-banner[display-nav-help="false"]';
 
-const STYLES = `
+// The top bar's size against the mod's own, k. At 1 nothing is scaled.
+const styles = (k) => `
 ${COMPONENT} { display: none; }
 ${[...ORDER.filter((name) => !name.startsWith("YIELD_")), `.${BREAK}`].map((name) => `${DIPLOMACY} ${name}`).join(",\n")} { display: none; }
-panel-yield-banner.${TWO} #yield-banner-mod-slot { flex-wrap: wrap; }
+panel-yield-banner.${IN_SLOT} #yield-banner-mod-slot { flex-wrap: wrap; }
 panel-yield-banner.${TWO} .${BREAK} { flex-basis: 100%; width: 100%; height: 0; }
 /* More room between the pills, which two rows have to spare. */
 panel-yield-banner.${TWO} #yield-banner-mod-slot yield-bar-entry { margin-right: ${rem(8)}; }
+${
+	k === 1
+		? ""
+		: `panel-yield-banner.${SIZED} > .panel-yield__top-bar-content { transform: scale(${k}); transform-origin: 0 0; }
+.harness panel-system-bar > fxs-hslot { transform: scale(${k}); transform-origin: 100% 0; }`
+}
 `;
+
+// The player's choice of rows: 1 or 2.
+function rows() {
+	return readSettings().topBarRows === 1 ? 1 : 2;
+}
+
+// Bottom margins that make the bar's and the corner's boxes take the space
+// they are drawn in, or none. Their own boxes are not scaled, their
+// children are.
+function fitBoxes(banner, on) {
+	const k = on ? size("topBar") : 1;
+	for (const part of [banner, document.querySelector(".harness panel-system-bar")]) {
+		if (!part) continue;
+		const extra = k === 1 ? "" : `${(part.getBoundingClientRect().height * (k - 1)).toFixed(2)}px`;
+		if (part.style.marginBottom !== extra) part.style.marginBottom = extra;
+	}
+}
 
 // Puts the pills in their rows, each in its place, or with the mod off the
 // game's pills back on their own. Only those out of place move, the rest of
@@ -83,8 +120,13 @@ function arrange(slot) {
 	const bar = slot.parentElement;
 	const banner = slot.closest("panel-yield-banner");
 	if (!bar || !banner) return;
-	const two = enabled();
+	const on = enabled();
+	const two = on && rows() === 2;
+	// The diplomacy screens' bar is centred, so it keeps the game's size.
+	const diplomacy = banner.getAttribute("display-nav-help") === "false";
+	banner.classList.toggle(IN_SLOT, on);
 	banner.classList.toggle(TWO, two);
+	banner.classList.toggle(SIZED, on && !diplomacy);
 	const find = (name) => (name.startsWith("YIELD_") ? byIcon(slot, name) : slot.querySelector(name));
 	const game = GAME.map((icon) => byIcon(bar, icon) ?? byIcon(slot, icon)).filter((pill) => pill);
 	let gap = slot.querySelector(`.${BREAK}`);
@@ -104,6 +146,11 @@ function arrange(slot) {
 		const last = width(first) > room;
 		const rest = ORDER.filter((name) => !name.startsWith("hud-overhaul-yield-totals") && name !== "hud-overhaul-celebration" && name !== VICTORIES).map(find);
 		wanted = [...game, ...yields, last ? null : victories, gap, ...rest, last ? victories : null];
+	} else if (on) {
+		// One row: the game's pills, then this mod's in order.
+		gap?.remove();
+		fit(slot);
+		wanted = [...game, ...ORDER.map(find)];
 	} else {
 		// Each of the game's pills back before the slot, in order.
 		for (const pill of game) if (pill.parentElement !== bar || pill.nextSibling !== slot) bar.insertBefore(pill, slot);
@@ -116,21 +163,26 @@ function arrange(slot) {
 		const here = slot.children[index];
 		if (here !== element) slot.insertBefore(element, here ?? null);
 	});
+	if (!diplomacy) fitBoxes(banner, on);
 }
 
-// The width a row of these takes: each one's box and right margin.
+// The width a row of these takes on screen: each one's box and right
+// margin, the margin scaled as the bar is.
 function width(elements) {
+	const k = size("topBar");
 	return elements.reduce((sum, element) => {
 		const box = element.getBoundingClientRect();
 		const margin = parseFloat(getComputedStyle(element).marginRight) || 0;
-		return sum + box.width + margin;
+		return sum + box.width + margin * k;
 	}, 0);
 }
 
 // Sets the slot's width, up to whichever starts first at the top right: the
 // turn and date, or the leader ribbon. Neither moves with the slot, so
-// measuring them while it is laid out is safe. Returns that width, or
-// Infinity with nothing there, or in the diplomacy screens.
+// measuring them while it is laid out is safe. Returns that width on
+// screen, or Infinity with nothing there, or in the diplomacy screens. The
+// slot is drawn at the top bar's size, so its own width is the room divided
+// by that.
 function fit(slot) {
 	if (slot.closest("panel-yield-banner")?.getAttribute("display-nav-help") === "false") {
 		slot.style.maxWidth = "";
@@ -148,7 +200,7 @@ function fit(slot) {
 		return Infinity;
 	}
 	const room = Math.max(200, Math.floor(Math.min(...edges) - slot.getBoundingClientRect().left - CLEAR));
-	slot.style.maxWidth = `${room}px`;
+	slot.style.maxWidth = `${Math.floor(room / size("topBar"))}px`;
 	return room;
 }
 
@@ -170,6 +222,17 @@ class Rows extends Component {
 	onAttach() {
 		super.onAttach();
 		attached.add(this);
+		const banner = this.Root.closest("panel-yield-banner");
+		if (banner && banner.getAttribute("display-nav-help") !== "false") {
+			this.resized = new ResizeObserver(() => {
+				try {
+					fitBoxes(banner, enabled());
+				} catch (error) {
+					console.error(`${TAG} rows: ${error}`);
+				}
+			});
+			this.resized.observe(banner);
+		}
 		this.onUpdate();
 		// After the rest of the bar and the ribbon are drawn, and again once
 		// the bar has slid in: measured while it moves, its place is off.
@@ -180,6 +243,7 @@ class Rows extends Component {
 
 	onDetach() {
 		for (const name of EVENTS) engine.off(name, this.onUpdate);
+		this.resized?.disconnect();
 		attached.delete(this);
 		super.onDetach();
 	}
@@ -188,8 +252,42 @@ class Rows extends Component {
 // A turn, or meeting a leader, which widens the ribbon.
 const EVENTS = ["PlayerTurnActivated", "DiplomacyMeetMajors"];
 
+const CHOICES = [
+	{ label: "LOC_HUD_OVERHAUL_OPTION_ROWS_ONE", value: 1 },
+	{ label: "LOC_HUD_OVERHAUL_OPTION_ROWS_TWO", value: 2 },
+];
+
+function addOption() {
+	return addOptions(
+		OPTION_GROUPS.TOP_BAR,
+		(OptionType) => [
+			{
+				type: OptionType.Dropdown,
+				id: "hud-overhaul-option-rows",
+				label: "LOC_HUD_OVERHAUL_OPTION_ROWS",
+				description: "LOC_HUD_OVERHAUL_OPTION_ROWS_DESCRIPTION",
+				dropdownItems: CHOICES,
+				initListener: (info) => {
+					info.selectedItemIndex = CHOICES.findIndex((choice) => choice.value === rows());
+				},
+				updateListener: (info, index) => {
+					try {
+						writeSetting("topBarRows", CHOICES[index]?.value ?? 2);
+					} catch (error) {
+						console.error(`${TAG} rows: cannot save setting: ${error}`);
+					}
+					updateAll();
+				},
+			},
+		],
+		"rows",
+	);
+}
+
+const restyle = () => setStyle("hud-overhaul-rows", styles(size("topBar")));
+
 try {
-	setStyle("hud-overhaul-rows", STYLES);
+	restyle();
 	Controls.define(COMPONENT, { createInstance: Rows });
 	ModdingRegistry.add({ parentID: "panel-yield-banner", componentTag: COMPONENT, modSlot: "yield-banner-mod-slot" });
 	// A top bar already on screen has asked for its mod elements before this
@@ -202,6 +300,12 @@ try {
 	// after the text size, a frame later, once the ribbon has redrawn.
 	window.addEventListener("resize", updateAll);
 	onTextSize(() => requestAnimationFrame(() => requestAnimationFrame(updateAll)));
+	// A new size, measured once it is drawn.
+	onSize(["topBar"], () => {
+		restyle();
+		requestAnimationFrame(() => requestAnimationFrame(updateAll));
+	});
+	addOption().catch((error) => console.error(`${TAG} rows: option not added: ${error}`));
 	console.error(`${TAG} rows loaded, civ7lab:build rows ${BUILD}`);
 } catch (error) {
 	console.error(`${TAG} rows: ${error}`);

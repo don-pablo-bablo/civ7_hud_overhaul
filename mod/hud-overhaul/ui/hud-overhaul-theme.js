@@ -12,16 +12,20 @@
 // grey, keeping its light border, then shifts it so the dark fill lands on
 // the panel colour. It also scales the art's alpha to the chosen opacity.
 //
+// The plates go back to the game's look with the rings and World Tracker
+// part off, and the backings with the leader ribbon part; the ribbon's
+// opacity then shows under that part's switch.
+//
 // All of it is one stylesheet in <head>, rewritten when an option changes.
 // Its rules beat the World Tracker's own background, which the browser mock
 // uses. Settings and options go through hud-overhaul-settings.js. Log and
 // bail, never throw.
 
-import { addOptions, OPTION_GROUPS, readSettings, setStyle, writeSetting } from "./hud-overhaul-settings.js";
+import { addOptions, onPart, OPTION_GROUPS, partOn, readSettings, setStyle, writeSetting } from "./hud-overhaul-settings.js";
 
 const TAG = "[hud-overhaul]";
 // Bump on every edit to this file. UI.log then shows which build ran.
-const BUILD = "11";
+const BUILD = "12";
 const STYLE_ID = "hud-overhaul-theme";
 
 const rem = (px) => `${(px / 18).toFixed(4)}rem`;
@@ -122,7 +126,9 @@ function styles() {
 			background-color: transparent !important;
 			${trim ? `border-bottom-width: ${rem(1)} !important; border-bottom-style: solid !important; border-bottom-color: ${rgba(trim, 0.8)} !important;` : "border-bottom-width: 0 !important;"}
 		}
-		.harness panel-sub-system-dock {
+		${
+			partOn("dock")
+				? `.harness panel-sub-system-dock {
 			background: none;
 			background-color: ${rgba(dock, alpha)};
 		}
@@ -133,9 +139,15 @@ function styles() {
 		.harness .hud-overhaul-column .hud-overhaul-tracker {
 			background: none;
 			background-color: transparent;
+		}`
+				: ""
 		}
-		.harness panel-diplo-ribbon .diplo-ribbon__bg {
+		${
+			partOn("ribbon")
+				? `.harness panel-diplo-ribbon .diplo-ribbon__bg {
 			filter: ${recolour(panel, ribbonAlpha)};
+		}`
+				: ""
 		}
 	`;
 }
@@ -177,31 +189,44 @@ function addThemeOptions() {
 					save("panelColour", (colours[index] ?? COLOURS[0])[0]);
 				},
 			},
-			...Object.entries(OPACITIES).map(([part, [setting, id, label, description]]) => ({
-				type: OptionType.Slider,
-				id,
-				label,
-				description,
-				min: OPACITY.min,
-				max: OPACITY.max,
-				steps: OPACITY.steps,
-				initListener: (info) => {
-					info.currentValue = readOpacity(part);
-					info.formattedValue = `${info.currentValue}%`;
-				},
-				updateListener: (info, value) => {
-					info.currentValue = Math.round(value);
-					info.formattedValue = `${info.currentValue}%`;
-					save(setting, info.currentValue);
-				},
-			})),
+			...Object.entries(OPACITIES)
+				.filter(([part]) => part !== "ribbon")
+				.map((entry) => opacityOption(OptionType, entry)),
 		];
 	});
+}
+
+// The ribbon's opacity, under the leader ribbon part's switch.
+function addRibbonOption() {
+	return addOptions(OPTION_GROUPS.PARTS, (OptionType) => [{ ...opacityOption(OptionType, ["ribbon", OPACITIES.ribbon]), part: "ribbon" }]);
+}
+
+function opacityOption(OptionType, [part, [setting, id, label, description]]) {
+	return {
+		type: OptionType.Slider,
+		id,
+		label,
+		description,
+		min: OPACITY.min,
+		max: OPACITY.max,
+		steps: OPACITY.steps,
+		initListener: (info) => {
+			info.currentValue = readOpacity(part);
+			info.formattedValue = `${info.currentValue}%`;
+		},
+		updateListener: (info, value) => {
+			info.currentValue = Math.round(value);
+			info.formattedValue = `${info.currentValue}%`;
+			save(setting, info.currentValue);
+		},
+	};
 }
 
 try {
 	apply();
 	addThemeOptions().catch((error) => console.error(`${TAG} theme: options not added: ${error}`));
+	addRibbonOption().catch((error) => console.error(`${TAG} theme: ribbon option not added: ${error}`));
+	onPart(["dock", "ribbon"], apply);
 	console.error(`${TAG} theme loaded, civ7lab:build theme ${BUILD}`);
 } catch (error) {
 	console.error(`${TAG} theme: ${error}`);

@@ -7,7 +7,8 @@
 //
 // In game this module adds its stylesheet to <head>, where it outlives the
 // HUD rebuilds, keeps a copy of each civ symbol at the panel's bottom, and
-// adds the option. In the browser mock it does nothing on import; `render`
+// adds the option. With the Leader ribbon part off, the stylesheet goes and
+// the game shows its own number of leaders. In the browser mock it does nothing on import; `render`
 // draws a fixture's captured ribbon entry instead.
 //
 // The stock layout, from the game (1080p): the portrait ends at y 139; a
@@ -20,12 +21,12 @@
 // Settings and the option go through hud-overhaul-settings.js. Log and bail,
 // never throw.
 
-import { addOptions, enabled, ENABLED_EVENT, onTextSize, OPTION_GROUPS, readSettings, setStyle, textOffset, writeSetting } from "./hud-overhaul-settings.js";
+import { addOptions, enabled, ENABLED_EVENT, onPart, onSize, onTextSize, OPTION_GROUPS, partOn, readSettings, setStyle, size, textOffset, writeSetting } from "./hud-overhaul-settings.js";
 
 const rem = (px) => `${(px / 18).toFixed(4)}rem`;
 const TAG = "[hud-overhaul]";
 // Bump on every edit to this file. UI.log then shows which build ran.
-const BUILD = "15";
+const BUILD = "17";
 const SYMBOL = "hud-overhaul-civ-symbol";
 const IMAGE = "hud-overhaul-civ-symbol__image"; // the symbol inside the badge's disc
 const IN_SLOT = "hud-overhaul-civ-symbol--in-slot"; // on the badge when the religion slot is empty
@@ -37,7 +38,7 @@ const WAR_ASPECT = 0.5; // icon_war's image is twice as wide as it is tall (stoc
 // dark backing. Others, such as dip_neutral, bring their own disc.
 const BARE_ICONS = ["icon_war"];
 const KEEP_OPEN = "hud-overhaul-open"; // on an entry whose panel stays open
-const SCALE = 0.8; // the ribbon's size against stock
+const SCALE = 0.8; // the ribbon's size against stock, at the player's 100%
 export const ICON = 20; // px: each yield row's icon, bigger than stock's 16 to suit the numbers
 const ROW = 21; // px: each yield row
 const MOST_LEADERS = 8; // stock's most on a wide screen
@@ -52,9 +53,11 @@ const STOCK_MODES = ["INTERFACEMODE_DIPLOMACY_HUB", "INTERFACEMODE_DIPLOMACY_DIA
 const OPEN = [":hover", ".pressed", ".hover-all", `.${KEEP_OPEN}`].map((state) => `.diplo-ribbon-outer${state}`);
 
 // Sizes that hold text grow by offset, the px the player's text size adds
-// (textOffset in hud-overhaul-settings.js).
-export function styles(offset = 0) {
+// (textOffset in hud-overhaul-settings.js). k is the player's size for the
+// ribbon and bar the top bar's, both 1 at the mod's own.
+export function styles(offset = 0, k = 1, bar = 1) {
 	const grow = (px) => rem(px + offset);
+	const scale = SCALE * k;
 	return `
 /* Into the top right corner, as Civ VI's portrait. Stock holds the ribbon
    96px in from the right and 32px down, and draws the portrait 23px lower.
@@ -62,17 +65,18 @@ export function styles(offset = 0) {
    ribbon goes 8px past the screen edge to put the backing flush. The
    portraits start 6px under the 32px top bar, leaving room for the
    relationship badges on their corners.
-   The whole ribbon is drawn at SCALE of its size, from its top right
-   corner. The portraits start 33px below the ribbon's top, so it comes
-   down by what that loses to keep them 6px under the top bar. The scale
+   The whole ribbon is drawn at SCALE of its size, times the player's, from
+   its top right corner. The portraits start 33px below the ribbon's top, so
+   it moves by what that loses or gains to keep them 6px under the top bar,
+   which the player's top bar size makes taller or shorter. The scale
    goes on the ribbon's child: the game slides the ribbon itself in with an
    animated transform, which would replace the scale while it runs. */
 .harness panel-diplo-ribbon {
 	right: ${rem(-8)};
-	top: ${rem(5 + 33 * (1 - SCALE))};
+	top: ${rem(5 + 32 * (bar - 1) + 33 * (1 - scale))};
 }
 .harness panel-diplo-ribbon > fxs-vslot {
-	transform: scale(${SCALE});
+	transform: scale(${scale});
 	transform-origin: 100% 0;
 }
 /* With 7 or more leaders on a narrow screen stock moves the ribbon 96px
@@ -295,11 +299,11 @@ let game = null; // { InterfaceMode, DiploRibbonData } once loaded
 let step = 0; // px between entries, as last measured
 function leadersToShow(stock) {
 	const { InterfaceMode, DiploRibbonData } = game;
-	if (!enabled()) return stock;
+	if (!enabled() || !partOn("ribbon")) return stock;
 	if (STOCK_MODES.some((mode) => InterfaceMode.isInInterfaceMode(mode))) return stock;
 	const rings = document.querySelector(".harness panel-sub-system-dock");
 	const left = (rings?.getBoundingClientRect().right ?? 0) + remPx(CLEARANCE);
-	const each = step || remPx(STEP * SCALE);
+	const each = step || remPx(STEP * SCALE * size("ribbon"));
 	let fit = Math.floor((window.innerWidth - left) / each);
 	if (fit < DiploRibbonData.playerData.length) fit -= 1;
 	return Math.max(1, Math.min(MOST_LEADERS, fit));
@@ -385,10 +389,11 @@ const CHOICES = [
 ];
 
 function addOption() {
-	return addOptions(OPTION_GROUPS.GENERAL, (OptionType) => [
+	return addOptions(OPTION_GROUPS.PARTS, (OptionType) => [
 		{
 			type: OptionType.Dropdown,
 			id: "hud-overhaul-option-ribbon-yields",
+			part: "ribbon",
 			label: "LOC_HUD_OVERHAUL_OPTION_RIBBON_YIELDS",
 			description: "LOC_HUD_OVERHAUL_OPTION_RIBBON_YIELDS_DESCRIPTION",
 			dropdownItems: CHOICES,
@@ -439,9 +444,21 @@ function start() {
 
 if (typeof engine !== "undefined") {
 	try {
-		const restyle = () => setStyle("hud-overhaul-ribbon", styles(textOffset()));
+		const restyle = () => setStyle("hud-overhaul-ribbon", partOn("ribbon") ? styles(textOffset(), size("ribbon"), size("topBar")) : null);
 		restyle();
 		onTextSize(restyle);
+		// A new size, or the part off or on, changes how many leaders fit,
+		// once the ribbon has redrawn.
+		const refit = () => {
+			restyle();
+			step = 0;
+			requestAnimationFrame(() => {
+				const harness = document.querySelector(".harness");
+				if (harness) fitLeaders(harness);
+			});
+		};
+		onSize(["ribbon", "topBar"], refit);
+		onPart(["ribbon"], refit);
 		// Turning the mod off or on changes the count fitLeaders gives.
 		window.addEventListener(ENABLED_EVENT, () => {
 			const harness = document.querySelector(".harness");

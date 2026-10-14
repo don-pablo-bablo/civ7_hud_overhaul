@@ -8,7 +8,43 @@
 			<Text>Pablo's HUD Overhaul: Top bar</Text>
 		</Replace>
 		<Replace Tag="LOC_OPTIONS_GROUP_HUD_OVERHAUL_TOP_BAR_NOTE" Language="en_US">
-			<Text>At lower resolutions or higher UI scaling, pills that do not fit on the two rows go on a third. Turn off what you need least to keep it to two.</Text>
+			<Text>At lower resolutions, higher UI scaling or a bigger top bar, pills that do not fit go on an extra row. Turn off the ones you need least to save space.</Text>
+		</Replace>
+		<Replace Tag="LOC_OPTIONS_GROUP_HUD_OVERHAUL_PARTS" Language="en_US">
+			<Text>Pablo's HUD Overhaul: Size and layout</Text>
+		</Replace>
+		<Replace Tag="LOC_OPTIONS_GROUP_HUD_OVERHAUL_PARTS_NOTE" Language="en_US">
+			<Text>Turn off any part to use the game's version instead. Each size is a percentage of the mod's default.</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_PART_TOOLTIPS" Language="en_US">
+			<Text>Detailed tooltips</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_PART_TOOLTIPS_DESCRIPTION" Language="en_US">
+			<Text>Shows this mod's detailed tooltips on the top bar's pills. Turn off for the game's own tooltips.</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_PART_DOCK" Language="en_US">
+			<Text>Rings and World Tracker</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_PART_DOCK_DESCRIPTION" Language="en_US">
+			<Text>Shows smaller rings and buttons on a panel, with the World Tracker and the Journal under them. Turn off for the game's own dock and Journal.</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_PART_RIBBON" Language="en_US">
+			<Text>Leader ribbon</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_PART_RIBBON_DESCRIPTION" Language="en_US">
+			<Text>Shows the compact leader ribbon with its extra rows. Turn off for the game's own ribbon, or Drongo's when Drongo's Leader Ribbons is on.</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_PART_MINIMAP" Language="en_US">
+			<Text>Minimap</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_PART_MINIMAP_DESCRIPTION" Language="en_US">
+			<Text>Shows a smaller minimap in the corner. Turn off for the game's own.</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_PART_DIAL" Language="en_US">
+			<Text>Turn dial and notifications</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_PART_DIAL_DESCRIPTION" Language="en_US">
+			<Text>Shows a smaller turn dial in the corner, with the notifications lined up above it. Turn off for the game's own.</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_RIBBON_YIELDS" Language="en_US">
 			<Text>Leader ribbon yields</Text>
@@ -35,16 +71,13 @@
 			<Text>With Drongo's Leader Ribbons</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_DRONGO_RIBBON_DESCRIPTION" Language="en_US">
-			<Text>How the leader ribbon looks with Drongo's Leader Ribbons on. Drongo's layout: Drongo's order, extra rows behind its +/- button and its combat strength, at HUD Overhaul's size and place. HUD Overhaul: every row in one list, with its combat strength. Off: Drongo's ribbon as its author made it, in case an update to either mod clashes.</Text>
+			<Text>How the leader ribbon looks with Drongo's Leader Ribbons on. Drongo's layout: Drongo's order, extra rows behind its +/- button and its combat strength, at HUD Overhaul's size and place. HUD Overhaul: every row in one list, with its combat strength. To use Drongo's ribbon unchanged, turn off Leader ribbon.</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_DRONGO_OWN" Language="en_US">
 			<Text>HUD Overhaul</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_DRONGO_LAYOUT" Language="en_US">
 			<Text>Drongo's layout</Text>
-		</Replace>
-		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_DRONGO_OFF" Language="en_US">
-			<Text>Off</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_ON_HOVER" Language="en_US">
 			<Text>On hover</Text>
@@ -126,6 +159,66 @@
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_RIBBON_OPACITY_DESCRIPTION" Language="en_US">
 			<Text>How much of the map shows through the backing behind each leader's portrait and yields.</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_ROWS" Language="en_US">
+			<Text>Top bar rows</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_ROWS_DESCRIPTION" Language="en_US">
+			<Text>Two rows puts your yields and victories on the first row and the rest on the second. One row puts every pill in a single line.</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_ROWS_ONE" Language="en_US">
+			<Text>One row</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_ROWS_TWO" Language="en_US">
+			<Text>Two rows</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_SIZE_TOP_BAR" Language="en_US">
+			<Text>Top bar size</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_SIZE_TOP_BAR_DESCRIPTION" Language="en_US">
+			<Text>The size of the top bar's pills, and of the turn and date at the top right. The base game's is about 120%.</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_SIZE_TOOLTIPS" Language="en_US">
+			<Text>Tooltip size</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_SIZE_TOOLTIPS_DESCRIPTION" Language="en_US">
+			<Text>The size of the top bar's detailed tooltips.</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_SIZE_DOCK" Language="en_US">
+			<Text>Rings and buttons size</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_SIZE_DOCK_DESCRIPTION" Language="en_US">
+			<Text>The size of the age, tech and civic rings and the buttons beside them. The base game's is about 130%.</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_SIZE_TRACKER" Language="en_US">
+			<Text>World Tracker and Journal size</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_SIZE_TRACKER_DESCRIPTION" Language="en_US">
+			<Text>The size of the World Tracker and the Journal. Bigger leaves the Journal less room, so it scrolls sooner.</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_SIZE_RIBBON" Language="en_US">
+			<Text>Leader ribbon size</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_SIZE_RIBBON_DESCRIPTION" Language="en_US">
+			<Text>The size of the leader ribbon. Bigger fits fewer leaders on screen. The base game's is 125%.</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_SIZE_MINIMAP" Language="en_US">
+			<Text>Minimap size</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_SIZE_MINIMAP_DESCRIPTION" Language="en_US">
+			<Text>The size of the minimap and its lens buttons. The base game's is 125%.</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_SIZE_DIAL" Language="en_US">
+			<Text>Turn dial size</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_SIZE_DIAL_DESCRIPTION" Language="en_US">
+			<Text>The size of the turn dial. The base game's is 125%.</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_SIZE_NOTIFICATIONS" Language="en_US">
+			<Text>Notifications size</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_SIZE_NOTIFICATIONS_DESCRIPTION" Language="en_US">
+			<Text>The size of the notifications above the turn dial. The base game's is about 135%.</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_YIELD_TOTALS" Language="en_US">
 			<Text>Food and production</Text>

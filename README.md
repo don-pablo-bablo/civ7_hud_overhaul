@@ -4,7 +4,8 @@ This mod reworks the main game screen, drawing on Civilization VI and on
 popular UI mods for Civ VI and VII. It does three things:
 
 - **Less wasted space**: oversized elements are smaller and sit flush with
-  the screen's edges. They still follow the game's text size and UI scaling.
+  the screen's edges. They still follow the game's text size and UI scaling,
+  and each can be made bigger or smaller, or given back to the game.
 - **More information at a glance**: the top bar gains pills for food,
   production, your units, happiness levels, trade routes, resources,
   treasure convoys, great works, religion and victory standings.
@@ -51,9 +52,10 @@ science, culture, happiness, influence and settlements:
 - Religion
 - Victory standings
 
-The pills sit on two rows, with room between them. On a small screen or
-with large text, any that do not fit go on a third row; turn off the ones
-you need least to keep it to two. Religion and treasure convoys show only
+The pills sit on two rows, with room between them, or on one row if you
+choose. On a small screen, with large text or with a bigger top bar, any
+that do not fit go on another row; turn off the ones you need least to keep
+them on fewer. Religion and treasure convoys show only
 when they apply. [Tooltips](#tooltips) has what each one shows.
 
 ### Dock and Journal on a panel
@@ -272,7 +274,7 @@ winning.
 
 ## Options
 
-All in **Options > Add-ons**, in two groups. Changes show at once.
+All in **Options > Add-ons**, in three groups. Changes show at once.
 
 - **Pablo's HUD Overhaul**:
   - **Enable HUD Overhaul**: turn it off to see the game's own HUD, and on again.
@@ -283,21 +285,33 @@ All in **Options > Add-ons**, in two groups. Changes show at once.
     verdigris; or black. Or a stronger colour with a thin trim under the top
     bar: crimson, royal purple, jade, ocean, bronze, slate and copper,
     forest, or ink and silver. Many of these look best at a lower opacity.
-  - **Top bar opacity**, **Panel opacity** and **Leader ribbon opacity**:
-    how much of the map shows through the top bar; the dock, the World
-    Tracker and the Journal; and the leader ribbon's backing. Each goes from
-    fully clear to fully solid.
-  - **World Tracker**: where your research and civic show. Both, in the
-    World Tracker and in the research and civic rings at the top of the
-    dock; the World Tracker only, with the rings hidden; or the rings only,
-    with the World Tracker hidden.
-  - **Leader ribbon yields**: when each leader's yields show. On hover, as
-    in the base game; yours always and the others on hover, as in
-    Civilization VI; or always for everyone.
-  - **With Drongo's Leader Ribbons**: only with that mod on. See
-    [Compatibility](#compatibility).
-- **Pablo's HUD Overhaul: Top bar**: each of the added pills on or off. See
-  [Two rows of pills](#two-rows-of-pills).
+  - **Top bar opacity** and **Panel opacity**: how much of the map shows
+    through the top bar, and through the dock, the World Tracker and the
+    Journal. Each goes from fully clear to fully solid.
+- **Pablo's HUD Overhaul: Size and layout**: each part of the screen on or
+  off, and its size. Turn off a part to use the game's version instead, and
+  its other options hide. Sizes go from 75% to 150% of the mod's default,
+  and each slider says what the base game's size is, such as 125% for the
+  turn dial.
+  - **Top bar size**: the pills, and the turn and date at the top right.
+  - **Detailed tooltips**, with **Tooltip size**: off, the pills show the
+    game's text tooltips.
+  - **Rings and World Tracker**, with the size of each and **World
+    Tracker**: where your research and civic show. Both, in the World
+    Tracker and in the research and civic rings at the top of the dock; the
+    World Tracker only, with the rings hidden; or the rings only, with the
+    World Tracker hidden. Off, the game's own dock and Journal.
+  - **Leader ribbon**, with its size and **Leader ribbon opacity**, how
+    much of the map shows through its backing. **Leader ribbon yields**:
+    when each leader's yields show. On hover, as in the base game; yours
+    always and the others on hover, as in Civilization VI; or always for
+    everyone. **With Drongo's Leader Ribbons**: only with that mod on. See
+    [Compatibility](#compatibility). Off, the game's own ribbon, or
+    Drongo's.
+  - **Minimap**, with its size.
+  - **Turn dial and notifications**, with the size of each.
+- **Pablo's HUD Overhaul: Top bar**: **Top bar rows**, one or two, and each
+  of the added pills on or off. See [Two rows of pills](#two-rows-of-pills).
 
 ## Compatibility
 
@@ -311,9 +325,9 @@ Adjusted to work together:
   the ribbon keeps Drongo's order, its extra rows behind the +/- button and
   its combat strength, at HUD Overhaul's size in the corner. Drongo's combat
   strength row takes the place of HUD Overhaul's, which gives the same
-  value. The **With Drongo's Leader Ribbons** option picks this, HUD
-  Overhaul's own ribbon with every row in one list, or Off, for Drongo's
-  ribbon as its author made it. Off is there in case an update to either mod
+  value. The **With Drongo's Leader Ribbons** option picks this or HUD
+  Overhaul's own ribbon with every row in one list. To use Drongo's ribbon
+  unchanged, turn off **Leader ribbon**, in case an update to either mod
   clashes.
 - **[Map Trix](https://steamcommunity.com/sharedfiles/filedetails/?id=3507072814)**:
   its option for coloured top bar entries gives way to HUD Overhaul's pills

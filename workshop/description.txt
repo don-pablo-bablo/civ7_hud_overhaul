@@ -29,7 +29,7 @@ The top bar's text is smaller, and it adds these to the game's gold, science, cu
 [*]Victory standings
 [/list]
 
-The pills sit on two rows, with room between them. On a small screen or with large text, any that do not fit go on a third row; turn off the ones you need least to keep it to two. Religion and treasure convoys show only when they apply. The README on [url=https://github.com/don-pablo-bablo/civ7_hud_overhaul]GitHub[/url] has what each one shows.
+The pills sit on two rows, with room between them, or on one row if you choose. On a small screen, with large text or with a bigger top bar, any that do not fit go on another row; turn off the ones you need least to keep them on fewer. Religion and treasure convoys show only when they apply. The README on [url=https://github.com/don-pablo-bablo/civ7_hud_overhaul]GitHub[/url] has what each one shows.
 
 [h3]Dock and Journal on a panel[/h3]
 
@@ -54,6 +54,10 @@ The minimap and the turn dial are smaller and sit flush in the bottom corners, a
 [h2]Themes and transparency[/h2]
 
 Don't like the panel colour from the main Civ VII theme? Choose another, such as Civ VI blue or my favourite, verdigris. You also set how much of the map shows through the top bar, the other panels and the leader ribbon, each on its own. Some themes look best at a lower opacity. The options are in Options > Add-ons.
+
+[h2]Sizes and parts[/h2]
+
+Too small for your screen? Each part has its own size, from 75% to 150%: the top bar, the tooltips, the rings, the World Tracker and Journal, the leader ribbon, the minimap, the turn dial and the notifications. Each slider says what the base game's size is. Want only some of the mod? Turn off a part, such as the leader ribbon or the minimap, to use the game's version instead.
 
 [h2]Tooltips[/h2]
 

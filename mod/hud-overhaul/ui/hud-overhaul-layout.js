@@ -10,22 +10,25 @@
 // Sizes are px at 1080p converted to rem (1rem = 18px there), so they scale
 // with the game's UI. They were measured in game with tools/live/measure.js.
 // Text sizes are px at the game's Small text size, and move with the
-// player's text size; the stylesheet is rebuilt when it changes.
+// player's text size; the stylesheet is rebuilt when it changes. Each part
+// is drawn at the size the player picks against these, with size() from
+// hud-overhaul-settings.js, and rebuilt when that changes too.
 //
 // Log and bail, never throw: a throw during load takes other scripts with it.
 
-import { addOptions, enabled, onTextSize, OPTION_GROUPS, setEnabled, setStyle, textOffset } from "./hud-overhaul-settings.js";
+import { addOptions, enabled, onPart, onSize, onTextSize, OPTION_GROUPS, partOn, setEnabled, setStyle, size, textOffset } from "./hud-overhaul-settings.js";
 
 (() => {
 	const TAG = "[hud-overhaul]";
 	// Bump on every edit to this file. UI.log then shows which build ran.
-	const BUILD = "18";
+	const BUILD = "22";
 	const rem = (px) => `${(px / 18).toFixed(4)}rem`;
 	// Text: px at the game's Small text size, moved by the player's.
 	const text = (px) => rem(px + textOffset());
-	const DIAL = 0.8; // the turn dial's size against stock
-	const MAP = 0.8; // the minimap's size against stock
-	const NOTIFICATIONS = 0.75; // the notifications' size against stock
+	// Each against stock, at the player's 100%.
+	const DIAL = 0.8; // the turn dial
+	const MAP = 0.8; // the minimap
+	const NOTIFICATIONS = 0.75; // the notifications
 
 	// The dock row: the age, tech and civic rings and the screen buttons share
 	// one centre line, with the same gap between the bright rims of every
@@ -42,17 +45,19 @@ import { addOptions, enabled, onTextSize, OPTION_GROUPS, setEnabled, setStyle, t
 	// and so on), so the rules name the ring by .ssb__element. Rules on the
 	// bare class scaled the button a second time and pushed its art off
 	// centre with the ring's margins.
-	function dockRules() {
-		const SCALE = 0.75; // ring size against stock
-		const BUTTON = 0.85; // button size against stock
-		const GOV = 48 / 54; // BZ Ready or Not's policies ring: its icon at the rings' 48px
+	//
+	// At the player's dock size, k, everything here grows by k.
+	function dockRules(k) {
+		const SCALE = 0.75 * k; // ring size against stock
+		const BUTTON = 0.85 * k; // button size against stock
+		const GOV = (48 / 54) * k; // BZ Ready or Not's policies ring: its icon at the rings' 48px
 		const CIRCLE = { age: 83, tech: 75.5, culture: 75.5 }; // visible, unscaled
-		const GAP = 4; // between rims
+		const GAP = 4 * k; // between rims
 		const RIM = 1; // from a button's box to its rim, unscaled
 		const LEFT = 12.6 * SCALE; // from the screen edge to the first circle: its art reaches past it
 		const MARKERS = 8 * SCALE; // the age ring's crisis markers reach past its circle
-		const TOP = 12; // from the top bar to the top of the biggest circle
-		const COUNTER = 18; // room under the rings for their turn counters
+		const TOP = 12 * k; // from the top bar to the top of the biggest circle
+		const COUNTER = 18 * k; // room under the rings for their turn counters
 
 		const half = 64 * SCALE; // from a ring box's corner to its centre
 		const biggest = Math.max(...Object.values(CIRCLE)) * SCALE;
@@ -64,6 +69,14 @@ import { addOptions, enabled, onTextSize, OPTION_GROUPS, setEnabled, setStyle, t
 		// so its right margin takes back the space it no longer fills.
 		const buttonLead = GAP / 2 - RIM * BUTTON;
 		const buttonTrail = GAP / 2 + (50 + RIM) * BUTTON - 52;
+		// The policies ring is scaled from its centre, so its 52px box keeps
+		// its place and the margins move what is drawn: 26px from the box's
+		// edge to its centre, 24 * k from there to its icon's. At k = 1 these
+		// are the margins measured in game, 18, 11, 6 and 4px.
+		const govTop = 44 * k - 26;
+		const govRight = 37 * k - 26;
+		const govBottom = 32 * k - 26;
+		const govLeft = 30 * k - 26;
 
 		// A ring's slot in the row is its circle plus one gap. The box is laid
 		// out unscaled, so lead and trail margins trim it down to the slot.
@@ -106,7 +119,7 @@ import { addOptions, enabled, onTextSize, OPTION_GROUPS, setEnabled, setStyle, t
 			.harness panel-sub-system-dock .ssb__element.ring-gov {
 				transform: scale(${GOV});
 				transform-origin: 50% 50%;
-				margin: ${rem(18)} ${rem(11)} ${rem(6)} ${rem(4)};
+				margin: ${rem(govTop)} ${rem(govRight)} ${rem(govBottom)} ${rem(govLeft)};
 			}
 			.harness panel-sub-system-dock .ssb__element.ring-gov .ssb-button__turn-counter-content {
 				font-size: ${rem(((18 + textOffset()) * SCALE) / GOV)};
@@ -120,7 +133,14 @@ import { addOptions, enabled, onTextSize, OPTION_GROUPS, setEnabled, setStyle, t
 		`;
 	}
 
-	const styles = () => `
+	const styles = () => {
+		const round = (value) => Math.round(value * 10000) / 10000;
+		const dial = round(DIAL * size("dial"));
+		const map = round(MAP * size("minimap"));
+		const notifications = round(NOTIFICATIONS * size("notifications"));
+		const column = size("tracker");
+		// Each part's rules, while it is on (partOn in hud-overhaul-settings.js).
+		const dockCss = `
 		/* Plates behind the dock and the column, as Civ VI has behind its
 		   launch bar and World Tracker. The column is the Journal's row with
 		   the World Tracker put first in it (hud-overhaul-tracker.js), so the
@@ -140,6 +160,9 @@ import { addOptions, enabled, onTextSize, OPTION_GROUPS, setEnabled, setStyle, t
 			align-self: flex-start;
 			align-items: flex-start;
 		}
+		/* At the player's size for the World Tracker and the Journal, from
+		   its top left corner. Nothing is laid out below it. */
+		${column === 1 ? "" : `.harness .hud-overhaul-column { transform: scale(${column}); transform-origin: 0 0; }`}
 		/* The Journal: the World Tracker's width and padding, flush under it. */
 		.harness quest-list {
 			position: relative;
@@ -227,43 +250,59 @@ import { addOptions, enabled, onTextSize, OPTION_GROUPS, setEnabled, setStyle, t
 
 		/* Flush to the screen edges and the top bar. */
 		.harness panel-sub-system-dock { margin-top: 0; }
-		.harness unit-actions { margin-bottom: 0; }
 		.harness quest-list { margin-left: 0; }
-		/* The minimap is drawn at MAP of its size, from its bottom left
+		${dockRules(size("dock"))}
+	`;
+		const minimapCss = `
+		/* The minimap is drawn at MAP of its size, times the player's, from its bottom left
 		   corner. Its frame art starts 12px inside its box, so the box goes
-		   past the left and bottom edges by that, scaled. */
+		   past the left and bottom edges by that, scaled. The scale goes on
+		   its child, which fills it: the game slides the minimap in with an
+		   animated transform, which would replace the scale while it runs. */
 		.harness panel-mini-map {
-			transform: scale(${MAP});
-			transform-origin: 0 100%;
-			margin-left: ${rem(-12 * MAP)};
-			margin-bottom: ${rem(-12 * MAP)};
+			margin-left: ${rem(-12 * map)};
+			margin-bottom: ${rem(-12 * map)};
 		}
-		/* The turn dial is drawn at DIAL of its size, from its bottom right
+		.harness panel-mini-map > .mini-map-container {
+			transform: scale(${map});
+			transform-origin: 0 100%;
+		}
+	`;
+		const dialCss = `
+		/* Flush to the screen edge, beside the dial. */
+		.harness unit-actions { margin-bottom: 0; }
+		/* The turn dial is drawn at DIAL of its size, times the player's, from its bottom right
 		   corner. Its ring is about 218px across, centred in a 256px box, so
 		   the box goes past the right and bottom edges by 18px, scaled. The
 		   box is still laid out at 256px, so its left margin takes back the
-		   space it no longer fills, and the unit panel beside it moves along. */
+		   space it no longer fills, and the unit panel beside it moves along.
+		   The scale goes on its child, which fills it: the game slides the dial
+		   in with an animated transform, which would replace the scale while
+		   it runs. */
 		.harness panel-action {
-			transform: scale(${DIAL});
+			margin-right: ${rem(-18 * dial)};
+			margin-bottom: ${rem(-18 * dial)};
+			margin-left: ${rem(-256 * (1 - dial))};
+		}
+		.harness panel-action > .action-panel__button {
+			transform: scale(${dial});
 			transform-origin: 100% 100%;
-			margin-right: ${rem(-18 * DIAL)};
-			margin-bottom: ${rem(-18 * DIAL)};
-			margin-left: ${rem(-256 * (1 - DIAL))};
 		}
 		/* The notifications' gold bracket meets the dial's gold line, so they
 		   move 18px right with the dial, and 3.5px more, measured at 4K:
 		   stock holds them 32px in. They sit on top of the dial's row, and
 		   the dial's top now comes down by the space it no longer fills,
 		   less the 18px its row still keeps, so they come down by that from
-		   stock's 8px. They are drawn at NOTIFICATIONS of their size, from
-		   their bottom right corner. */
+		   stock's 8px. They are drawn at NOTIFICATIONS of their size, times
+		   the player's, from their bottom right corner. */
 		.harness panel-notification-train {
 			margin-right: ${rem(10.5)};
-			margin-bottom: ${rem(8 - (256 - 18) * (1 - DIAL))};
-			transform: scale(${NOTIFICATIONS});
+			margin-bottom: ${rem(8 - (256 - 18) * (1 - dial))};
+			transform: scale(${notifications});
 			transform-origin: 100% 100%;
 		}
-
+	`;
+		return `
 		/* The top bar's text is 15px, not the game's 18px. The entries
 		   carry the game's text-base class, so the rule names the bar's
 		   content to outrank it. */
@@ -301,8 +340,11 @@ import { addOptions, enabled, onTextSize, OPTION_GROUPS, setEnabled, setStyle, t
 		panel-system-bar .ps-bar-pause .ps-btn-icon { transform: scale(0.85); }
 		panel-system-bar #metaprogression { display: none; }
 
-		${dockRules()}
+		${partOn("dock") ? dockCss : ""}
+		${partOn("minimap") ? minimapCss : ""}
+		${partOn("dial") ? dialCss : ""}
 	`;
+	};
 
 	function addOption() {
 		return addOptions(OPTION_GROUPS.GENERAL, (OptionType) => [
@@ -353,18 +395,19 @@ import { addOptions, enabled, onTextSize, OPTION_GROUPS, setEnabled, setStyle, t
 	// minimap's lens button, the highest part of the minimap, so it scrolls
 	// only when that room is full. The room changes with the World Tracker
 	// above it, so it is measured twice a second. It is set on the element,
-	// as max-height here does not take var().
+	// as max-height here does not take var(). The room is measured on screen,
+	// and the column is drawn at the player's size, so it is divided by that.
 	const JOURNAL_GAP = 10; // px at 1080p: the plate's bottom padding and a gap
 	function fitJournal() {
 		const list = document.querySelector(".harness quest-list .quest-item-container");
 		if (!list) return;
 		const map = document.querySelector(".harness panel-mini-map .mini-map__lens-button");
-		if (!enabled() || !map) {
+		if (!enabled() || !partOn("dock") || !map) {
 			list.style.maxHeight = "";
 			return;
 		}
 		const gap = (JOURNAL_GAP * window.innerHeight) / 1080;
-		const room = map.getBoundingClientRect().top - list.getBoundingClientRect().top - gap;
+		const room = (map.getBoundingClientRect().top - list.getBoundingClientRect().top - gap) / size("tracker");
 		list.style.maxHeight = `${Math.max(200, Math.floor(room))}px`;
 	}
 
@@ -372,6 +415,8 @@ import { addOptions, enabled, onTextSize, OPTION_GROUPS, setEnabled, setStyle, t
 		const restyle = () => setStyle("hud-overhaul-styles", styles());
 		restyle();
 		onTextSize(restyle);
+		onSize(["dial", "minimap", "notifications", "tracker", "dock"], restyle);
+		onPart(["dock", "minimap", "dial"], restyle);
 		watchJournal();
 		setInterval(() => {
 			try {
