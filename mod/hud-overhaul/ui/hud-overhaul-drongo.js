@@ -97,8 +97,8 @@ function active() {
 	return [...Modding.getActiveMods()].some((handle) => Modding.getModInfo(handle)?.id === DRONGO);
 }
 
-// "own" (this mod's ribbon) or "drongo". A saved "off" is the Leader ribbon
-// part's switch now (partOn in hud-overhaul-settings.js).
+// "own", this mod's ribbon, or "drongo". A saved "off" now counts as the
+// Leader ribbon part off: see partOn in hud-overhaul-settings.js.
 function readMode() {
 	return readSettings().drongoRibbon === "own" ? "own" : "drongo";
 }

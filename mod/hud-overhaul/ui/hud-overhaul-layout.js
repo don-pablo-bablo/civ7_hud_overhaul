@@ -21,7 +21,7 @@ import { addOptions, enabled, onPart, onSize, onTextSize, OPTION_GROUPS, partOn,
 (() => {
 	const TAG = "[hud-overhaul]";
 	// Bump on every edit to this file. UI.log then shows which build ran.
-	const BUILD = "20";
+	const BUILD = "21";
 	const rem = (px) => `${(px / 18).toFixed(4)}rem`;
 	// Text: px at the game's Small text size, moved by the player's.
 	const text = (px) => rem(px + textOffset());
@@ -69,6 +69,14 @@ import { addOptions, enabled, onPart, onSize, onTextSize, OPTION_GROUPS, partOn,
 		// so its right margin takes back the space it no longer fills.
 		const buttonLead = GAP / 2 - RIM * BUTTON;
 		const buttonTrail = GAP / 2 + (50 + RIM) * BUTTON - 52;
+		// The policies ring is scaled from its centre, so its 52px box keeps
+		// its place and the margins move what is drawn: 26px from the box's
+		// edge to its centre, 24 * k from there to its icon's. At k = 1 these
+		// are the margins measured in game, 18, 11, 6 and 4px.
+		const govTop = 44 * k - 26;
+		const govRight = 37 * k - 26;
+		const govBottom = 32 * k - 26;
+		const govLeft = 30 * k - 26;
 
 		// A ring's slot in the row is its circle plus one gap. The box is laid
 		// out unscaled, so lead and trail margins trim it down to the slot.
@@ -111,7 +119,7 @@ import { addOptions, enabled, onPart, onSize, onTextSize, OPTION_GROUPS, partOn,
 			.harness panel-sub-system-dock .ssb__element.ring-gov {
 				transform: scale(${GOV});
 				transform-origin: 50% 50%;
-				margin: ${rem(18 * k)} ${rem(11 * k)} ${rem(6 * k)} ${rem(4 * k)};
+				margin: ${rem(govTop)} ${rem(govRight)} ${rem(govBottom)} ${rem(govLeft)};
 			}
 			.harness panel-sub-system-dock .ssb__element.ring-gov .ssb-button__turn-counter-content {
 				font-size: ${rem(((18 + textOffset()) * SCALE) / GOV)};

@@ -14,7 +14,7 @@
 			<Text>Pablo's HUD Overhaul: Parts</Text>
 		</Replace>
 		<Replace Tag="LOC_OPTIONS_GROUP_HUD_OVERHAUL_PARTS_NOTE" Language="en_US">
-			<Text>Untick a part to keep the game's own. Sizes are against this mod's: 100% is how it ships.</Text>
+			<Text>Untick a part to keep the game's own. Sizes are against this mod's own: 100% is how it ships.</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_PART_TOOLTIPS" Language="en_US">
 			<Text>Detailed tooltips</Text>
@@ -182,7 +182,7 @@
 			<Text>Tooltip size</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_SIZE_TOOLTIPS_DESCRIPTION" Language="en_US">
-			<Text>The top bar's detailed tooltips.</Text>
+			<Text>The top bar's detailed tooltips, on hover and when locked. The frame widens to fit.</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_SIZE_DOCK" Language="en_US">
 			<Text>Rings and buttons size</Text>
@@ -194,7 +194,7 @@
 			<Text>World Tracker and Journal size</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_SIZE_TRACKER_DESCRIPTION" Language="en_US">
-			<Text>The World Tracker and the Journal under the rings.</Text>
+			<Text>The World Tracker and the Journal under the rings. Bigger leaves the Journal less room above the minimap, so it scrolls sooner.</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_SIZE_RIBBON" Language="en_US">
 			<Text>Leader ribbon size</Text>

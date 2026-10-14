@@ -19,8 +19,7 @@ const STORE = "modSettings";
 const MOD = "hud-overhaul"; // this mod's key
 const OFF = "hud-overhaul-off"; // on <html> while the mod is off
 
-// Each added element, hidden while the mod is off, or while the part it is
-// in is (PARTS).
+// Each added element, hidden while the mod is off or while its part is.
 const HIDE = `
 html.${OFF} .hud-overhaul-tracker-slot,
 html.${OFF} hud-overhaul-yield-totals,
@@ -162,9 +161,9 @@ export async function addOptions(group, build, name = "") {
 		const all = [];
 		pending.forEach(({ group, build, place }, call) => {
 			build(OptionType).forEach((option, index) => {
-				const part = group === OPTION_GROUPS.PARTS ? PARTS.findIndex(([id]) => id === option.part) : place;
+				const inGroup = group === OPTION_GROUPS.PARTS ? PARTS.findIndex(([id]) => id === option.part) : place;
 				const kind = group !== OPTION_GROUPS.PARTS ? 0 : option.partSwitch ? 0 : option.size ? 1 : 2;
-				const key = [GROUP_ORDER.indexOf(group), part, kind, call, index];
+				const key = [GROUP_ORDER.indexOf(group), inGroup, kind, call, index];
 				all.push({ key, option: { category: CategoryType.Mods, group, ...option } });
 			});
 		});
