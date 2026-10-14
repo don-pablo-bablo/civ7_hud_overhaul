@@ -16,12 +16,12 @@
 
 import { ContextManager } from "../../core/ui/context-manager/context-manager.js";
 import { Icon } from "../../core/ui/utilities/utilities-image.js";
-import { addOptions, onTextSize, OPTION_GROUPS, readSettings, setStyle, textOffset, writeSetting } from "./hud-overhaul-settings.js";
+import { addOptions, onPart, onTextSize, OPTION_GROUPS, partOn, readSettings, setStyle, textOffset, writeSetting } from "./hud-overhaul-settings.js";
 import { render, styles } from "./hud-overhaul-tracker-render.js";
 
 const TAG = "[hud-overhaul]";
 // Bump on every edit to this file. UI.log then shows which build ran.
-const BUILD = "10";
+const BUILD = "11";
 const SLOT = "hud-overhaul-tracker-slot";
 
 const CHOOSERS = {
@@ -156,7 +156,9 @@ function addSlot(root) {
 // Where research and civic show: "both", the World Tracker and the dock's
 // rings as the game has them; "tracker", the World Tracker only, the rings
 // hidden; or "rings", the rings only, the tracker hidden. The dock's other
-// buttons move up into the rings' place.
+// buttons move up into the rings' place. With the rings and World Tracker
+// part off, the tracker is hidden (hud-overhaul-settings.js) and the rings
+// show as the game has them.
 const SHOW = [
 	{ label: "LOC_HUD_OVERHAUL_OPTION_TRACKER_BOTH", value: "both" },
 	{ label: "LOC_HUD_OVERHAUL_OPTION_TRACKER_ONLY", value: "tracker" },
@@ -169,7 +171,7 @@ function show() {
 }
 
 function applyShow() {
-	const now = show();
+	const now = partOn("dock") ? show() : "both";
 	const css =
 		now === "tracker"
 			? "panel-sub-system-dock .ssb__element.ring-tech, panel-sub-system-dock .ssb__element.ring-culture { display: none; }"
@@ -180,10 +182,11 @@ function applyShow() {
 }
 
 function addOption() {
-	return addOptions(OPTION_GROUPS.GENERAL, (OptionType) => [
+	return addOptions(OPTION_GROUPS.PARTS, (OptionType) => [
 		{
 			type: OptionType.Dropdown,
 			id: "hud-overhaul-option-tracker-show",
+			part: "dock",
 			label: "LOC_HUD_OVERHAUL_OPTION_TRACKER",
 			description: "LOC_HUD_OVERHAUL_OPTION_TRACKER_DESCRIPTION",
 			dropdownItems: SHOW,
@@ -213,6 +216,7 @@ function start() {
 	restyle();
 	onTextSize(restyle);
 	applyShow();
+	onPart(["dock"], applyShow);
 	addOption().catch((error) => console.error(`${TAG} tracker: option not added: ${error}`));
 
 	// A view change empties the harness and fills it from the template. The

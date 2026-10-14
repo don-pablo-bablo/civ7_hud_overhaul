@@ -22,6 +22,9 @@
 // (DefaultTooltipRenderer in core/ui/tooltips/tooltip-controller.js). Each
 // pill gets one of the components here. The text classes are the game's
 // own (text-xs is its tooltip text), so they follow the player's text size.
+// With the tooltips part off, the pills keep the game's text tooltips.
+// At the player's size for tooltips, every size here and those classes
+// inside a tooltip grow or shrink by it, and the game's frame widens to fit.
 //
 // The yields' sources are the game's breakdown, player.Stats.getYields(),
 // the tree the Yields report reads: each settlement under its name, and
@@ -45,7 +48,7 @@
 
 import { ContextManager } from "../../core/ui/context-manager/context-manager.js";
 import { ModdingRegistry } from "../../core/ui/modding-registry-handler/modding-registry-handler.js";
-import { enabled, setStyle } from "./hud-overhaul-settings.js";
+import { enabled, onSize, onTextSize, partOn, setStyle, size, textOffset } from "./hud-overhaul-settings.js";
 import { celebration } from "./hud-overhaul-celebration.js";
 import { COMMERCE_TABS, openCommerce } from "./hud-overhaul-commerce.js";
 import { greatWorks, ICON as GREAT_WORKS, LEAD as GREAT_WORKS_ICON, openGreatWorks, WORK_YIELDS } from "./hud-overhaul-greatworks.js";
@@ -60,13 +63,18 @@ import { ICON as VICTORIES, ordinal, standings, victoryClasses } from "./hud-ove
 
 const TAG = "[hud-overhaul]";
 // Bump on every edit to this file. UI.log then shows which build ran.
-const BUILD = "94";
+const BUILD = "96";
 const COMPONENT = "hud-overhaul-tooltips";
 const PINNED = "hud-overhaul-tip-pinned";
 const MARKED = "hudOverhaulTip"; // dataset flag on a pill or the top bar once its listeners are added
 const MAX_ROWS = 8; // settlements listed before "and N more"
 
-const rem = (px) => `${(px / 18).toFixed(4)}rem`;
+// The player's size for tooltips against the mod's own. Every size drawn
+// in a tooltip goes through rem, so it follows; the game's frame, which is
+// not scaled, through frameRem.
+let scale = size("tooltips");
+const rem = (px) => `${((px * scale) / 18).toFixed(4)}rem`;
+const frameRem = (px) => `${(px / 18).toFixed(4)}rem`;
 
 // [yield, its name, its colour as r, g, b], the pills' colours from
 // hud-overhaul-pills.js.
@@ -86,13 +94,26 @@ const NEGATIVE = "224, 113, 95"; // a loss's bar, as .hud-overhaul-tip-negative'
 // padding (p-3) on each side.
 const WIDE = "hud-overhaul-tip-wide";
 const WIDE_PX = 380;
+const NARROW_PX = 320; // any other panel's widest
 const FRAME_PADDING = 12;
 // Room the locked tooltip keeps on the right for its scrollbar.
 const SCROLLBAR = 16;
 
-const STYLES = `
+// The game's text classes used in the tooltips, and their px at Small.
+const TEXT_CLASSES = { "2xs": 12, xs: 14, sm: 16 };
+
+// At the player's size, the game's text classes inside a tooltip, and its
+// plain text, at that size too.
+function scaledText() {
+	if (scale === 1) return "";
+	const inside = (name) => [`.hud-overhaul-tip .text-${name}`, `.${PINNED} .text-${name}`, `.${PINNED}.text-${name}`].join(", ");
+	const rules = Object.entries(TEXT_CLASSES).map(([name, px]) => `${inside(name)} { font-size: ${rem(px + textOffset())}; }`);
+	return [`.hud-overhaul-tip { font-size: ${rem(14 + textOffset())}; }`, ...rules].join("\n");
+}
+
+const styles = () => `
 ${COMPONENT} { display: none; }
-.hud-overhaul-tip { display: flex; flex-direction: column; min-width: ${rem(260)}; max-width: ${rem(320)}; }
+.hud-overhaul-tip { display: flex; flex-direction: column; min-width: ${rem(260)}; max-width: ${rem(NARROW_PX)}; }
 .hud-overhaul-tip-head { display: flex; flex-direction: column; align-items: center; }
 .hud-overhaul-tip-chips { display: flex; flex-direction: row; justify-content: center; }
 .hud-overhaul-tip-chip {
@@ -198,6 +219,7 @@ ${COMPONENT} { display: none; }
 .hud-overhaul-tip-stat-health { width: ${rem(44)}; }
 .hud-overhaul-tip-stat-moves { width: ${rem(56)}; }
 .hud-overhaul-tip-stat-strength { width: ${rem(40)}; }
+${scaledText()}
 `;
 
 // +5, -2.5, 0.
@@ -1508,7 +1530,7 @@ function tooltipClass(panel) {
 			this.draw();
 		}
 		onDetach() {
-			this.widen(false);
+			this.widen(0);
 			super.onDetach();
 		}
 		draw() {
@@ -1517,7 +1539,7 @@ function tooltipClass(panel) {
 				const box = panel(false);
 				box.append(hint(false));
 				this.Root.append(box);
-				this.widen(box.classList.contains(WIDE));
+				this.widen(box.classList.contains(WIDE) ? WIDE_PX : scale > 1 ? NARROW_PX : 0);
 			} catch (error) {
 				console.error(`${TAG} tooltips: ${error}`);
 			}
@@ -1528,15 +1550,18 @@ function tooltipClass(panel) {
 		// once the next has been drawn. The game sets the frame's width
 		// back each time it shows a tooltip (tooltip-controller.js,
 		// showTooltipElement), and after a lock shows this one again
-		// without drawing it, so it is widened again then.
-		widen(on) {
+		// without drawing it, so it is widened again then. A panel the
+		// player has made bigger widens it too. px is the panel's widest,
+		// or 0 for the game's own width.
+		widen(px) {
+			const on = px > 0;
 			this.watcher?.disconnect();
 			this.watcher = null;
 			const frame = on ? frameOf(this.Root) : this.frame;
 			if (!frame) return;
 			if (on) widenedBy = this;
 			else if (widenedBy !== this) return (this.frame = null);
-			const wide = rem(WIDE_PX + FRAME_PADDING * 2);
+			const wide = frameRem(px * scale + FRAME_PADDING * 2);
 			frame.style.maxWidth = on ? wide : "";
 			this.frame = on ? frame : null;
 			if (!on) {
@@ -1579,7 +1604,7 @@ function closePinned() {
 	scrollbar.disconnect();
 	root.remove();
 	// The pill's own tooltip back, so it shows on hover again.
-	if (enabled()) pill.setAttribute("data-tooltip-component", pinnedTag(pill));
+	if (enabled() && partOn("tooltips")) pill.setAttribute("data-tooltip-component", pinnedTag(pill));
 	pill.setAttribute("data-tooltip-content", pill.dataset.hudOverhaulTipText ?? "");
 }
 
@@ -1641,7 +1666,7 @@ function onLinkClick(event) {
 // listeners, the game's and this mod's, and stops them.
 function onActivate(event) {
 	try {
-		if (!enabled()) return;
+		if (!enabled() || !partOn("tooltips")) return;
 		const pill = event.target?.closest?.("yield-bar-entry");
 		if (!pill || !PANELS.some(([icon]) => icon == pill.dataset.icon)) return;
 		event.stopImmediatePropagation();
@@ -1706,7 +1731,8 @@ function openPinned(pill) {
 	root.style.cursor = "default";
 	pinned = { root, scroll, content, footer, pill, panel: found[2], link: found[3], watcher, scrollbar };
 	drawPinned();
-	if (content.querySelector(`.${WIDE}`)) root.style.maxWidth = rem(WIDE_PX + SCROLLBAR + FRAME_PADDING * 2);
+	const widest = content.querySelector(`.${WIDE}`) ? WIDE_PX : scale > 1 ? NARROW_PX : 0;
+	if (widest) root.style.maxWidth = frameRem(widest * scale + SCROLLBAR + FRAME_PADDING * 2);
 	// Kept on screen: a pill near the right edge would push it off.
 	requestAnimationFrame(() => {
 		const width = root.getBoundingClientRect().width;
@@ -1734,7 +1760,7 @@ function onInput(event) {
 			if (status != InputActionStatuses.FINISH) return;
 			// Over another pill, its tooltip takes the lock.
 			if (pinned && (!hovered || hovered == pinned.pill)) closePinned();
-			else if (enabled()) openPinned(hovered);
+			else if (enabled() && partOn("tooltips")) openPinned(hovered);
 		} else if (pinned && status == InputActionStatuses.FINISH && event.isCancelInput?.()) {
 			event.preventDefault();
 			event.stopPropagation();
@@ -1786,7 +1812,7 @@ class Tooltips extends Component {
 			banner.dataset[MARKED] = "1";
 			banner.addEventListener("action-activate", onActivate, true);
 		}
-		const on = enabled();
+		const on = enabled() && partOn("tooltips");
 		for (const [icon, tag] of PANELS) {
 			const pill = banner.querySelector(`yield-bar-entry[data-icon="${icon}"]`);
 			if (!pill) continue;
@@ -1804,7 +1830,15 @@ class Tooltips extends Component {
 }
 
 try {
-	setStyle("hud-overhaul-tooltips", STYLES);
+	const restyle = () => setStyle("hud-overhaul-tooltips", styles());
+	restyle();
+	onTextSize(restyle);
+	// A new size shows on the next tooltip.
+	onSize(["tooltips"], () => {
+		scale = size("tooltips");
+		closePinned();
+		restyle();
+	});
 	for (const [, tag, panel] of PANELS) Controls.define(tag, { createInstance: tooltipClass(panel), attributes: [{ name: "data-tooltip-content" }] });
 	Controls.define(COMPONENT, { createInstance: Tooltips });
 	ModdingRegistry.add({ parentID: "panel-yield-banner", componentTag: COMPONENT, modSlot: "yield-banner-mod-slot" });
@@ -1813,7 +1847,7 @@ try {
 	const slot = document.getElementById("yield-banner-mod-slot");
 	if (slot && !slot.querySelector(COMPONENT)) slot.appendChild(document.createElement(COMPONENT));
 	window.addEventListener("engine-input", onInput, true);
-	// The whole mod's switch marks <html>; follow it.
+	// The whole mod's switch and the parts' mark <html>; follow them.
 	new MutationObserver(() => {
 		for (const tooltips of attached) tooltips.onUpdate();
 	}).observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });

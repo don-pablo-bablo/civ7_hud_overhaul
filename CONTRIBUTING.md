@@ -9,7 +9,7 @@ replacing them. Each script in `ui/` is listed in the modinfo.
 |---|---|
 | `mod/hud-overhaul/` | the mod itself |
 | `.../ui/hud-overhaul-layout.js` | dock plate and row, Journal, minimap and turn dial, and the option that turns the mod off |
-| `.../ui/hud-overhaul-settings.js` | saved settings, the Add-ons tab and its groups, and the switch that removes every stylesheet while the mod is off |
+| `.../ui/hud-overhaul-settings.js` | saved settings, the Add-ons tab and its groups, the parts of the HUD the player can give back to the game, each part's size and their options, and the switch that removes every stylesheet while the mod is off |
 | `.../ui/hud-overhaul-theme.js` | the colour and opacity of the top bar and plates, and their options |
 | `.../ui/hud-overhaul-tracker.js` | the World Tracker in game: reads research and civic, draws it with the Journal under the dock, and its +/- |
 | `.../ui/hud-overhaul-tracker-render.js` | the World Tracker's drawing only: plain data in, DOM out, no engine calls |
@@ -26,7 +26,7 @@ replacing them. Each script in `ui/` is listed in the modinfo.
 | `.../ui/hud-overhaul-units.js` | your military units and civilians as a pill in the top bar, through the game's mod slot, the list its tooltip reads, and its option |
 | `.../ui/hud-overhaul-happiness.js` | settlements at each happiness level as a pill in the top bar, through the game's mod slot, and its option |
 | `.../ui/hud-overhaul-victories.js` | your place in each victory as a pill in the top bar, through the game's mod slot, the standings its tooltip reads, and its option |
-| `.../ui/hud-overhaul-rows.js` | the top bar's pills on two rows in a fixed order: moves the game's pills into the mods' slot, adds a line break, puts the victories at the end of the first row, and wraps what does not fit before the top right corner |
+| `.../ui/hud-overhaul-rows.js` | the top bar's pills on one row or two in a fixed order: moves the game's pills into the mods' slot, adds a line break, puts the victories at the end of the first row, and wraps what does not fit before the top right corner; the top bar's size, and the option for the rows |
 | `.../ui/hud-overhaul-tooltips.js` | detailed tooltips on the top bar's pills, as components through `data-tooltip-component`, locked open with the inspect key |
 | `.../ui/hud-overhaul-ribbon.js` | the compact leader ribbon and its option |
 | `.../ui/hud-overhaul-military.js` | combat strength, by Drongo's formula, as a row in the leader ribbon, through the ribbon's own data |
@@ -141,6 +141,15 @@ cannot load, so the mocks draw flat stand-ins.
 - **Text sizes**: px at the game's Small text size plus `textOffset()` from
   `hud-overhaul-settings.js`, so they follow the text size in Options >
   Accessibility. Rebuild the stylesheet on `onTextSize`.
+- **Player sizes**: a part of the HUD with a size slider reads it with
+  `size()` and rebuilds its stylesheet on `onSize`, both in
+  `hud-overhaul-settings.js`. 1 is the mod's own size, so at 100% the
+  stylesheet must come out as it would without the slider.
+- **Parts**: a script for a part the player can switch off (`PARTS` in
+  `hud-overhaul-settings.js`) checks `partOn()` and follows `onPart`. While
+  its part is off, it leaves the game's own in place, and the elements it
+  adds are hidden through `HIDE`. An option for that part goes in the parts
+  group with `part` set, so it shows under the part's switch.
 - **Settings**: read and written only through `hud-overhaul-settings.js`.
   They are kept in localStorage's `modSettings` entry under the key
   `hud-overhaul`. The game's localStorage returns the first stored entry
