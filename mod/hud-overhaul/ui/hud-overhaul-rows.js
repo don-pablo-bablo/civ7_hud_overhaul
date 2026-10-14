@@ -6,7 +6,9 @@
 // wrapping only at the top right corner.
 //
 // The top bar, and the turn and date at the top right, are drawn at the
-// player's size for the top bar, from their top corners. The dark strip
+// player's size for the top bar, from their top corners. The scale goes on
+// each one's child, which fills it: the game slides both in with an
+// animated transform, which would replace the scale while it runs. The dark strip
 // behind the bar and the dock below follow the bar's box rather than what
 // is drawn, so each gets a bottom margin of what the size adds or takes
 // away, measured again whenever the bar's height changes: a pill that grows
@@ -41,7 +43,7 @@ import { addOptions, enabled, onSize, onTextSize, OPTION_GROUPS, readSettings, s
 
 const TAG = "[hud-overhaul]";
 // Bump on every edit to this file. UI.log then shows which build ran.
-const BUILD = "8";
+const BUILD = "9";
 const COMPONENT = "hud-overhaul-rows";
 const IN_SLOT = "hud-overhaul-in-slot"; // on the top bar while its pills are in the slot
 const TWO = "hud-overhaul-two-rows"; // on the top bar while it has two rows
@@ -89,8 +91,8 @@ panel-yield-banner.${TWO} #yield-banner-mod-slot yield-bar-entry { margin-right:
 ${
 	k === 1
 		? ""
-		: `panel-yield-banner.${SIZED} { transform: scale(${k}); transform-origin: 0 0; }
-.harness panel-system-bar { transform: scale(${k}); transform-origin: 100% 0; }`
+		: `panel-yield-banner.${SIZED} > .panel-yield__top-bar-content { transform: scale(${k}); transform-origin: 0 0; }
+.harness panel-system-bar > fxs-hslot { transform: scale(${k}); transform-origin: 100% 0; }`
 }
 `;
 
@@ -100,12 +102,13 @@ function rows() {
 }
 
 // Bottom margins that make the bar's and the corner's boxes take the space
-// they are drawn in, or none.
+// they are drawn in, or none. Their own boxes are not scaled, their
+// children are.
 function fitBoxes(banner, on) {
 	const k = on ? size("topBar") : 1;
 	for (const part of [banner, document.querySelector(".harness panel-system-bar")]) {
 		if (!part) continue;
-		const extra = k === 1 ? "" : `${((part.getBoundingClientRect().height / k) * (k - 1)).toFixed(2)}px`;
+		const extra = k === 1 ? "" : `${(part.getBoundingClientRect().height * (k - 1)).toFixed(2)}px`;
 		if (part.style.marginBottom !== extra) part.style.marginBottom = extra;
 	}
 }

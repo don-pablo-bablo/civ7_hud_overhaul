@@ -21,7 +21,7 @@ import { addOptions, enabled, onPart, onSize, onTextSize, OPTION_GROUPS, partOn,
 (() => {
 	const TAG = "[hud-overhaul]";
 	// Bump on every edit to this file. UI.log then shows which build ran.
-	const BUILD = "21";
+	const BUILD = "22";
 	const rem = (px) => `${(px / 18).toFixed(4)}rem`;
 	// Text: px at the game's Small text size, moved by the player's.
 	const text = (px) => rem(px + textOffset());
@@ -256,12 +256,16 @@ import { addOptions, enabled, onPart, onSize, onTextSize, OPTION_GROUPS, partOn,
 		const minimapCss = `
 		/* The minimap is drawn at MAP of its size, times the player's, from its bottom left
 		   corner. Its frame art starts 12px inside its box, so the box goes
-		   past the left and bottom edges by that, scaled. */
+		   past the left and bottom edges by that, scaled. The scale goes on
+		   its child, which fills it: the game slides the minimap in with an
+		   animated transform, which would replace the scale while it runs. */
 		.harness panel-mini-map {
-			transform: scale(${map});
-			transform-origin: 0 100%;
 			margin-left: ${rem(-12 * map)};
 			margin-bottom: ${rem(-12 * map)};
+		}
+		.harness panel-mini-map > .mini-map-container {
+			transform: scale(${map});
+			transform-origin: 0 100%;
 		}
 	`;
 		const dialCss = `
@@ -271,13 +275,18 @@ import { addOptions, enabled, onPart, onSize, onTextSize, OPTION_GROUPS, partOn,
 		   corner. Its ring is about 218px across, centred in a 256px box, so
 		   the box goes past the right and bottom edges by 18px, scaled. The
 		   box is still laid out at 256px, so its left margin takes back the
-		   space it no longer fills, and the unit panel beside it moves along. */
+		   space it no longer fills, and the unit panel beside it moves along.
+		   The scale goes on its child, which fills it: the game slides the dial
+		   in with an animated transform, which would replace the scale while
+		   it runs. */
 		.harness panel-action {
-			transform: scale(${dial});
-			transform-origin: 100% 100%;
 			margin-right: ${rem(-18 * dial)};
 			margin-bottom: ${rem(-18 * dial)};
 			margin-left: ${rem(-256 * (1 - dial))};
+		}
+		.harness panel-action > .action-panel__button {
+			transform: scale(${dial});
+			transform-origin: 100% 100%;
 		}
 		/* The notifications' gold bracket meets the dial's gold line, so they
 		   move 18px right with the dial, and 3.5px more, measured at 4K:
