@@ -2,6 +2,8 @@ The top bar from Pablo's HUD Overhaul on its own: more pills, and a compact and 
 
 Want the whole screen reworked, with a theme, a World Tracker and a compact leader ribbon? [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3819347599]Pablo's HUD Overhaul[/url] has all of this and more.
 
+Want to know where a tile's yields come from as well? [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809254963]Pablo's Better Yield Tooltip[/url] breaks them down when you hover a tile.
+
 [h2]More pills[/h2]
 
 It adds these to the game's gold, science, culture, happiness, influence and settlements, each in its own colour:
@@ -55,8 +57,6 @@ It has been played with all of these enabled at once:
 [*][b]Map Trix[/b]: its option for coloured top bar entries gives way to these pills.
 [*][b]No Gradients[/b]: it still removes the screen's vignette, and the pills sit on its top bar.
 [*][b]Readable Happiness Icons[/b]: its icons for each happiness level show in the happiness levels pill and its tooltip.
-[*][b]Drongo's Leader Ribbons[/b]: the pills go on another row rather than run under its ribbon, as they do with the game's own.
-[*][b]Pablo's Better Yield Tooltip[/b]: its tile tooltips work alongside these.
 [/list]
 
 [h2]Saves[/h2]

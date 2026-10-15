@@ -19,6 +19,10 @@ for the ones tested with it.
 Only want the pills and tooltips? See
 [Pablo's Top Bar and Tooltips](#pablos-top-bar-and-tooltips).
 
+Want to know where a tile's yields come from as well?
+[Pablo's Better Yield Tooltip](https://steamcommunity.com/sharedfiles/filedetails/?id=3809254963)
+breaks them down when you hover a tile.
+
 **Before**
 
 ![The game's own HUD over a city](docs/images/before-full-screen.png)
@@ -347,11 +351,6 @@ It has been played with all of these enabled at once:
 - **[Readable Happiness Icons](https://steamcommunity.com/sharedfiles/filedetails/?id=3750888105)**:
   its icons for each happiness level show in the happiness levels pill and
   its tooltip.
-- **[Drongo's Leader Ribbons](https://steamcommunity.com/sharedfiles/filedetails/?id=3734152860)**:
-  the pills go on another row rather than run under its ribbon, as they do
-  with the game's own.
-- **[Pablo's Better Yield Tooltip](https://steamcommunity.com/sharedfiles/filedetails/?id=3809254963)**:
-  its tile tooltips work alongside these.
 
 ## Compatibility
 
