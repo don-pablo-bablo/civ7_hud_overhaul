@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This mod's option headings, over HUD Overhaul's in InGameText.xml. -->
+<Database>
+	<LocalizedText>
+		<Replace Tag="LOC_OPTIONS_GROUP_HUD_OVERHAUL_PARTS" Language="en_US">
+			<Text>Pablo's Top Bar and Tooltips: Size</Text>
+		</Replace>
+		<Replace Tag="LOC_OPTIONS_GROUP_HUD_OVERHAUL_PARTS_NOTE" Language="en_US">
+			<Text>Each size is a percentage of the mod's default.</Text>
+		</Replace>
+		<Replace Tag="LOC_OPTIONS_GROUP_HUD_OVERHAUL_TOP_BAR" Language="en_US">
+			<Text>Pablo's Top Bar and Tooltips: Pills</Text>
+		</Replace>
+	</LocalizedText>
+</Database>

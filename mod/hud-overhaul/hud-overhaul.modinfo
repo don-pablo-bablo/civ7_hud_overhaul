@@ -28,6 +28,9 @@
 					     scripts. They import it; it is listed here too so the game is sure
 					     to serve it. -->
 					<Item>ui/hud-overhaul-settings.js</Item>
+					<!-- Which mod the scripts run in, this or Pablo's Top Bar and
+					     Tooltips, which shares them. Settings imports it. -->
+					<Item>ui/hud-overhaul-edition.js</Item>
 					<!-- The colour and opacity of the top bar and plates, with their
 					     options. -->
 					<Item>ui/hud-overhaul-theme.js</Item>
@@ -36,6 +39,9 @@
 					<Item>ui/hud-overhaul-tracker-render.js</Item>
 					<!-- The World Tracker: reads research and civic, draws under the dock. -->
 					<Item>ui/hud-overhaul-tracker.js</Item>
+					<!-- Combat strength, for the units tooltip and the ribbon's row. They
+					     import it. -->
+					<Item>ui/hud-overhaul-strength.js</Item>
 					<!-- Empire food and production, added to the top bar, and their option. -->
 					<Item>ui/hud-overhaul-yields.js</Item>
 					<!-- Turns to the next celebration, in the top bar's happiness pill, and
