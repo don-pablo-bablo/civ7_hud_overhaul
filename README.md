@@ -326,11 +326,13 @@ All in **Options > Add-ons**, in three groups. Changes show at once.
 
 ## Pablo's Top Bar and Tooltips
 
-A second mod with only the top bar's pills and their tooltips, for players
-who want those without the rest of the overhaul. It adds the same pills and
-detailed tooltips to whatever top bar you have, the game's own or another
-mod's, and leaves the dock, the leader ribbon, the minimap and the turn dial
-as they are. Its tooltips start bigger, to suit the game's own top bar.
+[Pablo's Top Bar and Tooltips](https://steamcommunity.com/sharedfiles/filedetails/?id=3820425965)
+is a second mod with only the top bar's pills and their tooltips, for
+players who want those without the rest of the overhaul. It adds the same
+pills and detailed tooltips to whatever top bar you have, the game's own or
+another mod's, and leaves the dock, the leader ribbon, the minimap and the
+turn dial as they are. Its tooltips start bigger, to suit the game's own top
+bar.
 
 Its options, in **Options > Add-ons**:
 

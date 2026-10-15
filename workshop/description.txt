@@ -96,6 +96,6 @@ The code and the full README are on [url=https://github.com/don-pablo-bablo/civ7
 
 [h2]Other mods[/h2]
 
-Only want the pills and tooltips? Pablo's Top Bar and Tooltips has those on their own, on the game's top bar or another mod's.
+Only want the pills and tooltips? [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3820425965]Pablo's Top Bar and Tooltips[/url] has those on their own, on the game's top bar or another mod's.
 
 Want to know where a tile's yields come from as well? [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809254963]Pablo's Better Yield Tooltip[/url] breaks them down when you hover a tile.
