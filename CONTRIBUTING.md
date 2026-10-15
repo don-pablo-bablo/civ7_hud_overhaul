@@ -42,7 +42,7 @@ replacing them. Each script in `ui/` is listed in the modinfo.
 | `tools/live/measure.js` | run in a running game, reports where each HUD piece sits |
 | `tools/live/capture.js` | run in a running game, captures the mocks' cases: the top bar, a ribbon entry and every tooltip, with this mod's stylesheets |
 | `workshop/description.txt` | the Steam Workshop description, in Steam's BBCode |
-| `workshop/top-bar-tooltips/` | Pablo's Top Bar and Tooltips' Workshop description, preview image and gallery, a screenshot per tooltip |
+| `workshop/top-bar-tooltips/` | Pablo's Top Bar and Tooltips' Workshop description, preview image and gallery, a JPEG per tooltip under Steam's 2 MB limit |
 | `workshop/preview.jpg` | the Steam Workshop preview image, 560px square |
 | `docs/images/` | the README's screenshots, which also go in the Workshop gallery |
 | `reference` | gitignored link to the game's resources folder |
