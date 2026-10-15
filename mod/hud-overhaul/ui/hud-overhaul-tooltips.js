@@ -58,14 +58,15 @@ import { ICON as TRADE, merchants, partners, tradeRoutes } from "./hud-overhaul-
 import { convoyAge, convoys, ICON as TREASURE, idleTreasure } from "./hud-overhaul-treasure.js";
 import { cityLimit, LIMIT_COLOUR, writeSplit } from "./hud-overhaul-settlements.js";
 import { CIVILIAN, goTo, ICON as UNITS, iconURL, MILITARY as MILITARY_UNITS, units } from "./hud-overhaul-units.js";
-import { combatStrength } from "./hud-overhaul-military.js";
+import { combatStrength } from "./hud-overhaul-strength.js";
 import { ICON as VICTORIES, ordinal, standings, victoryClasses } from "./hud-overhaul-victories.js";
 
 const TAG = "[hud-overhaul]";
 // Bump on every edit to this file. UI.log then shows which build ran.
-const BUILD = "96";
+const BUILD = "98";
 const COMPONENT = "hud-overhaul-tooltips";
 const PINNED = "hud-overhaul-tip-pinned";
+const QUIET = "hud-overhaul-tip-quiet"; // on <html> while one is locked and the mouse is on the top bar
 const MARKED = "hudOverhaulTip"; // dataset flag on a pill or the top bar once its listeners are added
 const MAX_ROWS = 8; // settlements listed before "and N more"
 
@@ -156,6 +157,9 @@ ${COMPONENT} { display: none; }
 	background-position: center;
 }
 .${PINNED} { position: absolute; z-index: 100; pointer-events: auto; cursor: pointer; }
+/* No hover tooltips on the top bar under a locked one: they would show
+   behind it. #tooltip-root is the pills' frame, fxs-tooltip the older one. */
+html.${QUIET} #tooltip-root, html.${QUIET} fxs-tooltip { visibility: hidden !important; }
 .hud-overhaul-tip-grid { display: flex; flex-direction: column; margin-left: ${rem(22)}; }
 .hud-overhaul-tip-line { display: flex; flex-direction: row; align-items: center; }
 .hud-overhaul-tip-line .hud-overhaul-tip-chip { margin: ${rem(3)} ${rem(4)} 0 0; }
@@ -1585,6 +1589,11 @@ let widenedBy = null;
 // The pill under the mouse, and the locked tooltip if one is open.
 let hovered = null;
 let pinned = null;
+let onBar = false; // the mouse is on the top bar
+
+function syncQuiet() {
+	document.documentElement.classList.toggle(QUIET, onBar && !!pinned);
+}
 
 // The game's frame around the tooltip on screen: the outermost element
 // around it with a tooltip class.
@@ -1603,6 +1612,7 @@ function closePinned() {
 	watcher.disconnect();
 	scrollbar.disconnect();
 	root.remove();
+	syncQuiet();
 	// The pill's own tooltip back, so it shows on hover again.
 	if (enabled() && partOn("tooltips")) pill.setAttribute("data-tooltip-component", pinnedTag(pill));
 	pill.setAttribute("data-tooltip-content", pill.dataset.hudOverhaulTipText ?? "");
@@ -1730,6 +1740,7 @@ function openPinned(pill) {
 	watcher.observe(pill, { attributes: true, attributeFilter: ["data-tooltip-content"] });
 	root.style.cursor = "default";
 	pinned = { root, scroll, content, footer, pill, panel: found[2], link: found[3], watcher, scrollbar };
+	syncQuiet();
 	drawPinned();
 	const widest = content.querySelector(`.${WIDE}`) ? WIDE_PX : scale > 1 ? NARROW_PX : 0;
 	if (widest) root.style.maxWidth = frameRem(widest * scale + SCROLLBAR + FRAME_PADDING * 2);
@@ -1811,6 +1822,8 @@ class Tooltips extends Component {
 		if (!banner.dataset[MARKED]) {
 			banner.dataset[MARKED] = "1";
 			banner.addEventListener("action-activate", onActivate, true);
+			banner.addEventListener("mouseenter", () => ((onBar = true), syncQuiet()));
+			banner.addEventListener("mouseleave", () => ((onBar = false), syncQuiet()));
 		}
 		const on = enabled() && partOn("tooltips");
 		for (const [icon, tag] of PANELS) {

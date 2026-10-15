@@ -10,6 +10,7 @@ replacing them. Each script in `ui/` is listed in the modinfo.
 | `mod/hud-overhaul/` | the mod itself |
 | `.../ui/hud-overhaul-layout.js` | dock plate and row, Journal, minimap and turn dial, and the option that turns the mod off |
 | `.../ui/hud-overhaul-settings.js` | saved settings, the Add-ons tab and its groups, the parts of the HUD the player can give back to the game, each part's size and their options, and the switch that removes every stylesheet while the mod is off |
+| `.../ui/hud-overhaul-edition.js` | which mod the scripts run in, this or Pablo's Top Bar and Tooltips, and its settings key |
 | `.../ui/hud-overhaul-theme.js` | the colour and opacity of the top bar and plates, and their options |
 | `.../ui/hud-overhaul-tracker.js` | the World Tracker in game: reads research and civic, draws it with the Journal under the dock, and its +/- |
 | `.../ui/hud-overhaul-tracker-render.js` | the World Tracker's drawing only: plain data in, DOM out, no engine calls |
@@ -29,18 +30,39 @@ replacing them. Each script in `ui/` is listed in the modinfo.
 | `.../ui/hud-overhaul-rows.js` | the top bar's pills on one row or two in a fixed order: moves the game's pills into the mods' slot, adds a line break, puts the victories at the end of the first row, and wraps what does not fit before the top right corner; the top bar's size, and the option for the rows |
 | `.../ui/hud-overhaul-tooltips.js` | detailed tooltips on the top bar's pills, as components through `data-tooltip-component`, locked open with the inspect key |
 | `.../ui/hud-overhaul-ribbon.js` | the compact leader ribbon and its option |
+| `.../ui/hud-overhaul-strength.js` | combat strength by Drongo's formula, for the units tooltip and the ribbon's row |
 | `.../ui/hud-overhaul-military.js` | combat strength, by Drongo's formula, as a row in the leader ribbon, through the ribbon's own data |
 | `.../ui/hud-overhaul-religion-row.js` | each leader's religion and its share of the world as a row in the leader ribbon, through the ribbon's own data |
 | `.../ui/hud-overhaul-ideology-row.js` | each leader's ideology as a row in the leader ribbon in the Modern Age, through the ribbon's own data |
 | `.../ui/hud-overhaul-drongo.js` | the leader ribbon with Drongo's Leader Ribbons, which replaces the game's ribbon files, and its option; only while that mod is on |
 | `.../text/en_us/InGameText.xml` | all the text players see: options, pills, tooltips and the World Tracker |
+| `mod/top-bar-tooltips/` | Pablo's Top Bar and Tooltips: only its modinfo, its `hud-overhaul-edition.js` and its option headings |
+| `tools/build-top-bar.mjs` | builds Pablo's Top Bar and Tooltips in `build/top-bar-tooltips` from both folders |
 | `tools/mock/` | browser mocks and their fixtures |
 | `tools/live/measure.js` | run in a running game, reports where each HUD piece sits |
 | `tools/live/capture.js` | run in a running game, captures the mocks' cases: the top bar, a ribbon entry and every tooltip, with this mod's stylesheets |
 | `workshop/description.txt` | the Steam Workshop description, in Steam's BBCode |
+| `workshop/top-bar-tooltips/` | Pablo's Top Bar and Tooltips' Workshop description, preview image and gallery, a screenshot per tooltip |
 | `workshop/preview.jpg` | the Steam Workshop preview image, 560px square |
 | `docs/images/` | the README's screenshots, which also go in the Workshop gallery |
 | `reference` | gitignored link to the game's resources folder |
+
+## Pablo's Top Bar and Tooltips
+
+A second mod with the top bar's pills and tooltips only, built from the
+same scripts. Its folder holds only what differs; the build copies each file
+its modinfo lists from there, or else from `mod/hud-overhaul/`:
+
+```bash
+node tools/build-top-bar.mjs
+civ7lab mod install build/top-bar-tooltips
+```
+
+Run the build again after every change to a shared file. In it,
+`FULL` from `hud-overhaul-edition.js` is false: the parts are the top bar
+and the tooltips, with their sizes and no switches, and settings are kept
+under its own key. Its modinfo loads nothing while HUD Overhaul is on, so
+the two never run together.
 
 ## How the game builds the screen
 
@@ -170,7 +192,15 @@ cannot load, so the mocks draw flat stand-ins.
   `workshop/description.txt` to match. It follows the README's feature
   sections, without the per-pill details, the options or the links, and
   lists the compatible mods by name only: Steam allows 8,000 characters.
+  Change `workshop/top-bar-tooltips/description.txt` too when the text is
+  about the pills or the tooltips.
 - Upload only `mod/hud-overhaul/`, through the same Workshop item.
+- For Pablo's Top Bar and Tooltips, bump `version` in its modinfo, build it,
+  and upload `build/top-bar-tooltips/` through its own Workshop item, with
+  the gallery from `workshop/top-bar-tooltips/gallery/`.
+- Each mod's release notes list only what its players see change. A fix to
+  the World Tracker goes in HUD Overhaul's alone; one to a tooltip goes in
+  both. Code moved between files and tools changes go in neither.
 
 ## Writing style
 

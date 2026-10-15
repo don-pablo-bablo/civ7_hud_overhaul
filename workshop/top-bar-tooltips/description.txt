@@ -1,0 +1,73 @@
+The top bar from Pablo's HUD Overhaul on its own: more pills, and a compact and a detailed tooltip on each. It adds them to whatever top bar you have, the game's own or another mod's, and leaves the rest of the screen alone.
+
+[h2]More pills[/h2]
+
+It adds these to the game's gold, science, culture, happiness, influence and settlements, each in its own colour:
+
+[list]
+[*]Celebrations, in the happiness pill
+[*]Food
+[*]Production
+[*]Cities and towns, with your population, in the settlements pill
+[*]Units, military and civilian
+[*]Happiness levels of your settlements
+[*]Trade routes
+[*]Resources
+[*]Treasure convoys
+[*]Great works
+[*]Religion
+[*]Victory standings
+[/list]
+
+The pills sit on two rows, or on one row if you choose. On a small screen, with large text or with a bigger top bar, any that do not fit go on another row; turn off the ones you need least to keep them on fewer. Religion and treasure convoys show only when they apply.
+
+[h2]Tooltips[/h2]
+
+Hover a pill for its compact tooltip: where a yield comes from, settlement by settlement, with the treasury, current research or next celebration. Each settlement has an icon for a capital, city or town.
+
+Click the pill, or press the tooltip inspect key, K by default, for its detailed tooltip, and again to close it. It breaks each settlement's yield down by source, specialists and upkeep included, with a bar for its share, red for a loss. In a detailed tooltip, click:
+
+[list]
+[*][b]the title and values[/b] to open the screen the pill used to open, such as the yields report;
+[*][b]a settlement, or any line under it,[/b] to move the map there, or for a trade route, to the settlement it trades with;
+[*][b]a victory's leaders[/b] to open its tab on the victories screen;
+[*][b]a unit[/b] to select it and move the camera to it;
+[*][b]a group's heading[/b], such as Cities or a victory, to close or open it.
+[/list]
+
+While a detailed tooltip is open, the other pills show no tooltip on hover, so nothing pops up behind it. Click another pill to open its detailed tooltip instead.
+
+[h2]Options[/h2]
+
+In Options > Add-ons: the top bar's size and the tooltips' size, from 75% to 150%; one or two rows; and each added pill on or off.
+
+[h2]With Pablo's HUD Overhaul[/h2]
+
+This mod does nothing while Pablo's HUD Overhaul is on, which has all of it. Each keeps its own settings.
+
+[h2]Compatibility[/h2]
+
+It has been played with all of these enabled at once:
+
+[list]
+[*][b]Map Trix[/b]: its option for coloured top bar entries gives way to these pills.
+[*][b]No Gradients[/b]: it still removes the screen's vignette, and the pills sit on its top bar.
+[*][b]Readable Happiness Icons[/b]: its icons for each happiness level show in the happiness levels pill and its tooltip.
+[/list]
+
+[h2]Saves[/h2]
+
+The mod only changes the interface. You can add it to a game in progress or remove it without breaking the save.
+
+[h2]AI use[/h2]
+
+Claude Code was used to help create this mod.
+
+[h2]Source and bug reports[/h2]
+The code is on [url=https://github.com/don-pablo-bablo/civ7_hud_overhaul]GitHub[/url], shared with Pablo's HUD Overhaul. Report bugs there.
+
+[h2]Other mods[/h2]
+
+Want the whole screen reworked, with a theme, a World Tracker and a compact leader ribbon? [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3819347599]Pablo's HUD Overhaul[/url] has all of this and more.
+
+Want to know where a tile's yields come from as well? [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809254963]Pablo's Better Yield Tooltip[/url] breaks them down when you hover a tile.

@@ -16,6 +16,13 @@ popular UI mods for Civ VI and VII. It does three things:
 It aims to work alongside other UI mods: see [Compatibility](#compatibility)
 for the ones tested with it.
 
+Only want the pills and tooltips? See
+[Pablo's Top Bar and Tooltips](#pablos-top-bar-and-tooltips).
+
+Want to know where a tile's yields come from as well?
+[Pablo's Better Yield Tooltip](https://steamcommunity.com/sharedfiles/filedetails/?id=3809254963)
+breaks them down when you hover a tile.
+
 **Before**
 
 ![The game's own HUD over a city](docs/images/before-full-screen.png)
@@ -139,6 +146,10 @@ red for a loss. In a detailed tooltip, click:
 - **a victory's leaders** to open its tab on the victories screen;
 - **a unit** to select it and move the camera to it;
 - **a group's heading**, such as Cities or a victory, to close or open it.
+
+While a detailed tooltip is open, the other pills show no tooltip on hover,
+so nothing pops up behind it. Click another pill to open its detailed
+tooltip instead.
 
 Each detailed tooltip is below, in the top bar's order.
 
@@ -312,6 +323,34 @@ All in **Options > Add-ons**, in three groups. Changes show at once.
   - **Turn dial and notifications**, with the size of each.
 - **Pablo's HUD Overhaul: Top bar**: **Top bar rows**, one or two, and each
   of the added pills on or off. See [Two rows of pills](#two-rows-of-pills).
+
+## Pablo's Top Bar and Tooltips
+
+A second mod with only the top bar's pills and their tooltips, for players
+who want those without the rest of the overhaul. It adds the same pills and
+detailed tooltips to whatever top bar you have, the game's own or another
+mod's, and leaves the dock, the leader ribbon, the minimap and the turn dial
+as they are. Its tooltips start bigger, to suit the game's own top bar.
+
+Its options, in **Options > Add-ons**:
+
+- **Pablo's Top Bar and Tooltips: Size**: **Top bar size** and **Tooltip
+  size**, from 75% to 150%.
+- **Pablo's Top Bar and Tooltips: Pills**: **Top bar rows**, one or two, and
+  each of the added pills on or off.
+
+It does nothing while Pablo's HUD Overhaul is on, which has all of it. Its
+settings are its own, so switching between the two keeps each one's choices.
+
+It has been played with all of these enabled at once:
+
+- **[Map Trix](https://steamcommunity.com/sharedfiles/filedetails/?id=3507072814)**:
+  its option for coloured top bar entries gives way to these pills.
+- **[No Gradients](https://steamcommunity.com/sharedfiles/filedetails/?id=3509395646)**:
+  it still removes the screen's vignette, and the pills sit on its top bar.
+- **[Readable Happiness Icons](https://steamcommunity.com/sharedfiles/filedetails/?id=3750888105)**:
+  its icons for each happiness level show in the happiness levels pill and
+  its tooltip.
 
 ## Compatibility
 

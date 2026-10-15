@@ -18,12 +18,12 @@
 // below the mod root. Log and bail, never throw.
 
 import { ModdingRegistry } from "../../core/ui/modding-registry-handler/modding-registry-handler.js";
-import { unitStrength } from "./hud-overhaul-military.js";
+import { unitStrength } from "./hud-overhaul-strength.js";
 import { addOptions, onTextSize, OPTION_GROUPS, readSettings, setStyle, textOffset, writeSetting } from "./hud-overhaul-settings.js";
 
 const TAG = "[hud-overhaul]";
 // Bump on every edit to this file. UI.log then shows which build ran.
-const BUILD = "13";
+const BUILD = "14";
 const COMPONENT = "hud-overhaul-units";
 const ENTRY = "hud-overhaul-units-entry";
 const TEXT = "hud-overhaul-units-text";

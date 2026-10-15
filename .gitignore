@@ -6,3 +6,6 @@
 
 # A capture for the mocks, before tools/mock/write-fixtures.mjs turns it into captured.js
 /capture.json
+
+# Pablo's Top Bar and Tooltips, as tools/build-top-bar.mjs builds it
+/build

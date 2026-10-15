@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- UI only: it changes no rules, yields or definitions. AffectsSavedGames is 0, so it can be
      added to or removed from a game in progress. -->
-<Mod id="pablo-hud-overhaul" version="1.1.0" xmlns="ModInfo">
+<Mod id="pablo-hud-overhaul" version="1.1.1" xmlns="ModInfo">
 	<Properties>
 		<Name>Pablo's HUD Overhaul</Name>
 		<Description>Lays out the main game screen more like Civilization VI: a top bar and panels in a colour of your choice, a World Tracker under the tech and civic dock, coloured yield pills with more of them, your units, detailed tooltips, and a compact leader ribbon. Each part can be resized or left as the game has it. Works with Drongo's Leader Ribbons, Map Trix, Ready or Not and No Gradients. Options are in Options > Add-ons.</Description>
@@ -28,6 +28,9 @@
 					     scripts. They import it; it is listed here too so the game is sure
 					     to serve it. -->
 					<Item>ui/hud-overhaul-settings.js</Item>
+					<!-- Which mod the scripts run in, this or Pablo's Top Bar and
+					     Tooltips, which shares them. Settings imports it. -->
+					<Item>ui/hud-overhaul-edition.js</Item>
 					<!-- The colour and opacity of the top bar and plates, with their
 					     options. -->
 					<Item>ui/hud-overhaul-theme.js</Item>
@@ -36,6 +39,9 @@
 					<Item>ui/hud-overhaul-tracker-render.js</Item>
 					<!-- The World Tracker: reads research and civic, draws under the dock. -->
 					<Item>ui/hud-overhaul-tracker.js</Item>
+					<!-- Combat strength, for the units tooltip and the ribbon's row. They
+					     import it. -->
+					<Item>ui/hud-overhaul-strength.js</Item>
 					<!-- Empire food and production, added to the top bar, and their option. -->
 					<Item>ui/hud-overhaul-yields.js</Item>
 					<!-- Turns to the next celebration, in the top bar's happiness pill, and

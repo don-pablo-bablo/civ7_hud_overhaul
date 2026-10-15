@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- UI only: it changes no rules, yields or definitions. AffectsSavedGames is 0, so it can be
+     added to or removed from a game in progress.
+
+     The scripts and InGameText.xml are HUD Overhaul's own, copied in by
+     tools/build-top-bar.mjs; this folder keeps only what differs. -->
+<Mod id="pablo-top-bar-tooltips" version="1.0.0" xmlns="ModInfo">
+	<Properties>
+		<Name>Pablo's Top Bar and Tooltips</Name>
+		<Description>The top bar from Pablo's HUD Overhaul on its own: coloured yield pills, more pills for your units, settlements, happiness, trade, resources, treasure, great works, religion and victories, on one row or two, and a detailed tooltip on each that can be locked open. Each pill can be turned off, and the top bar and tooltips resized. Does nothing while Pablo's HUD Overhaul is on, which has all of this. Options are in Options > Add-ons.</Description>
+		<Authors>Pablo</Authors>
+		<AffectsSavedGames>0</AffectsSavedGames>
+		<Package>Mod</Package>
+	</Properties>
+	<Dependencies>
+		<Mod id="base-standard" title="LOC_MODULE_BASE_STANDARD_NAME"/>
+	</Dependencies>
+	<ActionCriteria>
+		<!-- The full mod has the same top bar; both at once would draw every pill
+		     twice. -->
+		<Criteria id="without-hud-overhaul">
+			<ModInUse inverse="1">pablo-hud-overhaul</ModInUse>
+		</Criteria>
+	</ActionCriteria>
+	<ActionGroups>
+		<ActionGroup id="pablo-top-bar-tooltips-ui" scope="game" criteria="without-hud-overhaul">
+			<Actions>
+				<!-- In HUD Overhaul's order; its modinfo says why each is where it is. -->
+				<UIScripts>
+					<Item>ui/hud-overhaul-edition.js</Item>
+					<Item>ui/hud-overhaul-settings.js</Item>
+					<Item>ui/hud-overhaul-strength.js</Item>
+					<Item>ui/hud-overhaul-yields.js</Item>
+					<Item>ui/hud-overhaul-celebration.js</Item>
+					<Item>ui/hud-overhaul-pills.js</Item>
+					<Item>ui/hud-overhaul-settlements.js</Item>
+					<Item>ui/hud-overhaul-units.js</Item>
+					<Item>ui/hud-overhaul-commerce.js</Item>
+					<Item>ui/hud-overhaul-happiness.js</Item>
+					<Item>ui/hud-overhaul-trade.js</Item>
+					<Item>ui/hud-overhaul-resources.js</Item>
+					<Item>ui/hud-overhaul-treasure.js</Item>
+					<Item>ui/hud-overhaul-greatworks.js</Item>
+					<Item>ui/hud-overhaul-religion.js</Item>
+					<Item>ui/hud-overhaul-victories.js</Item>
+					<Item>ui/hud-overhaul-rows.js</Item>
+					<Item>ui/hud-overhaul-tooltips.js</Item>
+				</UIScripts>
+				<!-- HUD Overhaul's text, then this mod's option headings over it. -->
+				<UpdateText>
+					<Item>text/en_us/InGameText.xml</Item>
+					<Item>text/en_us/TopBarText.xml</Item>
+				</UpdateText>
+			</Actions>
+		</ActionGroup>
+	</ActionGroups>
+</Mod>

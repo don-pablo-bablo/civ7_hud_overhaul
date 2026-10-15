@@ -15,8 +15,10 @@
 // below the mod root. They are made only when an option is added, so the
 // browser mock can import this file.
 
+import { BASE_SIZES, FULL, SETTINGS_KEY } from "./hud-overhaul-edition.js";
+
 const STORE = "modSettings";
-const MOD = "hud-overhaul"; // this mod's key
+const MOD = SETTINGS_KEY; // this mod's key
 const OFF = "hud-overhaul-off"; // on <html> while the mod is off
 
 // Each added element, hidden while the mod is off or while its part is.
@@ -231,8 +233,9 @@ export function onTextSize(callback) {
 // switch in the parts group: [part, option text, its description], in the
 // order they show. The top bar has no switch, only its size. While a part
 // is off, its scripts leave the game's own in place, and <html> has
-// hud-overhaul-no- and the part, for the elements the mod adds to it.
-export const PARTS = [
+// hud-overhaul-no- and the part, for the elements the mod adds to it. The
+// top bar mod has the top bar and the tooltips, with no switches.
+const ALL_PARTS = [
 	["topBar"],
 	["tooltips", "LOC_HUD_OVERHAUL_OPTION_PART_TOOLTIPS", "LOC_HUD_OVERHAUL_OPTION_PART_TOOLTIPS_DESCRIPTION"],
 	["dock", "LOC_HUD_OVERHAUL_OPTION_PART_DOCK", "LOC_HUD_OVERHAUL_OPTION_PART_DOCK_DESCRIPTION"],
@@ -240,6 +243,7 @@ export const PARTS = [
 	["minimap", "LOC_HUD_OVERHAUL_OPTION_PART_MINIMAP", "LOC_HUD_OVERHAUL_OPTION_PART_MINIMAP_DESCRIPTION"],
 	["dial", "LOC_HUD_OVERHAUL_OPTION_PART_DIAL", "LOC_HUD_OVERHAUL_OPTION_PART_DIAL_DESCRIPTION"],
 ];
+export const PARTS = FULL ? ALL_PARTS : [["topBar"], ["tooltips"]];
 
 // True unless the player has given this part back to the game. The leader
 // ribbon was given back by the With Drongo's Leader Ribbons option's "off"
@@ -269,8 +273,9 @@ function syncParts() {
 
 // The size of each part of the HUD, as a percent of the mod's own size, set
 // by a slider each under its part's switch. [size, its part, option text,
-// its description], in the order the sliders show.
-export const SIZES = [
+// its description], in the order the sliders show. The top bar mod has the
+// top bar's and the tooltips'.
+const ALL_SIZES = [
 	["topBar", "topBar", "LOC_HUD_OVERHAUL_OPTION_SIZE_TOP_BAR", "LOC_HUD_OVERHAUL_OPTION_SIZE_TOP_BAR_DESCRIPTION"],
 	["tooltips", "tooltips", "LOC_HUD_OVERHAUL_OPTION_SIZE_TOOLTIPS", "LOC_HUD_OVERHAUL_OPTION_SIZE_TOOLTIPS_DESCRIPTION"],
 	["dock", "dock", "LOC_HUD_OVERHAUL_OPTION_SIZE_DOCK", "LOC_HUD_OVERHAUL_OPTION_SIZE_DOCK_DESCRIPTION"],
@@ -280,16 +285,22 @@ export const SIZES = [
 	["dial", "dial", "LOC_HUD_OVERHAUL_OPTION_SIZE_DIAL", "LOC_HUD_OVERHAUL_OPTION_SIZE_DIAL_DESCRIPTION"],
 	["notifications", "dial", "LOC_HUD_OVERHAUL_OPTION_SIZE_NOTIFICATIONS", "LOC_HUD_OVERHAUL_OPTION_SIZE_NOTIFICATIONS_DESCRIPTION"],
 ];
+export const SIZES = FULL ? ALL_SIZES : ALL_SIZES.filter(([name]) => name === "topBar" || name === "tooltips");
 const SIZE = { min: 75, max: 150, steps: 15, initial: 100 }; // percent, 5 a step
 
 // Sent on window after a size changes, with the part as its detail.
 const SIZE_EVENT = "hud-overhaul-size";
 
-// A part's size against the mod's own, 1 at 100%.
-export function size(part) {
+// A part's slider, in percent.
+function percent(part) {
 	const value = Number(readSettings().sizes?.[part]);
-	const percent = Number.isFinite(value) && value >= SIZE.min && value <= SIZE.max ? Math.round(value) : SIZE.initial;
-	return percent / 100;
+	return Number.isFinite(value) && value >= SIZE.min && value <= SIZE.max ? Math.round(value) : SIZE.initial;
+}
+
+// A part's size against the mod's own, 1 at 100% unless BASE_SIZES in
+// hud-overhaul-edition.js sets it.
+export function size(part) {
+	return ((BASE_SIZES[part] ?? 1) * percent(part)) / 100;
 }
 
 // Calls back after the player changes one of these parts' sizes.
@@ -339,13 +350,13 @@ function addPartOptions() {
 			max: SIZE.max,
 			steps: SIZE.steps,
 			initListener: (info) => {
-				info.currentValue = Math.round(size(name) * 100);
+				info.currentValue = percent(name);
 				info.formattedValue = `${info.currentValue}%`;
 			},
 			updateListener: (info, value) => {
 				info.currentValue = Math.round(value);
 				info.formattedValue = `${info.currentValue}%`;
-				if (info.currentValue === Math.round(size(name) * 100)) return;
+				if (info.currentValue === percent(name)) return;
 				try {
 					writeSetting("sizes", { ...readSettings().sizes, [name]: info.currentValue });
 				} catch (error) {
