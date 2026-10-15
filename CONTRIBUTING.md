@@ -42,6 +42,7 @@ replacing them. Each script in `ui/` is listed in the modinfo.
 | `tools/live/measure.js` | run in a running game, reports where each HUD piece sits |
 | `tools/live/capture.js` | run in a running game, captures the mocks' cases: the top bar, a ribbon entry and every tooltip, with this mod's stylesheets |
 | `workshop/description.txt` | the Steam Workshop description, in Steam's BBCode |
+| `workshop/top-bar-tooltips/` | Pablo's Top Bar and Tooltips' Workshop description |
 | `workshop/preview.jpg` | the Steam Workshop preview image, 560px square |
 | `docs/images/` | the README's screenshots, which also go in the Workshop gallery |
 | `reference` | gitignored link to the game's resources folder |
@@ -191,9 +192,14 @@ cannot load, so the mocks draw flat stand-ins.
   `workshop/description.txt` to match. It follows the README's feature
   sections, without the per-pill details, the options or the links, and
   lists the compatible mods by name only: Steam allows 8,000 characters.
+  Change `workshop/top-bar-tooltips/description.txt` too when the text is
+  about the pills or the tooltips.
 - Upload only `mod/hud-overhaul/`, through the same Workshop item.
 - For Pablo's Top Bar and Tooltips, bump `version` in its modinfo, build it,
   and upload `build/top-bar-tooltips/` through its own Workshop item.
+- Each mod's release notes list only what its players see change. A fix to
+  the World Tracker goes in HUD Overhaul's alone; one to a tooltip goes in
+  both. Code moved between files and tools changes go in neither.
 
 ## Writing style
 

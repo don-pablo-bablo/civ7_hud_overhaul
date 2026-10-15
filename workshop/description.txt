@@ -8,6 +8,8 @@ This mod reworks the main game screen, drawing on Civilization VI and on popular
 
 It aims to work alongside other UI mods: see Compatibility below for the ones tested with it. The screenshots show it before and after, and each detailed tooltip.
 
+Only want the pills and tooltips? Pablo's Top Bar and Tooltips has those on their own, on the game's top bar or another mod's.
+
 [h2]Top bar, dock and Journal[/h2]
 
 [h3]Two rows of pills[/h3]
@@ -72,6 +74,8 @@ Click the pill, or press the tooltip inspect key, K by default, for its detailed
 [*][b]a unit[/b] to select it and move the camera to it;
 [*][b]a group's heading[/b], such as Cities or a victory, to close or open it.
 [/list]
+
+While a detailed tooltip is open, the other pills show no tooltip on hover, so nothing pops up behind it. Click another pill to open its detailed tooltip instead.
 
 [h2]Compatibility[/h2]
 
