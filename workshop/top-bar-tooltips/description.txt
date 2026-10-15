@@ -47,6 +47,18 @@ In Options > Add-ons: the top bar's size and the tooltips' size, from 75% to 150
 
 This mod does nothing while Pablo's HUD Overhaul is on, which has all of it. Each keeps its own settings.
 
+[h2]Compatibility[/h2]
+
+It has been played with all of these enabled at once:
+
+[list]
+[*][b]Map Trix[/b]: its option for coloured top bar entries gives way to these pills.
+[*][b]No Gradients[/b]: it still removes the screen's vignette, and the pills sit on its top bar.
+[*][b]Readable Happiness Icons[/b]: its icons for each happiness level show in the happiness levels pill and its tooltip.
+[*][b]Drongo's Leader Ribbons[/b]: the pills go on another row rather than run under its ribbon, as they do with the game's own.
+[*][b]Pablo's Better Yield Tooltip[/b]: its tile tooltips work alongside these.
+[/list]
+
 [h2]Saves[/h2]
 
 The mod only changes the interface. You can add it to a game in progress or remove it without breaking the save.

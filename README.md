@@ -338,6 +338,21 @@ Its options, in **Options > Add-ons**:
 It does nothing while Pablo's HUD Overhaul is on, which has all of it. Its
 settings are its own, so switching between the two keeps each one's choices.
 
+It has been played with all of these enabled at once:
+
+- **[Map Trix](https://steamcommunity.com/sharedfiles/filedetails/?id=3507072814)**:
+  its option for coloured top bar entries gives way to these pills.
+- **[No Gradients](https://steamcommunity.com/sharedfiles/filedetails/?id=3509395646)**:
+  it still removes the screen's vignette, and the pills sit on its top bar.
+- **[Readable Happiness Icons](https://steamcommunity.com/sharedfiles/filedetails/?id=3750888105)**:
+  its icons for each happiness level show in the happiness levels pill and
+  its tooltip.
+- **[Drongo's Leader Ribbons](https://steamcommunity.com/sharedfiles/filedetails/?id=3734152860)**:
+  the pills go on another row rather than run under its ribbon, as they do
+  with the game's own.
+- **[Pablo's Better Yield Tooltip](https://steamcommunity.com/sharedfiles/filedetails/?id=3809254963)**:
+  its tile tooltips work alongside these.
+
 ## Compatibility
 
 HUD Overhaul changes the top bar, the dock, the leader ribbon, the minimap
