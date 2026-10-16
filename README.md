@@ -147,6 +147,9 @@ red for a loss. In a detailed tooltip, click:
 - **a unit** to select it and move the camera to it;
 - **a group's heading**, such as Cities or a victory, to close or open it.
 
+Sources the game gives no name, or a name with no text, add up to one
+Other line, under a settlement or the empire.
+
 While a detailed tooltip is open, the other pills show no tooltip on hover,
 so nothing pops up behind it. Click another pill to open its detailed
 tooltip instead.

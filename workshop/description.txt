@@ -73,6 +73,8 @@ Click the pill, or press the tooltip inspect key, K by default, for its detailed
 [*][b]a group's heading[/b], such as Cities or a victory, to close or open it.
 [/list]
 
+Sources the game gives no name, or a name with no text, add up to one Other line, under a settlement or the empire.
+
 While a detailed tooltip is open, the other pills show no tooltip on hover, so nothing pops up behind it. Click another pill to open its detailed tooltip instead.
 
 [h2]Compatibility[/h2]
