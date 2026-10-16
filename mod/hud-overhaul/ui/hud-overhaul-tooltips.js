@@ -370,6 +370,86 @@ function kind(city) {
 	return Locale.compose(city.isTown ? "LOC_HUD_OVERHAUL_TIP_TOWN" : "LOC_HUD_OVERHAUL_TIP_CITY");
 }
 
+// A source's name from the game's key for it. The game has keys it never
+// gives text, such as the influence lost to razed settlements, which come
+// back as the key itself: those are "Other".
+function sourceName(key) {
+	const text = Locale.compose(key);
+	return text == key && key.startsWith("LOC_") ? Locale.compose("LOC_GLOBAL_YIELDS_OTHER") : text;
+}
+
+// What a step's modifier adds, by the named steps under it. The game gives
+// a modifier either as a percentage of the step's base, such as +10% from
+// a resource or -45% from unhappiness, or as an amount for each of a count
+// in the base, such as -2 influence for each conquered settlement. Either
+// way it adds what the step's value is over its base's.
+function modifierParts(node, sign = 1) {
+	const base = node.base?.value ?? 0;
+	const each = Math.abs(node.value - base * node.modifier.value) < 0.05;
+	const amount = each ? node.value : node.value - base;
+	const parts = named(node.modifier).filter((part) => part.value).flatMap(inside);
+	const share = parts.reduce((sum, part) => sum + part.value, 0);
+	if (!share) return { each, list: [[Locale.compose("LOC_GLOBAL_YIELDS_OTHER"), sign * amount]] };
+	return { each, list: parts.map((part) => [sourceName(part.description), (sign * amount * part.value) / share]) };
+}
+
+// The named sources inside a named step, when they add up to it: "Yield per
+// Town" is the leader's +2 and a memento's +1.
+function inside(node) {
+	const parts = (node.steps ?? []).flatMap((step) => named(step)).filter((part) => part.value);
+	const sum = parts.reduce((total, part) => total + part.value, 0);
+	return parts.length && Math.abs(sum - node.value) < 0.05 ? parts.flatMap(inside) : [node];
+}
+
+// A named step that is an amount for each of a count, such as "Number of
+// Towns", as its sources; null for any other step.
+function eachParts(node, sign = 1) {
+	if (!node.base || !node.modifier?.value) return null;
+	const modifier = modifierParts(node, sign);
+	return modifier.each ? modifier.list : null;
+}
+
+// The player's leader abilities, civilization abilities and equipped
+// mementos, which the game names in its breakdown, each with its icon. A
+// memento is named by its effect, so it gets its own name here.
+function knownSources(player) {
+	const known = new Map();
+	const add = (text, name, url) => text && !known.has(text) && known.set(text, [name, url]);
+	const leader = GameInfo.Leaders.lookup(player.leaderType);
+	for (const { LeaderType, TraitType } of GameInfo.LeaderTraits ?? []) {
+		const trait = LeaderType == leader?.LeaderType && GameInfo.Traits.lookup(TraitType);
+		if (trait?.Name) add(Locale.compose(trait.Name), Locale.compose(trait.Name), UI.getIconURL(LeaderType, "LEADER"));
+	}
+	const civ = GameInfo.Civilizations.lookup(player.civilizationType);
+	for (const { CivilizationType, TraitType } of GameInfo.CivilizationTraits ?? []) {
+		const trait = CivilizationType == civ?.CivilizationType && GameInfo.Traits.lookup(TraitType);
+		if (trait?.Name) add(Locale.compose(trait.Name), Locale.compose(trait.Name), UI.getIconURL(CivilizationType));
+	}
+	let mementos = [];
+	try {
+		mementos = Online.Metaprogression.getEquippedMementos(player.id) ?? [];
+	} catch (e) {
+		// Not offered in every game; the lines keep the game's text.
+	}
+	for (const memento of mementos) {
+		add(Locale.compose(memento.functionalTextDesc), Locale.compose(memento.mementoName), memento.mementoIcon ? `blp:${memento.mementoIcon}` : null);
+	}
+	return known;
+}
+
+// Lines as [name, amount, icon]: a known source gets its name and icon, and
+// lines with the same name are one.
+function withIcons(list, known) {
+	const merged = new Map();
+	for (const [source, amount] of list) {
+		const [name, url] = known.get(source) ?? [source, null];
+		const line = merged.get(name);
+		if (line) line[1] += amount;
+		else merged.set(name, [name, amount, url]);
+	}
+	return [...merged.values()];
+}
+
 // The named sources in the game's breakdown of a player's yield: each
 // settlement, the base yield, costs. Its grouping steps are LOC_ATTR_ keys
 // or have no name, and are walked through.
@@ -377,7 +457,7 @@ function sources(node, list, sign = 1) {
 	if (!node) return list;
 	const name = node.description;
 	if (name && !name.startsWith("LOC_ATTR_") && name != attr("LOC_ATTR_TOTAL_YIELD")) {
-		if (node.value) list.push([Locale.compose(name), sign * node.value]);
+		if (node.value) list.push(...(eachParts(node, sign) ?? [[sourceName(name), sign * node.value]]));
 		return list;
 	}
 	// A cost the game takes off as a negative step over a positive one, such
@@ -387,11 +467,10 @@ function sources(node, list, sign = 1) {
 	const under = steps.reduce((sum, step) => sum + (step.value || 0), 0);
 	const turn = node.value < 0 && under > 0 ? -sign : sign;
 	for (const step of steps) sources(step, list, turn);
-	if (node.base) sources(node.base, list, sign);
-	if (node.modifier?.value) {
-		if (node.modifier.steps?.length) for (const step of node.modifier.steps) sources(step, list, sign);
-		else list.push([Locale.compose("LOC_GLOBAL_YIELDS_OTHER"), sign * node.modifier.value]);
-	}
+	const modifier = node.modifier?.value ? modifierParts(node, sign) : null;
+	// A count under an amount for each is not a yield of its own.
+	if (node.base && !modifier?.each) sources(node.base, list, sign);
+	if (modifier) list.push(...modifier.list);
 	return list;
 }
 
@@ -445,7 +524,7 @@ function deductions(node, list) {
 				for (const child of part.steps ?? []) walk(child);
 				if (part.base) walk(part.base);
 			} else if (part.value) {
-				parts.push([part.description == workers ? Locale.compose("LOC_HUD_OVERHAUL_TIP_SPECIALIST_MAINTENANCE") : Locale.compose(part.description), -part.value]);
+				parts.push([part.description == workers ? Locale.compose("LOC_HUD_OVERHAUL_TIP_SPECIALIST_MAINTENANCE") : sourceName(part.description), -part.value]);
 			}
 		}
 	};
@@ -453,7 +532,7 @@ function deductions(node, list) {
 	if (node.base) walk(node.base);
 	const counted = parts.reduce((sum, [, amount]) => sum + amount, 0);
 	// Whatever the parts do not name, as the game's own deductions line.
-	if (Math.abs(node.value - counted) >= 0.05) parts.push([Locale.compose(node.description), node.value - counted]);
+	if (Math.abs(node.value - counted) >= 0.05) parts.push([sourceName(node.description), node.value - counted]);
 	list.push(...parts);
 }
 
@@ -469,13 +548,20 @@ function groups(node, list) {
 	}
 	if (name && name != attr("LOC_ATTR_TOTAL_YIELD") && name != attr("LOC_ATTR_YIELD_INCOME") && !name.startsWith("LOC_ATTR_")) {
 		if (!node.value) return list;
+		const each = eachParts(node);
+		if (each) {
+			list.push(...each);
+			return list;
+		}
 		const specialists = name == attr("LOC_ATTR_YIELD_FROM_WORKERS") ? 0 : fromSpecialists(node);
-		if (Math.abs(node.value - specialists) >= 0.05) list.push([Locale.compose(name), node.value - specialists]);
+		if (Math.abs(node.value - specialists) >= 0.05) list.push([sourceName(name), node.value - specialists]);
 		if (specialists) list.push([attr("LOC_ATTR_YIELD_FROM_WORKERS"), specialists]);
 		return list;
 	}
 	for (const step of node.steps ?? []) groups(step, list);
-	if (node.base) groups(node.base, list);
+	const modifier = node.modifier?.value ? modifierParts(node) : null;
+	if (node.base && !modifier?.each) groups(node.base, list);
+	if (modifier) list.push(...modifier.list);
 	return list;
 }
 
@@ -544,6 +630,7 @@ function yieldPanel(type, name, colour, detailed) {
 	const most = Math.max(1, ...cities.map(([, value]) => Math.abs(value)));
 	section(box, Locale.compose("LOC_HUD_OVERHAUL_TIP_SETTLEMENTS"));
 	const index = GameInfo.Yields.findIndex((row) => row.YieldType == type);
+	const known = knownSources(player);
 	for (const [i, [city, value]] of (detailed ? cities : cities.slice(0, MAX_ROWS)).entries()) {
 		if (detailed && i) rule(box);
 		// Locked, the settlement and all its lines go to it on a click.
@@ -558,8 +645,9 @@ function yieldPanel(type, name, colour, detailed) {
 			block.append(bar);
 		}
 		// Each source on a line of its own, under the settlement.
-		for (const [source, amount] of detailed ? cityGroups(city, type, index, value) : []) {
+		for (const [source, amount, sourceIcon] of detailed ? withIcons(cityGroups(city, type, index, value), known) : []) {
 			const line = div("hud-overhaul-tip-row hud-overhaul-tip-effect hud-overhaul-tip-tag font-body text-2xs");
+			if (sourceIcon) line.append(icon(sourceIcon, 14, 3));
 			line.append(div("hud-overhaul-tip-name", source), div("hud-overhaul-tip-value", signed(amount)));
 			block.append(line);
 		}
@@ -568,10 +656,22 @@ function yieldPanel(type, name, colour, detailed) {
 	if (!cities.length) none(box);
 
 	const names = new Set(cities.map(([city]) => Locale.compose(city.name)));
-	const other = sources(player.Stats.getYields()?.[index], []).filter(([source]) => !names.has(source));
+	// One line per source: a key with no text joins the game's own other.
+	const merged = new Map();
+	for (const [source, value] of sources(player.Stats.getYields()?.[index], [])) merged.set(source, (merged.get(source) ?? 0) + value);
+	// Anything the game's breakdown leaves unnamed, such as Carthage's
+	// science from conquered settlements, as other.
+	const settlements = cities.reduce((sum, [, value]) => sum + value, 0);
+	const counted = [...merged].reduce((sum, [source, value]) => sum + (names.has(source) ? 0 : value), 0);
+	const rest = total - settlements - counted;
+	if (Math.abs(rest) >= 0.05) {
+		const key = Locale.compose("LOC_GLOBAL_YIELDS_OTHER");
+		merged.set(key, (merged.get(key) ?? 0) + rest);
+	}
+	const other = [...merged].filter(([source, value]) => !names.has(source) && Math.abs(value) >= 0.05);
 	if (other.length) {
 		section(box, Locale.compose("LOC_HUD_OVERHAUL_TIP_EMPIRE"));
-		for (const [source, value] of other) row(box, null, source, "", signed(value), url, value < 0);
+		for (const [source, value, sourceIcon] of withIcons(other, known)) row(box, sourceIcon, source, "", signed(value), url, value < 0);
 	}
 	return box;
 }

@@ -346,6 +346,12 @@
 		<Replace Tag="LOC_HUD_OVERHAUL_TIP_EMPIRE" Language="en_US">
 			<Text>Empire</Text>
 		</Replace>
+		<!-- The game's own key for the influence lost to razed settlements,
+		     which it never gives text: named as the game's line for conquered
+		     ones is. -->
+		<Replace Tag="LOC_TRAIT_MOD_NEGATIVE_INFLUENCE_RAZED_SETTLEMENTS" Language="en_US">
+			<Text>Razed Settlement</Text>
+		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_TIP_CAPITAL" Language="en_US">
 			<Text>Capital</Text>
 		</Replace>
