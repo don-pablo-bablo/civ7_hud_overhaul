@@ -1,0 +1,2 @@
+# The mods' keys whose English the game has too, kept as the mods' own on
+# purpose: the key, then why. tools/check-text.mjs fails on any other.

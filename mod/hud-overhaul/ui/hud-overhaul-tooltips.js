@@ -63,7 +63,7 @@ import { ICON as VICTORIES, ordinal, standings, victoryClasses } from "./hud-ove
 
 const TAG = "[hud-overhaul]";
 // Bump on every edit to this file. UI.log then shows which build ran.
-const BUILD = "98";
+const BUILD = "99";
 const COMPONENT = "hud-overhaul-tooltips";
 const PINNED = "hud-overhaul-tip-pinned";
 const QUIET = "hud-overhaul-tip-quiet"; // on <html> while one is locked and the mouse is on the top bar

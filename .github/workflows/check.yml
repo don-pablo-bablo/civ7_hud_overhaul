@@ -1,0 +1,20 @@
+name: Check
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Text keys
+        run: node tools/check-text.mjs
+      - name: Scripts parse
+        run: for file in mod/*/ui/*.js tools/*.mjs; do node --check "$file" || exit 1; done
+      - name: Build Pablo's Top Bar and Tooltips
+        run: node tools/build-top-bar.mjs
