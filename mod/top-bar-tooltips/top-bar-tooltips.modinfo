@@ -4,7 +4,7 @@
 
      The scripts and InGameText.xml are HUD Overhaul's own, copied in by
      tools/build-top-bar.mjs; this folder keeps only what differs. -->
-<Mod id="pablo-top-bar-tooltips" version="1.0.0" xmlns="ModInfo">
+<Mod id="pablo-top-bar-tooltips" version="1.1.0" xmlns="ModInfo">
 	<Properties>
 		<Name>Pablo's Top Bar and Tooltips</Name>
 		<Description>The top bar from Pablo's HUD Overhaul on its own: coloured yield pills, more pills for your units, settlements, happiness, trade, resources, treasure, great works, religion and victories, on one row or two, and a detailed tooltip on each that can be locked open. Each pill can be turned off, and the top bar and tooltips resized. Does nothing while Pablo's HUD Overhaul is on, which has all of this. Options are in Options > Add-ons.</Description>
