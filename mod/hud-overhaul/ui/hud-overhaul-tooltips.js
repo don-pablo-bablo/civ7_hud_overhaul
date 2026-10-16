@@ -1064,7 +1064,7 @@ function tradePanel(detailed) {
 	const idle = player ? merchants(player) : 0;
 	const rows = [chip(trade, Locale.compose("LOC_HUD_OVERHAUL_TIP_TRADE_IN_USE", used, limit))];
 	if (idle) rows.push(chip(UI.getIconURL("UNIT_MERCHANT"), Locale.compose("LOC_HUD_OVERHAUL_TIP_MERCHANTS", idle)));
-	head(box, Locale.compose("LOC_HUD_OVERHAUL_TIP_TRADE"), chips(...rows));
+	head(box, Locale.compose("LOC_COMMERCE_TRADE_ROUTES_TITLE"), chips(...rows));
 	// Why there are none, when there are none.
 	const unlock = player ? merchantUnlock(player) : null;
 	if (unlock) message(box, Locale.compose("LOC_HUD_OVERHAUL_TIP_NEED_MERCHANTS", Locale.compose(unlock.Name)));
@@ -1072,7 +1072,9 @@ function tradePanel(detailed) {
 		message(box, Locale.compose("LOC_HUD_OVERHAUL_TIP_MEET_LEADERS"));
 		return box;
 	}
-	if (active.length && group(box, "trade-active", Locale.compose("LOC_HUD_OVERHAUL_TIP_ACTIVE_ROUTES"), active.length, detailed)) {
+	// The game's own headings, in the player's language, with the count.
+	const counted = (key, count) => `${Locale.compose(key)} (${count})`;
+	if (active.length && group(box, "trade-active", counted("LOC_COMMERCE_ACTIVE_TRADE_ROUTES_TITLE", active.length), null, detailed, active.length)) {
 		for (const [i, route] of (detailed ? active : active.slice(0, MAX_ROWS)).entries()) {
 			if (detailed && i) rule(box);
 			routeRow(detailed ? settlementBlock(box, route.location) : box, route, detailed);
@@ -1099,8 +1101,8 @@ function tradePanel(detailed) {
 		more(box, members.length - MAX_ROWS);
 	};
 	partnerGroup("trade-leaders", Locale.compose("LOC_HUD_OVERHAUL_TIP_LEADERS"), list.filter((partner) => !partner[4]));
-	partnerGroup("trade-city-states", Locale.compose("LOC_HUD_OVERHAUL_TIP_CITY_STATES"), list.filter((partner) => partner[4]));
-	const open = group(box, "trade-available", Locale.compose("LOC_HUD_OVERHAUL_TIP_AVAILABLE_ROUTES", available.length), null, detailed, available.length);
+	partnerGroup("trade-city-states", Locale.compose("LOC_ADVANCED_OPTIONS_CITY_STATES"), list.filter((partner) => partner[4]));
+	const open = group(box, "trade-available", counted("LOC_COMMERCE_AVAILABLE_TRADE_ROUTES_TITLE", available.length), null, detailed, available.length);
 	if (!available.length) message(box, Locale.compose("LOC_HUD_OVERHAUL_TIP_NO_AVAILABLE_ROUTES"));
 	else if (!detailed) box.append(nameList(available.map((route) => route.city)));
 	else if (open) {

@@ -448,9 +448,6 @@
 		<Replace Tag="LOC_HUD_OVERHAUL_TIP_NOT_IMPROVED" Language="en_US">
 			<Text>No improved treasure resource</Text>
 		</Replace>
-		<Replace Tag="LOC_HUD_OVERHAUL_TIP_TRADE" Language="en_US">
-			<Text>Trade routes</Text>
-		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_TIP_NEED_MERCHANTS" Language="en_US">
 			<Text>Complete {1_Node} to train Merchants.</Text>
 		</Replace>
@@ -461,16 +458,10 @@
 			<Text>Send a Merchant to another leader's settlement to start a route.</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_TIP_TRADE_IN_USE" Language="en_US">
-			<Text>{1_Used}/{2_Limit} routes</Text>
+			<Text>{1_Used} {1_Used : plural 1?Route;other?Routes;} (Max {2_Limit})</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_TIP_MERCHANTS" Language="en_US">
 			<Text>{1_Count} {1_Count : plural 1?Merchant;other?Merchants;}</Text>
-		</Replace>
-		<Replace Tag="LOC_HUD_OVERHAUL_TIP_ACTIVE_ROUTES" Language="en_US">
-			<Text>Active Trade Routes</Text>
-		</Replace>
-		<Replace Tag="LOC_HUD_OVERHAUL_TIP_AVAILABLE_ROUTES" Language="en_US">
-			<Text>Available Trade Routes ({1_Count})</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_TIP_UNAVAILABLE_ROUTES" Language="en_US">
 			<Text>Unavailable Trade Routes ({1_Count})</Text>
@@ -507,9 +498,6 @@
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_TIP_LEADERS" Language="en_US">
 			<Text>Leaders</Text>
-		</Replace>
-		<Replace Tag="LOC_HUD_OVERHAUL_TIP_CITY_STATES" Language="en_US">
-			<Text>City-states</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_TIP_RESOURCES" Language="en_US">
 			<Text>Resources</Text>
