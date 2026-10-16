@@ -6,7 +6,15 @@
 //
 // Every key the scripts use must have text: the mods' own, in their text
 // files, or the game's, listed by name in tools/game-keys.txt. Every key of
-// the mods' own must be used.
+// the mods' own must be used. Text players see must come from a key, never
+// be written in a script.
+//
+// The mods' own text is in English and in each of LANGUAGES, in a file
+// beside the English one that the modinfos list. Each language must have
+// every key, with the English's placeholders and icons.
+// tools/translated-from.txt records the English each translation was made
+// from: when the English changes, the check fails until every language is
+// updated and --write records the new English.
 //
 // With the game (its resources folder, or ./reference when it links there),
 // also:
@@ -15,17 +23,28 @@
 //   tools/game-keys.txt must list exactly those (--write rewrites it);
 // - text of the mods' own that the game has too must be switched to the
 //   game's key, which the game translates, or kept on purpose in
-//   tools/own-text.txt;
+//   tools/own-text.txt. CI checks the same against tools/game-text.txt: the
+//   game's short translated labels as a hash of their words and their key,
+//   none of the game's text (--write rewrites it);
 // - the game's yield labels that have no text are listed. The tooltips show
 //   them as Other.
 
+import { createHash } from "node:crypto";
 import { existsSync, readFileSync, readdirSync, realpathSync, statSync, writeFileSync } from "node:fs";
-import { join } from "node:path";
+import { basename, dirname, join } from "node:path";
 
 const TEXT = ["mod/hud-overhaul/text/en_us/InGameText.xml", "mod/top-bar-tooltips/text/en_us/TopBarText.xml"];
 const CODE = ["mod/hud-overhaul", "mod/top-bar-tooltips"];
 const GAME_KEYS = "tools/game-keys.txt";
 const OWN_TEXT = "tools/own-text.txt";
+const TRANSLATED_FROM = "tools/translated-from.txt";
+const GAME_TEXT = "tools/game-text.txt";
+// The longest words tools/game-text.txt keeps: labels, not sentences.
+const LABEL = 40;
+const MODINFOS = ["mod/hud-overhaul/hud-overhaul.modinfo", "mod/top-bar-tooltips/top-bar-tooltips.modinfo"];
+// The game's languages the mods are translated into. Its others show the
+// English.
+const LANGUAGES = ["de_DE", "es_ES", "fr_FR", "it_IT", "pl_PL", "pt_BR"];
 
 const args = process.argv.slice(2);
 const write = args.includes("--write");
@@ -44,23 +63,29 @@ function files(dir, test, list = []) {
 	return list;
 }
 
-// Lines of a list file, without comments and blank lines; the first word
-// of each.
-function listFile(path) {
+// Lines of a list file, without comments and blank lines: the first word
+// of each, or the first few as a list.
+function listFile(path, words = 1) {
 	if (!existsSync(path)) return [];
 	return readFileSync(path, "utf8")
 		.split("\n")
-		.map((line) => line.replace(/#.*/, "").trim().split(/\s+/)[0])
-		.filter(Boolean);
+		.map((line) => line.replace(/#.*/, "").trim())
+		.filter(Boolean)
+		.map((line) => (words == 1 ? line.split(/\s+/)[0] : line.split(/\s+/).slice(0, words)));
 }
+
+// A text file's entries: [key, language, text].
+const entries = (file) => [...readFileSync(file, "utf8").matchAll(/<Replace Tag="(LOC_[A-Za-z0-9_]+)" Language="([^"]+)">\s*<Text>([\s\S]*?)<\/Text>/g)].map((m) => m.slice(1));
 
 // The mods' own text: key to English text.
 const own = new Map();
 for (const file of TEXT) {
-	for (const [, key, language, text] of readFileSync(file, "utf8").matchAll(/<Replace Tag="(LOC_[A-Za-z0-9_]+)" Language="([^"]+)">\s*<Text>([\s\S]*?)<\/Text>/g)) {
-		if (language != "en_US") fail(`${file}: ${key} is in ${language}; the mods have English text only`);
+	const seen = new Set();
+	for (const [key, language, text] of entries(file)) {
+		if (language != "en_US") fail(`${file}: ${key} is in ${language}; this file is the English`);
+		if (seen.has(key)) fail(`${file}: ${key} is there twice`);
+		seen.add(key);
 		// Top Bar and Tooltips' file replaces some of HUD Overhaul's.
-		if (own.has(key) && file == TEXT[0]) fail(`${file}: ${key} is there twice`);
 		own.set(key, text);
 	}
 }
@@ -89,14 +114,116 @@ for (const key of own.keys()) {
 	if (!used.has(key)) fail(`${key} has text but no script uses it`);
 }
 
+checkWritten();
+checkTranslations();
 if (gamePath) checkGame(realpathSync(gamePath));
+else checkOwnFromFile();
 for (const key of fromGame) {
 	if (!gameKeys.has(key)) fail(`${used.get(key)}: ${key} has no text in the mods, and ${GAME_KEYS} does not list it as the game's`);
 }
 
 for (const message of errors) console.error(message);
 console.log(`${used.size} keys used, ${own.size} of the mods' own, ${fromGame.length} the game's${gamePath ? `; checked against ${gamePath}` : ""}`);
+console.log(`The mods' own text is in English, ${LANGUAGES.join(", ")}; the game's other languages show it in English.`);
 if (errors.length) process.exit(1);
+
+// Text players see, written in a script instead of taken from a key: a
+// string with a word in it, given to textContent, innerHTML, a title, a
+// label, a description, a tooltip or one of the tooltips' builders. A line
+// that ends in "// mock only" is the mock's, which has no keys.
+function checkWritten() {
+	const sink = /(?:\.(?:textContent|innerHTML|innerText|title|placeholder)\s*=|\b(?:label|title|description|tooltip|text|name)\s*:|setAttribute\(\s*["'](?:title|aria-label|data-tooltip-content)["']\s*,|tooltipContent\s*=|\b(?:div|el|chip|row|section|head|message|group)\(\s*[^,()]*,)\s*(["'`])((?:(?!\1).)*)\1/g;
+	for (const file of CODE.flatMap((dir) => files(dir, (path) => path.endsWith(".js")))) {
+		readFileSync(file, "utf8")
+			.split("\n")
+			.forEach((line, i) => {
+				if (/^\s*\/\//.test(line) || /\/\/ mock only\s*$/.test(line)) return;
+				for (const [, , text] of line.matchAll(sink)) {
+					const words = text.replace(/\$\{[^}]*\}/g, "");
+					// Keys, class names, icons and numbers are not words; a
+					// template cut short by one inside it is not checked.
+					if (words.includes("${") || /^LOC_/.test(words) || /^(fs|blp):/.test(words) || /^[a-z0-9_:-]*( [a-z0-9_:-]+)*$/.test(words) || !/[A-Za-z]{2}/.test(words)) continue;
+					fail(`${file}:${i + 1}: "${text}" is written in the script; give it a key in the text file`);
+				}
+			});
+	}
+}
+
+// A text's words alone, to compare it with the game's: icons, bold, case
+// and a full stop at the end do not count.
+function words(text) {
+	return text.replace(/\[[^\]]*\]/g, "").replace(/\s+/g, " ").trim().replace(/[.:]$/, "").toLowerCase();
+}
+
+// Without the game: the mods' own text whose words are one of the game's
+// labels in tools/game-text.txt.
+function checkOwnFromFile() {
+	const byHash = new Map();
+	for (const [print, ...keys] of listFile(GAME_TEXT, 4)) byHash.set(print, keys);
+	const kept = new Set(listFile(OWN_TEXT));
+	for (const [key, text] of own) {
+		if (!key.includes("HUD_OVERHAUL") || kept.has(key) || words(text).length > LABEL) continue;
+		const matches = byHash.get(hash(words(text)));
+		if (matches) fail(`${key} "${text.trim()}" is the game's text too: use ${matches.slice(0, 3).join(", ")}${matches.length > 3 ? ` or ${matches.length - 3} more` : ""}, or keep it in ${OWN_TEXT}`);
+	}
+	for (const key of kept) if (!own.has(key)) fail(`${OWN_TEXT}: ${key} is not one of the mods' keys`);
+}
+
+// A text's placeholders, icons and markup, which a translation must keep:
+// "{1} [icon:YIELD_GOLD] [B] [/B]". A translation may add plurals the
+// English does without, as Polish needs for "{1_Count} settlements".
+function shape(text) {
+	const marks = [];
+	for (const [, n] of text.matchAll(/\{(\d+)(?:_[A-Za-z]+)?\s*[}\[]/g)) marks.push(`{${n}}`);
+	for (const [tag] of text.matchAll(/\[(?:icon:[A-Za-z0-9_]+|\/?[BN]|\/?b|n)\]/g)) marks.push(tag);
+	return [...new Set(marks)].sort().join(" ");
+}
+
+function hash(text) {
+	return createHash("sha1").update(text).digest("hex").slice(0, 10);
+}
+
+// Each language's file beside each English one: every key, the English's
+// shape, listed in the modinfos; and the English it was made from.
+function checkTranslations() {
+	const recorded = new Map(listFile(TRANSLATED_FROM, 2).map(([key, value]) => [key, value]));
+	const current = new Map();
+	for (const file of TEXT) {
+		const english = new Map(entries(file).map(([key, , text]) => [key, text]));
+		for (const [key, text] of english) current.set(`${basename(file)}:${key}`, hash(text));
+		for (const language of LANGUAGES) {
+			const path = join(dirname(file), "..", language.toLowerCase(), basename(file));
+			if (!existsSync(path)) {
+				fail(`${path} is missing: the ${language} text`);
+				continue;
+			}
+			const translated = new Map();
+			for (const [key, lang, text] of entries(path)) {
+				if (lang != language) fail(`${path}: ${key} says ${lang}`);
+				if (!english.has(key)) fail(`${path}: ${key} is not in the English`);
+				translated.set(key, text);
+			}
+			for (const [key, text] of english) {
+				if (!translated.has(key)) fail(`${path}: ${key} is missing`);
+				else if (shape(translated.get(key)) != shape(text)) fail(`${path}: ${key} has "${shape(translated.get(key))}" where the English has "${shape(text)}"`);
+			}
+			const item = path.replace(/^mod\/[^/]+\//, "");
+			for (const modinfo of MODINFOS) {
+				const lists = readFileSync(modinfo, "utf8").includes(`<Item locale="${language}">${item}</Item>`);
+				const needs = modinfo.startsWith(dirname(dirname(dirname(file)))) || readFileSync(modinfo, "utf8").includes(file.replace(/^mod\/[^/]+\//, ""));
+				if (needs && !lists) fail(`${modinfo} does not list <Item locale="${language}">${item}</Item>`);
+			}
+		}
+	}
+	if (write) {
+		writeFileSync(TRANSLATED_FROM, `# The English each translation was made from, written by tools/check-text.mjs --write\n# once every language is updated: the file and key, then a hash of the English.\n${[...current].map(([key, value]) => `${key} ${value}`).join("\n")}\n`);
+		return;
+	}
+	for (const [key, value] of current) {
+		if (!recorded.has(key)) fail(`${key.replace(/^[^:]+:/, "")} is new since ${TRANSLATED_FROM}: translate it, then run node tools/check-text.mjs --write`);
+		else if (recorded.get(key) != value) fail(`${key.replace(/^[^:]+:/, "")}: the English changed since it was translated; update each language, then run node tools/check-text.mjs --write`);
+	}
+}
 
 function checkGame(root) {
 	// The English text a game loads: what each module's modinfo lists for
@@ -137,9 +264,25 @@ function checkGame(root) {
 		fail(`${GAME_KEYS} is out of date: run node tools/check-text.mjs --game ${gamePath} --write`);
 	}
 
-	// Our text that the game has as well, by its words alone: icons, bold and
-	// a full stop at the end do not count.
-	const words = (text) => text.replace(/\[[^\]]*\]/g, "").replace(/\s+/g, " ").trim().replace(/[.:]$/, "").toLowerCase();
+	// The game's short translated labels, for CI.
+	// One line per label, with up to three of its keys, the game's own
+	// screens first.
+	const labelKeys = new Map();
+	for (const [key, text] of game) {
+		if (!inOther.has(key) || !words(text) || words(text).length > LABEL) continue;
+		labelKeys.set(hash(words(text)), [...(labelKeys.get(hash(words(text))) ?? []), key]);
+	}
+	const screen = (k) => (/^LOC_(PEDIA|TUTORIAL|ADVICE|HOF|CARD|LEADER_CHAIN)/.test(k) ? 1 : 0);
+	const prints = [...labelKeys].map(([print, keys]) => `${print} ${keys.sort((a, b) => screen(a) - screen(b) || a.localeCompare(b)).slice(0, 3).join(" ")}`).sort();
+	const printed = existsSync(GAME_TEXT) ? readFileSync(GAME_TEXT, "utf8").split("\n").filter((line) => line && !line.startsWith("#")) : [];
+	if (write) {
+		writeFileSync(GAME_TEXT, `# The game's short translated labels, written by tools/check-text.mjs --game <path> --write:\n# a hash of each one's words, then up to three of its keys. None of the game's text is here.\n${prints.join("\n")}\n`);
+		console.log(`${GAME_TEXT}: ${prints.length} labels`);
+	} else if (printed.join("\n") != prints.join("\n")) {
+		fail(`${GAME_TEXT} is out of date: run node tools/check-text.mjs --game ${gamePath} --write`);
+	}
+
+	// Our text that the game has as well.
 	const byWords = new Map();
 	for (const [key, text] of game) {
 		const w = words(text);

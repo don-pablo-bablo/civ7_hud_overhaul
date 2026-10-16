@@ -418,6 +418,13 @@ No changes needed:
   **[Mattifus's Memento Editor](https://steamcommunity.com/sharedfiles/filedetails/?id=3508036392)**
   and **[nasuellia-non-sticky-selection](https://steamcommunity.com/sharedfiles/filedetails/?id=3535775470)**.
 
+## Languages
+
+English, French, German, Italian, Polish, Portuguese (Brazil) and Spanish. The translations started as machine translation, with the game's
+own words for its terms, and may read oddly in places. Corrections are
+welcome as an issue or a pull request. In the game's other languages, the
+mod's own text shows in English.
+
 ## Saves
 
 The mod only changes the interface. You can add it to a game in progress or

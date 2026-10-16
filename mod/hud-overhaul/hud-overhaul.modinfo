@@ -99,9 +99,16 @@
 					     option, only while that mod is on. -->
 					<Item>ui/hud-overhaul-drongo.js</Item>
 				</UIScripts>
-				<!-- All the text players see: options, pills and tooltips. -->
+				<!-- All the text players see: options, pills and tooltips, in
+				     English and machine translated into each language. -->
 				<UpdateText>
 					<Item>text/en_us/InGameText.xml</Item>
+					<Item locale="de_DE">text/de_de/InGameText.xml</Item>
+					<Item locale="es_ES">text/es_es/InGameText.xml</Item>
+					<Item locale="fr_FR">text/fr_fr/InGameText.xml</Item>
+					<Item locale="it_IT">text/it_it/InGameText.xml</Item>
+					<Item locale="pl_PL">text/pl_pl/InGameText.xml</Item>
+					<Item locale="pt_BR">text/pt_br/InGameText.xml</Item>
 				</UpdateText>
 			</Actions>
 		</ActionGroup>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Machine translation of the English, as a start. Corrections are welcome. -->
+<Database>
+	<LocalizedText>
+		<Replace Tag="LOC_OPTIONS_GROUP_HUD_OVERHAUL_PARTS" Language="fr_FR">
+			<Text>Pablo's Top Bar and Tooltips : taille</Text>
+		</Replace>
+		<Replace Tag="LOC_OPTIONS_GROUP_HUD_OVERHAUL_PARTS_NOTE" Language="fr_FR">
+			<Text>Chaque taille est un pourcentage de celle par défaut du mod.</Text>
+		</Replace>
+		<Replace Tag="LOC_OPTIONS_GROUP_HUD_OVERHAUL_TOP_BAR" Language="fr_FR">
+			<Text>Pablo's Top Bar and Tooltips : indicateurs</Text>
+		</Replace>
+	</LocalizedText>
+</Database>

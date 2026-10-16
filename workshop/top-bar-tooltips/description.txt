@@ -57,6 +57,10 @@ It has been played with all of these enabled at once:
 [*][b]Readable Happiness Icons[/b]: its icons for each happiness level show in the happiness levels pill and its tooltip.
 [/list]
 
+[h2]Languages[/h2]
+
+English, French, German, Italian, Polish, Portuguese (Brazil) and Spanish. The translations started as machine translation, with the game's own words for its terms, and may read oddly in places. Post corrections in the comments or on GitHub. In the game's other languages, the mod's own text shows in English.
+
 [h2]Saves[/h2]
 
 The mod only changes the interface. You can add it to a game in progress or remove it without breaking the save.

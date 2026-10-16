@@ -184,19 +184,27 @@ cannot load, so the mocks draw flat stand-ins.
   but never load it.
 - **Italics**: do not use them. The game's fonts have no italic face and
   italic text does not render at all.
-- **Text keys**: use the game's key where the game already has the words,
-  as it translates them; the mods' own text is English only.
-  `node tools/check-text.mjs` checks that every key a script uses has text,
-  the mods' own or the game's in `tools/game-keys.txt`, and that every key of
-  the mods' own is used. CI runs it on every push.
+- **Text**: never write text players see in a script; give it a key. Use the
+  game's key where the game already has the words, as the game translates
+  them. A key of the mods' own needs its English in `text/en_us/` and a
+  translation beside it in each language `tools/check-text.mjs` lists, with
+  the English's placeholders and icons, and the game's words for its terms.
+  After adding or changing English, translate it, then run
+  `node tools/check-text.mjs --write` to record the English the translations
+  were made from. Russian is not offered.
+- **Text check**: `node tools/check-text.mjs` fails on text written in a
+  script, a key with no text, a key of the mods' own that no script uses, a
+  language missing a key or one translated from older English, and English
+  the game already has (from `tools/game-text.txt`, hashes of the game's
+  labels). CI runs it on every push.
 
 ## Before a release
 
 - Run `node tools/check-text.mjs --game <the game's resources folder>`, or
   without `--game` when `reference/` links there. It also checks the game
   keys against the game, with `--write` to refresh `tools/game-keys.txt`
-  after a game patch, and fails on text of the mods' own that the game has
-  too. Switch each to the game's key, or list it in `tools/own-text.txt`
+  and `tools/game-text.txt` after a game patch, and fails on text of the
+  mods' own that the game has too. Switch each to the game's key, or list it in `tools/own-text.txt`
   with why it stays. It ends with the game's yield labels that have no text,
   which the tooltips show as Other.
 - Bump `version` in the modinfo.
