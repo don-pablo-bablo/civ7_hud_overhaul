@@ -29,7 +29,7 @@ import { addOptions, onTextSize, OPTION_GROUPS, readSettings, setStyle, textOffs
 
 const TAG = "[hud-overhaul]";
 // Bump on every edit to this file. UI.log then shows which build ran.
-const BUILD = "10";
+const BUILD = "11";
 const COMPONENT = "hud-overhaul-religion";
 const ENTRY = "hud-overhaul-religion-entry";
 const TEXT = "hud-overhaul-religion-text";
@@ -244,7 +244,7 @@ class Religion extends Component {
 		this.count.textContent = mine ? Locale.compose("LOC_HUD_OVERHAUL_RELIGION_PERCENT", percent) : "-";
 		// Text the game's tooltip needs before it shows;
 		// hud-overhaul-tooltips.js draws the detailed one.
-		this.entry.dataset.tooltipContent = Locale.compose("LOC_HUD_OVERHAUL_TIP_RELIGION");
+		this.entry.dataset.tooltipContent = Locale.compose("LOC_DIPLOMACY_ACTIONS_SUBHEADER_RELIGION");
 	}
 }
 
@@ -257,7 +257,7 @@ function addOption() {
 		{
 			type: OptionType.Checkbox,
 			id: "hud-overhaul-option-religion",
-			label: "LOC_HUD_OVERHAUL_OPTION_RELIGION",
+			label: "LOC_DIPLOMACY_ACTIONS_SUBHEADER_RELIGION",
 			description: "LOC_HUD_OVERHAUL_OPTION_RELIGION_DESCRIPTION",
 			initListener: (info) => {
 				info.currentValue = enabled();

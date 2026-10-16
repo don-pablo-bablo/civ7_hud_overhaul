@@ -99,7 +99,20 @@ console.log(`${used.size} keys used, ${own.size} of the mods' own, ${fromGame.le
 if (errors.length) process.exit(1);
 
 function checkGame(root) {
-	const textFiles = files(root, (path) => path.endsWith(".xml") && /\/text\//.test(path) && !path.includes("/l10n/"));
+	// The English text a game loads: what each module's modinfo lists for
+	// scope="game". The main menu's, such as the Hall of Fame's, is missing
+	// in a game.
+	const textFiles = [];
+	for (const modinfo of files(root, (path) => path.endsWith(".modinfo"))) {
+		for (const [, group] of readFileSync(modinfo, "utf8").matchAll(/<ActionGroup [^>]*scope="game"[^>]*>([\s\S]*?)<\/ActionGroup>/g)) {
+			for (const [, block] of group.matchAll(/<UpdateText>([\s\S]*?)<\/UpdateText>/g)) {
+				for (const [, item] of block.matchAll(/<Item>([^<]+)<\/Item>/g)) {
+					const path = join(modinfo, "..", item.trim());
+					if (!path.includes("/l10n/") && existsSync(path)) textFiles.push(path);
+				}
+			}
+		}
+	}
 	const translated = files(root, (path) => path.endsWith(".xml") && path.includes("/l10n/"));
 	// The game's English text, key to text.
 	const game = new Map();

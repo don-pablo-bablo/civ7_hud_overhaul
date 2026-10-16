@@ -24,7 +24,7 @@ import { addOptions, OPTION_GROUPS, readSettings, setStyle, writeSetting } from 
 
 const TAG = "[hud-overhaul]";
 // Bump on every edit to this file. UI.log then shows which build ran.
-const BUILD = "10";
+const BUILD = "11";
 const COMPONENT = "hud-overhaul-treasure";
 const ENTRY = "hud-overhaul-treasure-entry";
 const TEXT = "hud-overhaul-treasure-text";
@@ -161,7 +161,7 @@ class Treasure extends Component {
 		const list = convoys(player);
 		this.text.textContent = list.length ? Locale.compose("LOC_HUD_OVERHAUL_TREASURE_TURNS", list[0].turns) : "-";
 		const lines = list.map(({ city, turns }) => Locale.compose("LOC_HUD_OVERHAUL_TREASURE_LINE", city.name, turns));
-		this.entry.dataset.tooltipContent = [Locale.compose("LOC_HUD_OVERHAUL_TREASURE_TITLE"), ...lines].join("[N]");
+		this.entry.dataset.tooltipContent = [`[B]${Locale.compose("LOC_COMMERCE_TREASURE_FLEETS_TITLE")}[/B]`, ...lines].join("[N]");
 	}
 }
 
@@ -174,7 +174,7 @@ function addOption() {
 		{
 			type: OptionType.Checkbox,
 			id: "hud-overhaul-option-treasure",
-			label: "LOC_HUD_OVERHAUL_OPTION_TREASURE",
+			label: "LOC_COMMERCE_TREASURE_FLEETS_TITLE",
 			description: "LOC_HUD_OVERHAUL_OPTION_TREASURE_DESCRIPTION",
 			initListener: (info) => {
 				info.currentValue = enabled();

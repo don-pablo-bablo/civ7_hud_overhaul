@@ -23,7 +23,7 @@ import { addOptions, onTextSize, OPTION_GROUPS, readSettings, setStyle, textOffs
 
 const TAG = "[hud-overhaul]";
 // Bump on every edit to this file. UI.log then shows which build ran.
-const BUILD = "14";
+const BUILD = "15";
 const COMPONENT = "hud-overhaul-units";
 const ENTRY = "hud-overhaul-units-entry";
 const TEXT = "hud-overhaul-units-text";
@@ -247,7 +247,7 @@ class Units extends Component {
 		const [, military, , civilian] = this.text.children;
 		military.textContent = String(count.military);
 		civilian.textContent = String(count.civilian);
-		this.entry.dataset.tooltipContent = Locale.compose("LOC_HUD_OVERHAUL_UNITS_TITLE");
+		this.entry.dataset.tooltipContent = Locale.compose("LOC_UI_PRODUCTION_CATEGORY_UNITS");
 	}
 }
 
@@ -262,7 +262,7 @@ function addOption() {
 		{
 			type: OptionType.Checkbox,
 			id: "hud-overhaul-option-units",
-			label: "LOC_HUD_OVERHAUL_OPTION_UNITS",
+			label: "LOC_UI_PRODUCTION_CATEGORY_UNITS",
 			description: "LOC_HUD_OVERHAUL_OPTION_UNITS_DESCRIPTION",
 			initListener: (info) => {
 				info.currentValue = enabled();

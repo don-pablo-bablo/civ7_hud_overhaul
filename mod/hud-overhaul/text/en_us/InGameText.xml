@@ -34,9 +34,6 @@
 		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_PART_RIBBON_DESCRIPTION" Language="en_US">
 			<Text>Shows the compact leader ribbon with its extra rows. Turn off for the game's own ribbon, or Drongo's when Drongo's Leader Ribbons is on.</Text>
 		</Replace>
-		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_PART_MINIMAP" Language="en_US">
-			<Text>Minimap</Text>
-		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_PART_MINIMAP_DESCRIPTION" Language="en_US">
 			<Text>Shows a smaller minimap in the corner. Turn off for the game's own.</Text>
 		</Replace>
@@ -202,9 +199,6 @@
 		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_SIZE_RIBBON_DESCRIPTION" Language="en_US">
 			<Text>The size of the leader ribbon. Bigger fits fewer leaders on screen. The base game's is 125%.</Text>
 		</Replace>
-		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_SIZE_MINIMAP" Language="en_US">
-			<Text>Minimap size</Text>
-		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_SIZE_MINIMAP_DESCRIPTION" Language="en_US">
 			<Text>The size of the minimap and its lens buttons. The base game's is 125%.</Text>
 		</Replace>
@@ -247,14 +241,8 @@
 		<Replace Tag="LOC_HUD_OVERHAUL_TREASURE_TURNS" Language="en_US">
 			<Text>in {1_Turns}</Text>
 		</Replace>
-		<Replace Tag="LOC_HUD_OVERHAUL_TREASURE_TITLE" Language="en_US">
-			<Text>[B]Treasure convoys[/B]</Text>
-		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_TREASURE_LINE" Language="en_US">
 			<Text>{1_Name}: next in {2_Turns} {2_Turns: plural 1?turn; other?turns;}</Text>
-		</Replace>
-		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_TREASURE" Language="en_US">
-			<Text>Treasure convoys</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_TREASURE_DESCRIPTION" Language="en_US">
 			<Text>In the Exploration Age, shows the turns to your next treasure convoy, with each settlement that makes them in its tooltip.</Text>
@@ -286,26 +274,14 @@
 		<Replace Tag="LOC_HUD_OVERHAUL_TRADE_LINE" Language="en_US">
 			<Text>{1_Leader}: {2_Used}/{3_Limit}</Text>
 		</Replace>
-		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_UNITS" Language="en_US">
-			<Text>Units</Text>
-		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_UNITS_DESCRIPTION" Language="en_US">
 			<Text>Your military units and civilians. The tooltip lists them by kind; locked with the inspect key, it lists each unit, and a click on one selects it.</Text>
-		</Replace>
-		<Replace Tag="LOC_HUD_OVERHAUL_UNITS_TITLE" Language="en_US">
-			<Text>Units</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_TIP_N_MILITARY" Language="en_US">
 			<Text>{1_Count} military</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_TIP_N_CIVILIAN" Language="en_US">
 			<Text>{1_Count} {1_Count : plural 1?civilian;other?civilians;}</Text>
-		</Replace>
-		<Replace Tag="LOC_HUD_OVERHAUL_TIP_MILITARY" Language="en_US">
-			<Text>Military</Text>
-		</Replace>
-		<Replace Tag="LOC_HUD_OVERHAUL_TIP_LAND" Language="en_US">
-			<Text>Land</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_TIP_NAVAL" Language="en_US">
 			<Text>Naval</Text>
@@ -316,9 +292,6 @@
 		<Replace Tag="LOC_HUD_OVERHAUL_TIP_COMBAT_STRENGTH" Language="en_US">
 			<Text>Combat strength {1_Strength}</Text>
 		</Replace>
-		<Replace Tag="LOC_HUD_OVERHAUL_TIP_CIVILIANS" Language="en_US">
-			<Text>Civilians</Text>
-		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_TIP_UNIT_SLOTS" Language="en_US">
 			<Text>{1_Units}/{2_Slots}</Text>
 		</Replace>
@@ -328,38 +301,17 @@
 		<Replace Tag="LOC_HUD_OVERHAUL_TIP_UNIT_CLICK" Language="en_US">
 			<Text>Click a unit to select it.</Text>
 		</Replace>
-		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_TRADE" Language="en_US">
-			<Text>Trade routes</Text>
-		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_TRADE_DESCRIPTION" Language="en_US">
 			<Text>Trade routes in use against the limit with every leader you have met, with each leader's in the tooltip.</Text>
 		</Replace>
-		<Replace Tag="LOC_HUD_OVERHAUL_TIP_PER_TURN" Language="en_US">
-			<Text>{1_Amount} per turn</Text>
-		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_TIP_RESEARCHING" Language="en_US">
 			<Text>{1_Name}: {2_Turns} {2_Turns : plural 1?turn;other?turns;}</Text>
-		</Replace>
-		<Replace Tag="LOC_HUD_OVERHAUL_TIP_SETTLEMENTS" Language="en_US">
-			<Text>Settlements</Text>
-		</Replace>
-		<Replace Tag="LOC_HUD_OVERHAUL_TIP_EMPIRE" Language="en_US">
-			<Text>Empire</Text>
 		</Replace>
 		<!-- The game's own key for the influence lost to razed settlements,
 		     which it never gives text: named as the game's line for conquered
 		     ones is. -->
 		<Replace Tag="LOC_TRAIT_MOD_NEGATIVE_INFLUENCE_RAZED_SETTLEMENTS" Language="en_US">
 			<Text>Razed Settlement</Text>
-		</Replace>
-		<Replace Tag="LOC_HUD_OVERHAUL_TIP_CAPITAL" Language="en_US">
-			<Text>Capital</Text>
-		</Replace>
-		<Replace Tag="LOC_HUD_OVERHAUL_TIP_CITY" Language="en_US">
-			<Text>City</Text>
-		</Replace>
-		<Replace Tag="LOC_HUD_OVERHAUL_TIP_TOWN" Language="en_US">
-			<Text>Town</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_TIP_MORE" Language="en_US">
 			<Text>and {1_Count} more</Text>
@@ -391,9 +343,6 @@
 		<Replace Tag="LOC_HUD_OVERHAUL_TIP_N_SETTLEMENTS" Language="en_US">
 			<Text>{1_Count} settlements</Text>
 		</Replace>
-		<Replace Tag="LOC_HUD_OVERHAUL_TIP_VICTORIES" Language="en_US">
-			<Text>Victories</Text>
-		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_TIP_GOAL" Language="en_US">
 			<Text>First to {1_Points} points</Text>
 		</Replace>
@@ -423,9 +372,6 @@
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_TIP_TURNS" Language="en_US">
 			<Text>{1_Turns} {1_Turns : plural 1?turn;other?turns;}</Text>
-		</Replace>
-		<Replace Tag="LOC_HUD_OVERHAUL_TIP_TREASURE" Language="en_US">
-			<Text>Treasure convoys</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_TIP_NO_CONVOYS" Language="en_US">
 			<Text>Improve treasure resources in the Distant Lands to make convoys.</Text>
@@ -496,12 +442,6 @@
 		<Replace Tag="LOC_HUD_OVERHAUL_TIP_TRADE_OVER_OCEAN" Language="en_US">
 			<Text>across ocean</Text>
 		</Replace>
-		<Replace Tag="LOC_HUD_OVERHAUL_TIP_LEADERS" Language="en_US">
-			<Text>Leaders</Text>
-		</Replace>
-		<Replace Tag="LOC_HUD_OVERHAUL_TIP_RESOURCES" Language="en_US">
-			<Text>Resources</Text>
-		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_TREASURE_DISTANT" Language="en_US">
 			<Text>Distant Lands treasure</Text>
 		</Replace>
@@ -514,14 +454,8 @@
 		<Replace Tag="LOC_HUD_OVERHAUL_GREAT_WORKS_COUNT" Language="en_US">
 			<Text>{1_Works}/{2_Slots}</Text>
 		</Replace>
-		<Replace Tag="LOC_HUD_OVERHAUL_TIP_FROM_GREAT_WORKS" Language="en_US">
-			<Text>From Great Works</Text>
-		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_TIP_SPECIALIST_MAINTENANCE" Language="en_US">
 			<Text>Specialist Maintenance</Text>
-		</Replace>
-		<Replace Tag="LOC_HUD_OVERHAUL_TIP_GREAT_WORKS" Language="en_US">
-			<Text>Great Works</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_TIP_N_WORKS" Language="en_US">
 			<Text>{1_Count} {1_Count : plural 1?work;other?works;}</Text>
@@ -531,9 +465,6 @@
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_TIP_SLOTS" Language="en_US">
 			<Text>{1_Filled} of {2_Slots} {2_Slots : plural 1?slot;other?slots;}</Text>
-		</Replace>
-		<Replace Tag="LOC_HUD_OVERHAUL_TIP_ON_DISPLAY" Language="en_US">
-			<Text>On display</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_TIP_IN_STORAGE" Language="en_US">
 			<Text>In storage ({1_Count})</Text>
@@ -547,17 +478,11 @@
 		<Replace Tag="LOC_HUD_OVERHAUL_TIP_NO_WORKS" Language="en_US">
 			<Text>No Great Works yet.</Text>
 		</Replace>
-		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_GREAT_WORKS" Language="en_US">
-			<Text>Great works</Text>
-		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_GREAT_WORKS_DESCRIPTION" Language="en_US">
 			<Text>How many great works you have, with where each one is displayed and what it yields in the tooltip.</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_RELIGION_PERCENT" Language="en_US">
 			<Text>{1_Percent}%</Text>
-		</Replace>
-		<Replace Tag="LOC_HUD_OVERHAUL_TIP_RELIGION" Language="en_US">
-			<Text>Religion</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_TIP_WORLD_SHARE" Language="en_US">
 			<Text>{1_Percent}% of the world</Text>
@@ -568,23 +493,11 @@
 		<Replace Tag="LOC_HUD_OVERHAUL_TIP_HOLY_CITY" Language="en_US">
 			<Text>Holy city</Text>
 		</Replace>
-		<Replace Tag="LOC_HUD_OVERHAUL_TIP_BELIEFS" Language="en_US">
-			<Text>Beliefs</Text>
-		</Replace>
-		<Replace Tag="LOC_HUD_OVERHAUL_TIP_YOUR_SETTLEMENTS" Language="en_US">
-			<Text>Your Settlements</Text>
-		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_TIP_WORLD_SETTLEMENTS" Language="en_US">
 			<Text>World Settlements</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_TIP_SHARE" Language="en_US">
 			<Text>{1_Percent}% · {2_Count}</Text>
-		</Replace>
-		<Replace Tag="LOC_HUD_OVERHAUL_TIP_FOUNDED_BY_YOU" Language="en_US">
-			<Text>You</Text>
-		</Replace>
-		<Replace Tag="LOC_HUD_OVERHAUL_TIP_NO_RELIGION" Language="en_US">
-			<Text>No religion</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_TIP_NOT_FOUNDED" Language="en_US">
 			<Text>You have not founded a religion.</Text>
@@ -592,14 +505,8 @@
 		<Replace Tag="LOC_HUD_OVERHAUL_TIP_CAN_FOUND" Language="en_US">
 			<Text>You can found a religion now.</Text>
 		</Replace>
-		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_RELIGION" Language="en_US">
-			<Text>Religion</Text>
-		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_RELIGION_DESCRIPTION" Language="en_US">
 			<Text>The share of the world's settlements following your religion, with your beliefs, the religion of each settlement's urban and rural people, and every religion's share in the tooltip.</Text>
-		</Replace>
-		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_RESOURCES" Language="en_US">
-			<Text>Resources</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_RESOURCES_DESCRIPTION" Language="en_US">
 			<Text>How many empire, city and bonus resources you hold, with each one, where it is assigned and what it does in the tooltip.</Text>
@@ -621,9 +528,6 @@
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_TRACKER_CHOOSE_RESEARCH" Language="en_US">
 			<Text>Choose research</Text>
-		</Replace>
-		<Replace Tag="LOC_HUD_OVERHAUL_TRACKER_CHOOSE_CIVIC" Language="en_US">
-			<Text>Choose civic</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_TIP_GROWS_IN" Language="en_US">
 			<Text>Grows in {1_Turns} {1_Turns : plural 1?turn;other?turns;}</Text>
@@ -661,9 +565,6 @@
 		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_SETTLEMENT_CAP_DESCRIPTION" Language="en_US">
 			<Text>Turns the settlement count in the top bar red when you are over the cap, with the happiness each settlement loses for it.</Text>
 		</Replace>
-		<Replace Tag="LOC_HUD_OVERHAUL_MILITARY_STRENGTH" Language="en_US">
-			<Text>Combat strength</Text>
-		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_MILITARY_UNITS" Language="en_US">
 			<Text>Military units: {1_Count}</Text>
 		</Replace>
@@ -672,9 +573,6 @@
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_RIBBON_NO_RELIGION" Language="en_US">
 			<Text>No religion founded</Text>
-		</Replace>
-		<Replace Tag="LOC_HUD_OVERHAUL_RIBBON_IDEOLOGY" Language="en_US">
-			<Text>Ideology</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_RIBBON_NO_IDEOLOGY" Language="en_US">
 			<Text>No ideology chosen</Text>

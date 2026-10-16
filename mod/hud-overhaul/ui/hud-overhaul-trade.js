@@ -27,7 +27,7 @@ import { addOptions, OPTION_GROUPS, readSettings, setStyle, writeSetting } from 
 
 const TAG = "[hud-overhaul]";
 // Bump on every edit to this file. UI.log then shows which build ran.
-const BUILD = "18";
+const BUILD = "19";
 const COMPONENT = "hud-overhaul-trade";
 const ENTRY = "hud-overhaul-trade-entry";
 const TEXT = "hud-overhaul-trade-text";
@@ -226,7 +226,7 @@ function addOption() {
 		{
 			type: OptionType.Checkbox,
 			id: "hud-overhaul-option-trade",
-			label: "LOC_HUD_OVERHAUL_OPTION_TRADE",
+			label: "LOC_COMMERCE_TRADE_ROUTES_TITLE",
 			description: "LOC_HUD_OVERHAUL_OPTION_TRADE_DESCRIPTION",
 			initListener: (info) => {
 				info.currentValue = enabled();
