@@ -132,17 +132,21 @@ if (errors.length) process.exit(1);
 // label, a description, a tooltip or one of the tooltips' builders. A line
 // that ends in "// mock only" is the mock's, which has no keys.
 function checkWritten() {
-	const sink = /(?:\.(?:textContent|innerHTML|innerText|title|placeholder)\s*=|\b(?:label|title|description|tooltip|text|name)\s*:|setAttribute\(\s*["'](?:title|aria-label|data-tooltip-content)["']\s*,|tooltipContent\s*=|\b(?:div|el|chip|row|section|head|message|group)\(\s*[^,()]*,)\s*(["'`])((?:(?!\1).)*)\1/g;
+	// The builders' second argument can be a class name or an icon rather
+	// than text, and a property such as name: an id, so lower-case words with
+	// no spaces pass there. Elsewhere any word is text.
+	const sink = /(\.(?:textContent|innerHTML|innerText|title|placeholder)\s*=|setAttribute\(\s*["'](?:title|aria-label|data-tooltip-content)["']\s*,|tooltipContent\s*=|\b(?:label|title|description|tooltip|text|name)\s*:|\b(?:div|el|chip|row|section|head|message|group)\(\s*[^,()]*,)\s*(["'`])((?:(?!\2).)*)\2/g;
 	for (const file of CODE.flatMap((dir) => files(dir, (path) => path.endsWith(".js")))) {
 		readFileSync(file, "utf8")
 			.split("\n")
 			.forEach((line, i) => {
 				if (/^\s*\/\//.test(line) || /\/\/ mock only\s*$/.test(line)) return;
-				for (const [, , text] of line.matchAll(sink)) {
+				for (const [, into, , text] of line.matchAll(sink)) {
+					const loose = !/^(\.|setAttribute|tooltipContent)/.test(into);
 					const words = text.replace(/\$\{[^}]*\}/g, "");
 					// Keys, class names, icons and numbers are not words; a
 					// template cut short by one inside it is not checked.
-					if (words.includes("${") || /^LOC_/.test(words) || /^(fs|blp):/.test(words) || /^[a-z0-9_:-]*( [a-z0-9_:-]+)*$/.test(words) || !/[A-Za-z]{2}/.test(words)) continue;
+					if (words.includes("${") || /^LOC_/.test(words) || /^(fs|blp):/.test(words) || (loose ? /^[a-z0-9_:-]*( [a-z0-9_:-]+)*$/ : /^[a-z0-9_:-]*$/).test(words) || !/[A-Za-z]{2}/.test(words)) continue;
 					fail(`${file}:${i + 1}: "${text}" is written in the script; give it a key in the text file`);
 				}
 			});
@@ -205,6 +209,7 @@ function checkTranslations() {
 			}
 			for (const [key, text] of english) {
 				if (!translated.has(key)) fail(`${path}: ${key} is missing`);
+				else if (!translated.get(key).trim()) fail(`${path}: ${key} is empty`);
 				else if (shape(translated.get(key)) != shape(text)) fail(`${path}: ${key} has "${shape(translated.get(key))}" where the English has "${shape(text)}"`);
 			}
 			const item = path.replace(/^mod\/[^/]+\//, "");

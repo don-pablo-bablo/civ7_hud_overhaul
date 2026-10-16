@@ -63,7 +63,7 @@ import { ICON as VICTORIES, ordinal, standings, victoryClasses } from "./hud-ove
 
 const TAG = "[hud-overhaul]";
 // Bump on every edit to this file. UI.log then shows which build ran.
-const BUILD = "100";
+const BUILD = "101";
 const COMPONENT = "hud-overhaul-tooltips";
 const PINNED = "hud-overhaul-tip-pinned";
 const QUIET = "hud-overhaul-tip-quiet"; // on <html> while one is locked and the mouse is on the top bar
@@ -662,7 +662,8 @@ function yieldPanel(type, name, colour, detailed) {
 	// Anything the game's breakdown leaves unnamed, such as Carthage's
 	// science from conquered settlements, as other.
 	const settlements = cities.reduce((sum, [, value]) => sum + value, 0);
-	const counted = [...merged].reduce((sum, [source, value]) => sum + (names.has(source) ? 0 : value), 0);
+	// Lines too small to show count towards other too.
+	const counted = [...merged].reduce((sum, [source, value]) => sum + (names.has(source) || Math.abs(value) < 0.05 ? 0 : value), 0);
 	const rest = total - settlements - counted;
 	if (Math.abs(rest) >= 0.05) {
 		const key = Locale.compose("LOC_GLOBAL_YIELDS_OTHER");
