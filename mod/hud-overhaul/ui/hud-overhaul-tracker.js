@@ -21,7 +21,7 @@ import { render, styles } from "./hud-overhaul-tracker-render.js";
 
 const TAG = "[hud-overhaul]";
 // Bump on every edit to this file. UI.log then shows which build ran.
-const BUILD = "11";
+const BUILD = "12";
 const SLOT = "hud-overhaul-tracker-slot";
 
 const CHOOSERS = {
@@ -67,7 +67,7 @@ function read() {
 			research: Locale.compose("LOC_HUD_OVERHAUL_TRACKER_RESEARCH"),
 			civic: Locale.compose("LOC_HUD_OVERHAUL_TRACKER_CIVIC"),
 			chooseResearch: Locale.compose("LOC_HUD_OVERHAUL_TRACKER_CHOOSE_RESEARCH"),
-			chooseCivic: Locale.compose("LOC_HUD_OVERHAUL_TRACKER_CHOOSE_CIVIC"),
+			chooseCivic: Locale.compose("LOC_UI_CULTURE_CHOOSE_CIVIC_HEADER"),
 		},
 		// The dock's own icons for its research and civic rings with nothing
 		// chosen (panel-sub-system-dock.js).

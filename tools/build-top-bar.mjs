@@ -14,7 +14,7 @@ const OUT = "build/top-bar-tooltips";
 const MODINFO = "top-bar-tooltips.modinfo";
 
 const modinfo = readFileSync(join(OWN, MODINFO), "utf8");
-const files = [...modinfo.matchAll(/<Item>([^<]+)<\/Item>/g)].map((match) => match[1]);
+const files = [...modinfo.matchAll(/<Item[^>]*>([^<]+)<\/Item>/g)].map((match) => match[1]);
 
 rmSync(OUT, { recursive: true, force: true });
 mkdirSync(OUT, { recursive: true });

@@ -1,0 +1,8 @@
+# The mods' keys whose English the game has too, kept as the mods' own on
+# purpose: the key, then why. tools/check-text.mjs fails on any other.
+LOC_HUD_OVERHAUL_COLOUR_JADE                  a colour; the game's "Jade" is the resource
+LOC_HUD_OVERHAUL_COLOUR_OCEAN                 a colour; the game's "Ocean" is the biome
+LOC_HUD_OVERHAUL_TIP_TRADE_AT_WAR             goes mid-sentence in lower case; the game's is "At War"
+LOC_HUD_OVERHAUL_HAPPINESS_NONE               goes mid-sentence in lower case; the game's is "None"
+LOC_HUD_OVERHAUL_TIP_SPECIALIST_MAINTENANCE   the game's ends with a colon
+LOC_HUD_OVERHAUL_TRACKER_RESEARCH             a heading; the game's French is the verb "Étudier"

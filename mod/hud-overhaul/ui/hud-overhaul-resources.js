@@ -28,7 +28,7 @@ import { addOptions, onTextSize, OPTION_GROUPS, readSettings, setStyle, textOffs
 
 const TAG = "[hud-overhaul]";
 // Bump on every edit to this file. UI.log then shows which build ran.
-const BUILD = "10";
+const BUILD = "11";
 const COMPONENT = "hud-overhaul-resources";
 const ENTRY = "hud-overhaul-resources-entry";
 const COUNTS = "hud-overhaul-resources-counts";
@@ -175,7 +175,7 @@ class Resources extends Component {
 		}
 		// Text the game's tooltip can fall back on; hud-overhaul-tooltips.js
 		// draws the detailed one.
-		this.entry.dataset.tooltipContent = Locale.compose("LOC_HUD_OVERHAUL_TIP_RESOURCES");
+		this.entry.dataset.tooltipContent = Locale.compose("LOC_UI_RESOURCE_ALLOCATION_RESOURCES");
 	}
 }
 
@@ -188,7 +188,7 @@ function addOption() {
 		{
 			type: OptionType.Checkbox,
 			id: "hud-overhaul-option-resources",
-			label: "LOC_HUD_OVERHAUL_OPTION_RESOURCES",
+			label: "LOC_UI_RESOURCE_ALLOCATION_RESOURCES",
 			description: "LOC_HUD_OVERHAUL_OPTION_RESOURCES_DESCRIPTION",
 			initListener: (info) => {
 				info.currentValue = enabled();

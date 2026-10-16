@@ -1,0 +1,579 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Machine translation of the English, as a start. Corrections are welcome. -->
+<Database>
+	<LocalizedText>
+		<Replace Tag="LOC_OPTIONS_GROUP_HUD_OVERHAUL" Language="es_ES">
+			<Text>Pablo's HUD Overhaul</Text>
+		</Replace>
+		<Replace Tag="LOC_OPTIONS_GROUP_HUD_OVERHAUL_TOP_BAR" Language="es_ES">
+			<Text>Pablo's HUD Overhaul: barra superior</Text>
+		</Replace>
+		<Replace Tag="LOC_OPTIONS_GROUP_HUD_OVERHAUL_TOP_BAR_NOTE" Language="es_ES">
+			<Text>Con resoluciones más bajas, mayor escala de la interfaz o una barra superior más grande, los indicadores que no caben pasan a una fila adicional. Desactiva los que menos necesites para ahorrar espacio.</Text>
+		</Replace>
+		<Replace Tag="LOC_OPTIONS_GROUP_HUD_OVERHAUL_PARTS" Language="es_ES">
+			<Text>Pablo's HUD Overhaul: tamaño y diseño</Text>
+		</Replace>
+		<Replace Tag="LOC_OPTIONS_GROUP_HUD_OVERHAUL_PARTS_NOTE" Language="es_ES">
+			<Text>Desactiva cualquier parte para usar la versión del juego. Cada tamaño es un porcentaje del predeterminado del mod.</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_PART_TOOLTIPS" Language="es_ES">
+			<Text>Ventanas informativas detalladas</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_PART_TOOLTIPS_DESCRIPTION" Language="es_ES">
+			<Text>Muestra las ventanas informativas detalladas de este mod en los indicadores de la barra superior. Desactívalo para las del juego.</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_PART_DOCK" Language="es_ES">
+			<Text>Anillos y seguimiento mundial</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_PART_DOCK_DESCRIPTION" Language="es_ES">
+			<Text>Muestra anillos y botones más pequeños en un panel, con el seguimiento mundial y el Diario debajo. Desactívalo para el panel y el Diario del juego.</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_PART_RIBBON" Language="es_ES">
+			<Text>Franja de líderes</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_PART_RIBBON_DESCRIPTION" Language="es_ES">
+			<Text>Muestra la franja de líderes compacta con sus filas adicionales. Desactívalo para la franja del juego, o la de Drongo cuando Drongo's Leader Ribbons está activado.</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_PART_MINIMAP_DESCRIPTION" Language="es_ES">
+			<Text>Muestra un minimapa más pequeño en la esquina. Desactívalo para el del juego.</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_PART_DIAL" Language="es_ES">
+			<Text>Indicador de turno y notificaciones</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_PART_DIAL_DESCRIPTION" Language="es_ES">
+			<Text>Muestra un indicador de turno más pequeño en la esquina, con las notificaciones alineadas encima. Desactívalo para el del juego.</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_RIBBON_YIELDS" Language="es_ES">
+			<Text>Rendimientos de la franja de líderes</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_RIBBON_YIELDS_DESCRIPTION" Language="es_ES">
+			<Text>Cuándo se muestran los rendimientos de cada líder bajo su retrato: al pasar el cursor, como en el juego base; los tuyos siempre y los demás al pasar el cursor, como en Civilization VI; o los de todos siempre.</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_TRACKER" Language="es_ES">
+			<Text>Seguimiento mundial</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_TRACKER_DESCRIPTION" Language="es_ES">
+			<Text>Dónde se muestran tu investigación y tu principio: en el seguimiento mundial, en los anillos de investigación y principio arriba del panel, o en ambos.</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_TRACKER_BOTH" Language="es_ES">
+			<Text>Ambos</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_TRACKER_ONLY" Language="es_ES">
+			<Text>Solo seguimiento mundial</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_TRACKER_RINGS" Language="es_ES">
+			<Text>Solo anillos</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_DRONGO_RIBBON" Language="es_ES">
+			<Text>Con Drongo's Leader Ribbons</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_DRONGO_RIBBON_DESCRIPTION" Language="es_ES">
+			<Text>Cómo se ve la franja de líderes con Drongo's Leader Ribbons activado. Diseño de Drongo: el orden de Drongo, filas adicionales tras su botón +/- y su fuerza de combate, con el tamaño y la posición de HUD Overhaul. HUD Overhaul: todas las filas en una lista, con su fuerza de combate. Para usar la franja de Drongo sin cambios, desactiva Franja de líderes.</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_DRONGO_OWN" Language="es_ES">
+			<Text>HUD Overhaul</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_DRONGO_LAYOUT" Language="es_ES">
+			<Text>Diseño de Drongo</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_ON_HOVER" Language="es_ES">
+			<Text>Al pasar el cursor</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_OWN" Language="es_ES">
+			<Text>Los tuyos siempre, los demás al pasar el cursor</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_ALL" Language="es_ES">
+			<Text>Siempre para todos</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_ENABLED" Language="es_ES">
+			<Text>Activar HUD Overhaul</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_ENABLED_DESCRIPTION" Language="es_ES">
+			<Text>Desactívalo para ver la interfaz del juego. Tus opciones de abajo se guardan para cuando lo vuelvas a activar.</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_PANEL_COLOUR" Language="es_ES">
+			<Text>Tema</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_PANEL_COLOUR_DESCRIPTION" Language="es_ES">
+			<Text>El color de la barra superior, los paneles de debajo y el fondo de la franja de líderes.</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_COLOUR_CIV7" Language="es_ES">
+			<Text>Marrón Civ VII</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_COLOUR_CIV6" Language="es_ES">
+			<Text>Azul Civ VI</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_COLOUR_CHARCOAL" Language="es_ES">
+			<Text>Carbón</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_COLOUR_WALNUT" Language="es_ES">
+			<Text>Nogal</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_COLOUR_VERDIGRIS" Language="es_ES">
+			<Text>Verdín</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_COLOUR_BLACK" Language="es_ES">
+			<Text>Negro</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_COLOUR_CRIMSON" Language="es_ES">
+			<Text>Carmesí</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_COLOUR_PURPLE" Language="es_ES">
+			<Text>Púrpura real</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_COLOUR_JADE" Language="es_ES">
+			<Text>Jade</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_COLOUR_OCEAN" Language="es_ES">
+			<Text>Océano</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_COLOUR_BRONZE" Language="es_ES">
+			<Text>Bronce</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_COLOUR_COPPER" Language="es_ES">
+			<Text>Pizarra y cobre</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_COLOUR_FOREST" Language="es_ES">
+			<Text>Bosque</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_COLOUR_INK" Language="es_ES">
+			<Text>Tinta y plata</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_BAR_OPACITY" Language="es_ES">
+			<Text>Opacidad de la barra superior</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_BAR_OPACITY_DESCRIPTION" Language="es_ES">
+			<Text>Cuánto del mapa se ve a través de la barra superior.</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_PANEL_OPACITY" Language="es_ES">
+			<Text>Opacidad de los paneles</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_PANEL_OPACITY_DESCRIPTION" Language="es_ES">
+			<Text>Cuánto del mapa se ve a través del panel de anillos, el seguimiento mundial y el Diario.</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_RIBBON_OPACITY" Language="es_ES">
+			<Text>Opacidad de la franja de líderes</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_RIBBON_OPACITY_DESCRIPTION" Language="es_ES">
+			<Text>Cuánto del mapa se ve a través del fondo tras el retrato y los rendimientos de cada líder.</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_ROWS" Language="es_ES">
+			<Text>Filas de la barra superior</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_ROWS_DESCRIPTION" Language="es_ES">
+			<Text>Dos filas: tus rendimientos y victorias en la primera y el resto en la segunda. Una fila: todos los indicadores seguidos.</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_ROWS_ONE" Language="es_ES">
+			<Text>Una fila</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_ROWS_TWO" Language="es_ES">
+			<Text>Dos filas</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_SIZE_TOP_BAR" Language="es_ES">
+			<Text>Tamaño de la barra superior</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_SIZE_TOP_BAR_DESCRIPTION" Language="es_ES">
+			<Text>El tamaño de los indicadores de la barra superior y del turno y la fecha arriba a la derecha. El del juego base es de un 120 % aprox.</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_SIZE_TOOLTIPS" Language="es_ES">
+			<Text>Tamaño de las ventanas informativas</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_SIZE_TOOLTIPS_DESCRIPTION" Language="es_ES">
+			<Text>El tamaño de las ventanas informativas detalladas de la barra superior.</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_SIZE_DOCK" Language="es_ES">
+			<Text>Tamaño de anillos y botones</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_SIZE_DOCK_DESCRIPTION" Language="es_ES">
+			<Text>El tamaño de los anillos de era, tecnología y principio y de los botones de al lado. El del juego base es de un 130 % aprox.</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_SIZE_TRACKER" Language="es_ES">
+			<Text>Tamaño del seguimiento mundial y el Diario</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_SIZE_TRACKER_DESCRIPTION" Language="es_ES">
+			<Text>El tamaño del seguimiento mundial y el Diario. Más grande deja menos espacio al Diario, que se desplaza antes.</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_SIZE_RIBBON" Language="es_ES">
+			<Text>Tamaño de la franja de líderes</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_SIZE_RIBBON_DESCRIPTION" Language="es_ES">
+			<Text>El tamaño de la franja de líderes. Más grande muestra menos líderes en pantalla. El del juego base es del 125 %.</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_SIZE_MINIMAP_DESCRIPTION" Language="es_ES">
+			<Text>El tamaño del minimapa y sus botones de lentes. El del juego base es del 125 %.</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_SIZE_DIAL" Language="es_ES">
+			<Text>Tamaño del indicador de turno</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_SIZE_DIAL_DESCRIPTION" Language="es_ES">
+			<Text>El tamaño del indicador de turno. El del juego base es del 125 %.</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_SIZE_NOTIFICATIONS" Language="es_ES">
+			<Text>Tamaño de las notificaciones</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_SIZE_NOTIFICATIONS_DESCRIPTION" Language="es_ES">
+			<Text>El tamaño de las notificaciones sobre el indicador de turno. El del juego base es de un 135 % aprox.</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_YIELD_TOTALS" Language="es_ES">
+			<Text>Alimentos y producción</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_YIELD_TOTALS_DESCRIPTION" Language="es_ES">
+			<Text>Muestra los alimentos y la producción de todo tu imperio tras los demás rendimientos.</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_CELEBRATION_TURNS" Language="es_ES">
+			<Text>([icon:CELEBRATION] en {1_Turns})</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_CELEBRATION_STALLED" Language="es_ES">
+			<Text>([icon:CELEBRATION] -)</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_CELEBRATING" Language="es_ES">
+			<Text>([icon:CELEBRATION] quedan {1_Turns})</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_CELEBRATION_TURNS_TOOLTIP" Language="es_ES">
+			<Text>La próxima celebración empieza en {1_Turns} {1_Turns: plural 1?turno; other?turnos;}.</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_CELEBRATION_STALLED_TOOLTIP" Language="es_ES">
+			<Text>La próxima celebración está detenida: la felicidad no aumenta.</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_CELEBRATING_TOOLTIP" Language="es_ES">
+			<Text>La celebración termina en {1_Turns} {1_Turns: plural 1?turno; other?turnos;}.</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TREASURE_TURNS" Language="es_ES">
+			<Text>en {1_Turns}</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TREASURE_LINE" Language="es_ES">
+			<Text>{1_Name}: el próximo en {2_Turns} {2_Turns: plural 1?turno; other?turnos;}</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_TREASURE_DESCRIPTION" Language="es_ES">
+			<Text>En la Era de los Descubrimientos, muestra los turnos hasta tu próximo convoy del tesoro, con cada asentamiento que los produce en su ventana informativa.</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_CELEBRATION" Language="es_ES">
+			<Text>Cuenta atrás de celebración</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_CELEBRATION_DESCRIPTION" Language="es_ES">
+			<Text>Añade al indicador de felicidad los turnos hasta la próxima celebración, o los que le quedan a la actual.</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_SETTLEMENT_SPLIT" Language="es_ES">
+			<Text>{1_Cities} + {2_Towns}/{3_Cap}</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_CITY_LIMIT_COUNT" Language="es_ES">
+			<Text>{1_Cities}/{2_Limit}</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_SETTLEMENT_SPLIT" Language="es_ES">
+			<Text>Ciudades y pueblos</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_SETTLEMENT_SPLIT_DESCRIPTION" Language="es_ES">
+			<Text>Divide el número de asentamientos en ciudades y pueblos: 3 + 4/6.</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TRADE_COUNT" Language="es_ES">
+			<Text>{1_Used}/{2_Limit}</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TRADE_TITLE" Language="es_ES">
+			<Text>Rutas comerciales con cada líder</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TRADE_LINE" Language="es_ES">
+			<Text>{1_Leader}: {2_Used}/{3_Limit}</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_UNITS_DESCRIPTION" Language="es_ES">
+			<Text>Tus unidades militares y civiles. La ventana informativa las agrupa por tipo; fijada con la tecla de examinar, muestra cada unidad, y al hacer clic en una la seleccionas.</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_N_MILITARY" Language="es_ES">
+			<Text>{1_Count} {1_Count : plural 1?militar;other?militares;}</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_N_CIVILIAN" Language="es_ES">
+			<Text>{1_Count} {1_Count : plural 1?civil;other?civiles;}</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_NAVAL" Language="es_ES">
+			<Text>Navales</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_AIR" Language="es_ES">
+			<Text>Aéreas</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_COMBAT_STRENGTH" Language="es_ES">
+			<Text>Fuerza de combate {1_Strength}</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_UNIT_SLOTS" Language="es_ES">
+			<Text>{1_Units}/{2_Slots}</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_UNIT_FIELD" Language="es_ES">
+			<Text>Tierra sin reclamar</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_UNIT_CLICK" Language="es_ES">
+			<Text>Haz clic en una unidad para seleccionarla.</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_TRADE_DESCRIPTION" Language="es_ES">
+			<Text>Rutas comerciales en uso frente al límite con cada líder que conoces, con las de cada líder en la ventana informativa.</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_RESEARCHING" Language="es_ES">
+			<Text>{1_Name}: {2_Turns} {2_Turns : plural 1?turno;other?turnos;}</Text>
+		</Replace>
+		<Replace Tag="LOC_TRAIT_MOD_NEGATIVE_INFLUENCE_RAZED_SETTLEMENTS" Language="es_ES">
+			<Text>Asentamiento arrasado</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_MORE" Language="es_ES">
+			<Text>y {1_Count} más</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_CITIES" Language="es_ES">
+			<Text>Ciudades ({1_Count})</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_TOWNS" Language="es_ES">
+			<Text>Pueblos ({1_Count})</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_OVER_CAP" Language="es_ES">
+			<Text>{1_Count} por encima del límite</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_UNDER_CAP" Language="es_ES">
+			<Text>{1_Count} más antes del límite</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_UNDER_CITY_LIMIT" Language="es_ES">
+			<Text>{1_Count} {1_Count: plural 1?ciudad; other?ciudades;} más antes del límite</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_AT_CITY_LIMIT" Language="es_ES">
+			<Text>Límite de ciudades alcanzado</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_LEVELS" Language="es_ES">
+			<Text>Niveles de felicidad</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_ONE_SETTLEMENT" Language="es_ES">
+			<Text>{1_Count} asentamiento</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_N_SETTLEMENTS" Language="es_ES">
+			<Text>{1_Count} asentamientos</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_GOAL" Language="es_ES">
+			<Text>El primero en llegar a {1_Points} puntos</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_MOST_POINTS" Language="es_ES">
+			<Text>Más puntos</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_UNMET" Language="es_ES">
+			<Text>Líder desconocido</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_YOU" Language="es_ES">
+			<Text>{1_Leader} (tú)</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_WINS_IN" Language="es_ES">
+			<Text>gana en {1_Turns} {1_Turns : plural 1?turno;other?turnos;}</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_VICTORIES" Language="es_ES">
+			<Text>Clasificación de victorias</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_VICTORIES_DESCRIPTION" Language="es_ES">
+			<Text>Tu posición en cada victoria, con los líderes de cada victoria en su ventana informativa.</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_NEXT_CONVOY" Language="es_ES">
+			<Text>El próximo en {1_Turns} {1_Turns : plural 1?turno;other?turnos;}</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_AT_SEA" Language="es_ES">
+			<Text>{1_Count} en camino</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_TURNS" Language="es_ES">
+			<Text>{1_Turns} {1_Turns : plural 1?turno;other?turnos;}</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_NO_CONVOYS" Language="es_ES">
+			<Text>Mejora recursos de tesoro en las Tierras lejanas para producir convoyes.</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_MAKING_CONVOYS" Language="es_ES">
+			<Text>Producen convoyes</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_NOT_MAKING_CONVOYS" Language="es_ES">
+			<Text>No producen convoyes</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_GDP" Language="es_ES">
+			<Text>{1_Amount} PIB</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_EACH_CONVOY" Language="es_ES">
+			<Text>Cada convoy: +{1_Gold} de oro, {2_GDP} PIB, al descargarse en tu tierra de origen</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_NOT_DISTANT" Language="es_ES">
+			<Text>Fuera de las Tierras lejanas</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_NOT_IMPROVED" Language="es_ES">
+			<Text>Ningún recurso de tesoro mejorado</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_NEED_MERCHANTS" Language="es_ES">
+			<Text>Completa {1_Node} para entrenar Mercaderes.</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_MEET_LEADERS" Language="es_ES">
+			<Text>Conoce a otro líder para comerciar con él.</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_NO_ROUTES" Language="es_ES">
+			<Text>Envía un Mercader a un asentamiento de otro líder para iniciar una ruta.</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_TRADE_IN_USE" Language="es_ES">
+			<Text>{1_Used} {1_Used : plural 1?ruta;other?rutas;} (máx. {2_Limit})</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_MERCHANTS" Language="es_ES">
+			<Text>{1_Count} {1_Count : plural 1?Mercader;other?Mercaderes;}</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_UNAVAILABLE_ROUTES" Language="es_ES">
+			<Text>Rutas comerciales no disponibles ({1_Count})</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_NO_AVAILABLE_ROUTES" Language="es_ES">
+			<Text>Ningún asentamiento puede aceptar una ruta nueva ahora.</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_TRAIN_MERCHANT" Language="es_ES">
+			<Text>Entrena un Mercader para iniciar una de estas rutas.</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_TRADE_BY_LAND" Language="es_ES">
+			<Text>Por tierra desde {1_City}.</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_TRADE_BY_SEA" Language="es_ES">
+			<Text>Por mar desde {1_City}.</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_TRADE_PAYS" Language="es_ES">
+			<Text>Paga {1_Gold} [icon:YIELD_GOLD] a {2_Name}.</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_TRADE_AT_WAR" Language="es_ES">
+			<Text>en guerra</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_TRADE_AT_LIMIT" Language="es_ES">
+			<Text>en el límite</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_TRADE_TOO_FAR" Language="es_ES">
+			<Text>demasiado lejos</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_TRADE_NO_SEA_ROUTE" Language="es_ES">
+			<Text>sin ruta marítima</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_TRADE_OVER_OCEAN" Language="es_ES">
+			<Text>a través del océano</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TREASURE_DISTANT" Language="es_ES">
+			<Text>Tesoro de las Tierras lejanas</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TREASURE_HOMELAND" Language="es_ES">
+			<Text>Tesoro de la tierra de origen</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_TO_ASSIGN" Language="es_ES">
+			<Text>{1_Count} por asignar</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_GREAT_WORKS_COUNT" Language="es_ES">
+			<Text>{1_Works}/{2_Slots}</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_SPECIALIST_MAINTENANCE" Language="es_ES">
+			<Text>Mantenimiento de especialistas</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_N_WORKS" Language="es_ES">
+			<Text>{1_Count} {1_Count : plural 1?obra;other?obras;}</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_SLOTS_FILLED" Language="es_ES">
+			<Text>{1_Filled} de {2_Slots} espacios ocupados</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_SLOTS" Language="es_ES">
+			<Text>{1_Filled} de {2_Slots} {2_Slots : plural 1?espacio;other?espacios;}</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_IN_STORAGE" Language="es_ES">
+			<Text>En almacén ({1_Count})</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_STORED_NO_SLOT" Language="es_ES">
+			<Text>Las obras en almacén no dan rendimientos. Construye más espacios para exponerlas.</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_STORED_FREE_SLOT" Language="es_ES">
+			<Text>Las obras en almacén no dan rendimientos. Muévelas a un espacio libre en la pantalla de Grandes obras.</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_NO_WORKS" Language="es_ES">
+			<Text>Todavía no hay Grandes obras.</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_GREAT_WORKS_DESCRIPTION" Language="es_ES">
+			<Text>Cuántas Grandes obras tienes, con dónde se expone cada una y qué rinde en la ventana informativa.</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_RELIGION_PERCENT" Language="es_ES">
+			<Text>{1_Percent} %</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_WORLD_SHARE" Language="es_ES">
+			<Text>{1_Percent} % del mundo</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_YOURS_FOLLOWING" Language="es_ES">
+			<Text>{1_Following}/{2_Total} tuyos</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_HOLY_CITY" Language="es_ES">
+			<Text>Ciudad santa</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_WORLD_SETTLEMENTS" Language="es_ES">
+			<Text>Asentamientos del mundo</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_SHARE" Language="es_ES">
+			<Text>{1_Percent} % · {2_Count}</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_NOT_FOUNDED" Language="es_ES">
+			<Text>No has fundado una religión.</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_CAN_FOUND" Language="es_ES">
+			<Text>Ya puedes fundar una religión.</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_RELIGION_DESCRIPTION" Language="es_ES">
+			<Text>La proporción de asentamientos del mundo que siguen tu religión, con tus creencias, la religión de la población urbana y rural de cada asentamiento y la proporción de cada religión en la ventana informativa.</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_RESOURCES_DESCRIPTION" Language="es_ES">
+			<Text>Cuántos recursos de imperio, de ciudad y de bonificación tienes, con cada uno, dónde está asignado y qué hace en la ventana informativa.</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_ASSIGNED" Language="es_ES">
+			<Text>Asignado a {1_Settlements}.</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_UNASSIGNED" Language="es_ES">
+			<Text>{1_Count} por asignar.</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TRACKER_TITLE" Language="es_ES">
+			<Text>Seguimiento mundial</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TRACKER_RESEARCH" Language="es_ES">
+			<Text>Investigación</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TRACKER_CIVIC" Language="es_ES">
+			<Text>Principio</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TRACKER_CHOOSE_RESEARCH" Language="es_ES">
+			<Text>Elegir investigación</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_GROWS_IN" Language="es_ES">
+			<Text>Crece en {1_Turns} {1_Turns : plural 1?turno;other?turnos;}</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_URBAN" Language="es_ES">
+			<Text>{1_Count} urbanos</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_RURAL" Language="es_ES">
+			<Text>{1_Count} rurales</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_SPECIALISTS" Language="es_ES">
+			<Text>{1_Count} {1_Count : plural 1?Especialista;other?Especialistas;}</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_HAPPINESS_TITLE" Language="es_ES">
+			<Text>Asentamientos por felicidad</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_HAPPINESS_LINE" Language="es_ES">
+			<Text>{1_Level}: {2_Settlements}</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_HAPPINESS_NONE" Language="es_ES">
+			<Text>ninguno</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_HAPPINESS" Language="es_ES">
+			<Text>Niveles de felicidad</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_HAPPINESS_DESCRIPTION" Language="es_ES">
+			<Text>Cuántos asentamientos hay en cada nivel de felicidad, de eufórico a enfadado, con sus nombres en la ventana informativa.</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_SETTLEMENT_PENALTY" Language="es_ES">
+			<Text>({1_Amount} cada uno)</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_SETTLEMENT_CAP" Language="es_ES">
+			<Text>Aviso del límite de asentamientos</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_SETTLEMENT_CAP_DESCRIPTION" Language="es_ES">
+			<Text>Pone en rojo el número de asentamientos de la barra superior cuando superas el límite, con la felicidad que pierde cada asentamiento por ello.</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_MILITARY_UNITS" Language="es_ES">
+			<Text>Unidades militares: {1_Count}</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_RIBBON_RELIGION" Language="es_ES">
+			<Text>{1_Religion}: {2_Count} de {3_Total} asentamientos del mundo</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_RIBBON_NO_RELIGION" Language="es_ES">
+			<Text>Ninguna religión fundada</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_RIBBON_NO_IDEOLOGY" Language="es_ES">
+			<Text>Ninguna ideología elegida</Text>
+		</Replace>
+	</LocalizedText>
+</Database>

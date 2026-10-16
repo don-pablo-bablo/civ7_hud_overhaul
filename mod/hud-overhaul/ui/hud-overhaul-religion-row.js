@@ -23,7 +23,7 @@ import { setStyle } from "./hud-overhaul-settings.js";
 
 const TAG = "[hud-overhaul]";
 // Bump on every edit to this file. UI.log then shows which build ran.
-const BUILD = "4";
+const BUILD = "5";
 const STYLE_ID = "hud-overhaul-religion-row";
 
 const rem = (px) => `${(px / 18).toFixed(4)}rem`;
@@ -48,7 +48,7 @@ function row(player) {
 	const following = mine ? (world.religions.find((entry) => entry.type == mine.type)?.settlements ?? 0) : 0;
 	return {
 		type: "religion",
-		label: Locale.compose("LOC_HUD_OVERHAUL_TIP_RELIGION"),
+		label: Locale.compose("LOC_DIPLOMACY_ACTIONS_SUBHEADER_RELIGION"),
 		value: mine ? Locale.compose("LOC_HUD_OVERHAUL_RELIGION_PERCENT", percent) : "-",
 		img: `<img src='${mine ? mine.icon : SYMBOL}'>`,
 		details: mine ? Locale.compose("LOC_HUD_OVERHAUL_RIBBON_RELIGION", mine.name, following, world.total) : Locale.compose("LOC_HUD_OVERHAUL_RIBBON_NO_RELIGION"),

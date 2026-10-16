@@ -18,13 +18,13 @@ import { combatStrength } from "./hud-overhaul-strength.js";
 
 const TAG = "[hud-overhaul]";
 // Bump on every edit to this file. UI.log then shows which build ran.
-const BUILD = "9";
+const BUILD = "10";
 
 function row(player) {
 	const [total, count] = combatStrength(player);
 	return {
 		type: "military",
-		label: Locale.compose("LOC_HUD_OVERHAUL_MILITARY_STRENGTH"),
+		label: Locale.compose("LOC_ADVICE_ANTIQUITY_MILITARY_COMBAT_STRENGTH_TITLE"),
 		value: total.toString(),
 		img: `<img src='${UI.getIconURL("MILITARY")}'>`,
 		details: Locale.compose("LOC_HUD_OVERHAUL_MILITARY_UNITS", count),

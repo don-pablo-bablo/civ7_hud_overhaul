@@ -26,7 +26,7 @@ import { addOptions, onTextSize, OPTION_GROUPS, readSettings, setStyle, textOffs
 
 const TAG = "[hud-overhaul]";
 // Bump on every edit to this file. UI.log then shows which build ran.
-const BUILD = "10";
+const BUILD = "11";
 const COMPONENT = "hud-overhaul-greatworks";
 const ENTRY = "hud-overhaul-greatworks-entry";
 const TEXT = "hud-overhaul-greatworks-text";
@@ -185,7 +185,7 @@ class GreatWorks extends Component {
 		this.count.textContent = Locale.compose("LOC_HUD_OVERHAUL_GREAT_WORKS_COUNT", total, slots);
 		// Text the game's tooltip can fall back on; hud-overhaul-tooltips.js
 		// draws the detailed one.
-		this.entry.dataset.tooltipContent = Locale.compose("LOC_HUD_OVERHAUL_TIP_GREAT_WORKS");
+		this.entry.dataset.tooltipContent = Locale.compose("LOC_UI_GREAT_WORKS_TITLE");
 	}
 }
 
@@ -198,7 +198,7 @@ function addOption() {
 		{
 			type: OptionType.Checkbox,
 			id: "hud-overhaul-option-great-works",
-			label: "LOC_HUD_OVERHAUL_OPTION_GREAT_WORKS",
+			label: "LOC_UI_GREAT_WORKS_TITLE",
 			description: "LOC_HUD_OVERHAUL_OPTION_GREAT_WORKS_DESCRIPTION",
 			initListener: (info) => {
 				info.currentValue = enabled();

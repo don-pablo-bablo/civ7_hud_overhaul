@@ -135,9 +135,10 @@ function el(tag, className, text) {
 	return node;
 }
 
-// The panel's words when the game passes none.
+// The panel's words when the game passes none, which only the mock does:
+// English for the mock only.
 const LABELS = {
-	title: "World Tracker",
+	title: "World Tracker", // mock only
 	research: "Research",
 	civic: "Civic",
 	chooseResearch: "Choose research",

@@ -27,7 +27,7 @@ import { addOptions, OPTION_GROUPS, readSettings, setStyle, writeSetting } from 
 
 const TAG = "[hud-overhaul]";
 // Bump on every edit to this file. UI.log then shows which build ran.
-const BUILD = "18";
+const BUILD = "20";
 const COMPONENT = "hud-overhaul-trade";
 const ENTRY = "hud-overhaul-trade-entry";
 const TEXT = "hud-overhaul-trade-text";
@@ -144,6 +144,25 @@ export function merchants(player) {
 	return unit && player.Units ? player.Units.getNumUnitsOfType(unit.$hash) : 0;
 }
 
+// What changes the routes or their limits: routes starting and ending,
+// meeting a leader or a city-state, relationships, war and peace, and
+// diplomatic actions such as a rival's sabotage, which cuts the limit.
+// Techs, civics and age changes come in at the turn's start.
+const EVENTS = [
+	"PlayerTurnActivated",
+	"TradeRouteAddedToMap",
+	"TradeRouteRemovedFromMap",
+	"TradeRouteChanged",
+	"DiplomacyMeet",
+	"DiplomacyMeetMajors",
+	"DiplomacyRelationshipChanged",
+	"DiplomacyRelationshipLevelChanged",
+	"DiplomacyDeclareWar",
+	"DiplomacyMakePeace",
+	"DiplomacyEventStarted",
+	"DiplomacyEventEnded",
+];
+
 // Each one on screen, for the option to update at once.
 const attached = new Set();
 
@@ -177,21 +196,11 @@ class Trade extends Component {
 		this.onUpdate();
 		// In case the game draws the entry after this frame.
 		requestAnimationFrame(this.onUpdate);
-		engine.on("PlayerTurnActivated", this.onUpdate);
-		engine.on("TradeRouteAddedToMap", this.onUpdate);
-		engine.on("TradeRouteRemovedFromMap", this.onUpdate);
-		engine.on("TradeRouteChanged", this.onUpdate);
-		engine.on("DiplomacyMeetMajors", this.onUpdate);
-		engine.on("DiplomacyRelationshipChanged", this.onUpdate);
+		for (const event of EVENTS) engine.on(event, this.onUpdate);
 	}
 
 	onDetach() {
-		engine.off("PlayerTurnActivated", this.onUpdate);
-		engine.off("TradeRouteAddedToMap", this.onUpdate);
-		engine.off("TradeRouteRemovedFromMap", this.onUpdate);
-		engine.off("TradeRouteChanged", this.onUpdate);
-		engine.off("DiplomacyMeetMajors", this.onUpdate);
-		engine.off("DiplomacyRelationshipChanged", this.onUpdate);
+		for (const event of EVENTS) engine.off(event, this.onUpdate);
 		attached.delete(this);
 		super.onDetach();
 	}
@@ -226,7 +235,7 @@ function addOption() {
 		{
 			type: OptionType.Checkbox,
 			id: "hud-overhaul-option-trade",
-			label: "LOC_HUD_OVERHAUL_OPTION_TRADE",
+			label: "LOC_COMMERCE_TRADE_ROUTES_TITLE",
 			description: "LOC_HUD_OVERHAUL_OPTION_TRADE_DESCRIPTION",
 			initListener: (info) => {
 				info.currentValue = enabled();

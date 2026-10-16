@@ -22,7 +22,7 @@ import { onTextSize, setStyle, textOffset } from "./hud-overhaul-settings.js";
 
 const TAG = "[hud-overhaul]";
 // Bump on every edit to this file. UI.log then shows which build ran.
-const BUILD = "7";
+const BUILD = "8";
 const STYLE_ID = "hud-overhaul-ideology-row";
 // The game's ideology symbol, as its text shows it.
 const SYMBOL = "blp:fi_nar_rew_ideology_64";
@@ -71,7 +71,7 @@ function row(player) {
 	const name = ideology ? Locale.compose(ideology.Name) : "";
 	return {
 		type: "ideology",
-		label: Locale.compose("LOC_HUD_OVERHAUL_RIBBON_IDEOLOGY"),
+		label: Locale.compose("LOC_IDEOLOGY"),
 		// The value is drawn as text, so the icon goes in as a font icon.
 		value: ideology ? `[icon:${ideology.IdeologyType}]` : "-",
 		img: `<img src='${SYMBOL}'>`,

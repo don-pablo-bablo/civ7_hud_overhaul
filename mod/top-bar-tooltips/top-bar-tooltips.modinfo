@@ -4,7 +4,7 @@
 
      The scripts and InGameText.xml are HUD Overhaul's own, copied in by
      tools/build-top-bar.mjs; this folder keeps only what differs. -->
-<Mod id="pablo-top-bar-tooltips" version="1.0.0" xmlns="ModInfo">
+<Mod id="pablo-top-bar-tooltips" version="1.1.0" xmlns="ModInfo">
 	<Properties>
 		<Name>Pablo's Top Bar and Tooltips</Name>
 		<Description>The top bar from Pablo's HUD Overhaul on its own: coloured yield pills, more pills for your units, settlements, happiness, trade, resources, treasure, great works, religion and victories, on one row or two, and a detailed tooltip on each that can be locked open. Each pill can be turned off, and the top bar and tooltips resized. Does nothing while Pablo's HUD Overhaul is on, which has all of this. Options are in Options > Add-ons.</Description>
@@ -50,6 +50,18 @@
 				<UpdateText>
 					<Item>text/en_us/InGameText.xml</Item>
 					<Item>text/en_us/TopBarText.xml</Item>
+					<Item locale="de_DE">text/de_de/InGameText.xml</Item>
+					<Item locale="de_DE">text/de_de/TopBarText.xml</Item>
+					<Item locale="es_ES">text/es_es/InGameText.xml</Item>
+					<Item locale="es_ES">text/es_es/TopBarText.xml</Item>
+					<Item locale="fr_FR">text/fr_fr/InGameText.xml</Item>
+					<Item locale="fr_FR">text/fr_fr/TopBarText.xml</Item>
+					<Item locale="it_IT">text/it_it/InGameText.xml</Item>
+					<Item locale="it_IT">text/it_it/TopBarText.xml</Item>
+					<Item locale="pl_PL">text/pl_pl/InGameText.xml</Item>
+					<Item locale="pl_PL">text/pl_pl/TopBarText.xml</Item>
+					<Item locale="pt_BR">text/pt_br/InGameText.xml</Item>
+					<Item locale="pt_BR">text/pt_br/TopBarText.xml</Item>
 				</UpdateText>
 			</Actions>
 		</ActionGroup>

@@ -63,7 +63,7 @@ import { ICON as VICTORIES, ordinal, standings, victoryClasses } from "./hud-ove
 
 const TAG = "[hud-overhaul]";
 // Bump on every edit to this file. UI.log then shows which build ran.
-const BUILD = "98";
+const BUILD = "101";
 const COMPONENT = "hud-overhaul-tooltips";
 const PINNED = "hud-overhaul-tip-pinned";
 const QUIET = "hud-overhaul-tip-quiet"; // on <html> while one is locked and the mouse is on the top bar
@@ -366,8 +366,88 @@ function settlementIcon(settlement) {
 }
 
 function kind(city) {
-	if (city.isCapital) return Locale.compose("LOC_HUD_OVERHAUL_TIP_CAPITAL");
-	return Locale.compose(city.isTown ? "LOC_HUD_OVERHAUL_TIP_TOWN" : "LOC_HUD_OVERHAUL_TIP_CITY");
+	if (city.isCapital) return Locale.compose("LOC_CAPITAL_SELECT_PROMOTION_CAPITAL");
+	return Locale.compose(city.isTown ? "LOC_CAPITAL_SELECT_PROMOTION_NONE" : "LOC_CAPITAL_SELECT_PROMOTION_CITY");
+}
+
+// A source's name from the game's key for it. The game has keys it never
+// gives text, such as the influence lost to razed settlements, which come
+// back as the key itself: those are "Other".
+function sourceName(key) {
+	const text = Locale.compose(key);
+	return text == key && key.startsWith("LOC_") ? Locale.compose("LOC_GLOBAL_YIELDS_OTHER") : text;
+}
+
+// What a step's modifier adds, by the named steps under it. The game gives
+// a modifier either as a percentage of the step's base, such as +10% from
+// a resource or -45% from unhappiness, or as an amount for each of a count
+// in the base, such as -2 influence for each conquered settlement. Either
+// way it adds what the step's value is over its base's.
+function modifierParts(node, sign = 1) {
+	const base = node.base?.value ?? 0;
+	const each = Math.abs(node.value - base * node.modifier.value) < 0.05;
+	const amount = each ? node.value : node.value - base;
+	const parts = named(node.modifier).filter((part) => part.value).flatMap(inside);
+	const share = parts.reduce((sum, part) => sum + part.value, 0);
+	if (!share) return { each, list: [[Locale.compose("LOC_GLOBAL_YIELDS_OTHER"), sign * amount]] };
+	return { each, list: parts.map((part) => [sourceName(part.description), (sign * amount * part.value) / share]) };
+}
+
+// The named sources inside a named step, when they add up to it: "Yield per
+// Town" is the leader's +2 and a memento's +1.
+function inside(node) {
+	const parts = (node.steps ?? []).flatMap((step) => named(step)).filter((part) => part.value);
+	const sum = parts.reduce((total, part) => total + part.value, 0);
+	return parts.length && Math.abs(sum - node.value) < 0.05 ? parts.flatMap(inside) : [node];
+}
+
+// A named step that is an amount for each of a count, such as "Number of
+// Towns", as its sources; null for any other step.
+function eachParts(node, sign = 1) {
+	if (!node.base || !node.modifier?.value) return null;
+	const modifier = modifierParts(node, sign);
+	return modifier.each ? modifier.list : null;
+}
+
+// The player's leader abilities, civilization abilities and equipped
+// mementos, which the game names in its breakdown, each with its icon. A
+// memento is named by its effect, so it gets its own name here.
+function knownSources(player) {
+	const known = new Map();
+	const add = (text, name, url) => text && !known.has(text) && known.set(text, [name, url]);
+	const leader = GameInfo.Leaders.lookup(player.leaderType);
+	for (const { LeaderType, TraitType } of GameInfo.LeaderTraits ?? []) {
+		const trait = LeaderType == leader?.LeaderType && GameInfo.Traits.lookup(TraitType);
+		if (trait?.Name) add(Locale.compose(trait.Name), Locale.compose(trait.Name), UI.getIconURL(LeaderType, "LEADER"));
+	}
+	const civ = GameInfo.Civilizations.lookup(player.civilizationType);
+	for (const { CivilizationType, TraitType } of GameInfo.CivilizationTraits ?? []) {
+		const trait = CivilizationType == civ?.CivilizationType && GameInfo.Traits.lookup(TraitType);
+		if (trait?.Name) add(Locale.compose(trait.Name), Locale.compose(trait.Name), UI.getIconURL(CivilizationType));
+	}
+	let mementos = [];
+	try {
+		mementos = Online.Metaprogression.getEquippedMementos(player.id) ?? [];
+	} catch (e) {
+		// Not offered in every game; the lines keep the game's text.
+	}
+	for (const memento of mementos) {
+		add(Locale.compose(memento.functionalTextDesc), Locale.compose(memento.mementoName), memento.mementoIcon ? `blp:${memento.mementoIcon}` : null);
+	}
+	return known;
+}
+
+// Lines as [name, amount, icon]: a known source gets its name and icon, and
+// lines with the same name are one.
+function withIcons(list, known) {
+	const merged = new Map();
+	for (const [source, amount] of list) {
+		const [name, url] = known.get(source) ?? [source, null];
+		const line = merged.get(name);
+		if (line) line[1] += amount;
+		else merged.set(name, [name, amount, url]);
+	}
+	return [...merged.values()];
 }
 
 // The named sources in the game's breakdown of a player's yield: each
@@ -377,7 +457,7 @@ function sources(node, list, sign = 1) {
 	if (!node) return list;
 	const name = node.description;
 	if (name && !name.startsWith("LOC_ATTR_") && name != attr("LOC_ATTR_TOTAL_YIELD")) {
-		if (node.value) list.push([Locale.compose(name), sign * node.value]);
+		if (node.value) list.push(...(eachParts(node, sign) ?? [[sourceName(name), sign * node.value]]));
 		return list;
 	}
 	// A cost the game takes off as a negative step over a positive one, such
@@ -387,11 +467,10 @@ function sources(node, list, sign = 1) {
 	const under = steps.reduce((sum, step) => sum + (step.value || 0), 0);
 	const turn = node.value < 0 && under > 0 ? -sign : sign;
 	for (const step of steps) sources(step, list, turn);
-	if (node.base) sources(node.base, list, sign);
-	if (node.modifier?.value) {
-		if (node.modifier.steps?.length) for (const step of node.modifier.steps) sources(step, list, sign);
-		else list.push([Locale.compose("LOC_GLOBAL_YIELDS_OTHER"), sign * node.modifier.value]);
-	}
+	const modifier = node.modifier?.value ? modifierParts(node, sign) : null;
+	// A count under an amount for each is not a yield of its own.
+	if (node.base && !modifier?.each) sources(node.base, list, sign);
+	if (modifier) list.push(...modifier.list);
 	return list;
 }
 
@@ -445,7 +524,7 @@ function deductions(node, list) {
 				for (const child of part.steps ?? []) walk(child);
 				if (part.base) walk(part.base);
 			} else if (part.value) {
-				parts.push([part.description == workers ? Locale.compose("LOC_HUD_OVERHAUL_TIP_SPECIALIST_MAINTENANCE") : Locale.compose(part.description), -part.value]);
+				parts.push([part.description == workers ? Locale.compose("LOC_HUD_OVERHAUL_TIP_SPECIALIST_MAINTENANCE") : sourceName(part.description), -part.value]);
 			}
 		}
 	};
@@ -453,7 +532,7 @@ function deductions(node, list) {
 	if (node.base) walk(node.base);
 	const counted = parts.reduce((sum, [, amount]) => sum + amount, 0);
 	// Whatever the parts do not name, as the game's own deductions line.
-	if (Math.abs(node.value - counted) >= 0.05) parts.push([Locale.compose(node.description), node.value - counted]);
+	if (Math.abs(node.value - counted) >= 0.05) parts.push([sourceName(node.description), node.value - counted]);
 	list.push(...parts);
 }
 
@@ -469,13 +548,20 @@ function groups(node, list) {
 	}
 	if (name && name != attr("LOC_ATTR_TOTAL_YIELD") && name != attr("LOC_ATTR_YIELD_INCOME") && !name.startsWith("LOC_ATTR_")) {
 		if (!node.value) return list;
+		const each = eachParts(node);
+		if (each) {
+			list.push(...each);
+			return list;
+		}
 		const specialists = name == attr("LOC_ATTR_YIELD_FROM_WORKERS") ? 0 : fromSpecialists(node);
-		if (Math.abs(node.value - specialists) >= 0.05) list.push([Locale.compose(name), node.value - specialists]);
+		if (Math.abs(node.value - specialists) >= 0.05) list.push([sourceName(name), node.value - specialists]);
 		if (specialists) list.push([attr("LOC_ATTR_YIELD_FROM_WORKERS"), specialists]);
 		return list;
 	}
 	for (const step of node.steps ?? []) groups(step, list);
-	if (node.base) groups(node.base, list);
+	const modifier = node.modifier?.value ? modifierParts(node) : null;
+	if (node.base && !modifier?.each) groups(node.base, list);
+	if (modifier) list.push(...modifier.list);
 	return list;
 }
 
@@ -500,12 +586,12 @@ function cityGroups(city, type, index, total) {
 	let gap = total - list.reduce((sum, [, amount]) => sum + amount, 0);
 	const near = (a, b) => Math.abs(a - b) < 0.05;
 	if (works && near(gap, works)) {
-		list.push([Locale.compose("LOC_HUD_OVERHAUL_TIP_FROM_GREAT_WORKS"), works]);
+		list.push([Locale.compose("LOC_ATTR_YIELD_FROM_GREAT_WORKS"), works]);
 		gap -= works;
 	} else if (works && list.length && list[0][1] >= works) {
 		// The buildings' line, the first source the game names.
 		list[0] = [list[0][0], list[0][1] - works];
-		list.splice(1, 0, [Locale.compose("LOC_HUD_OVERHAUL_TIP_FROM_GREAT_WORKS"), works]);
+		list.splice(1, 0, [Locale.compose("LOC_ATTR_YIELD_FROM_GREAT_WORKS"), works]);
 	}
 	if (!near(gap, 0)) list.push([Locale.compose("LOC_GLOBAL_YIELDS_OTHER"), gap]);
 	return list;
@@ -520,7 +606,7 @@ function yieldPanel(type, name, colour, detailed) {
 	const yieldType = YieldTypes[type];
 	const url = UI.getIconURL(type, "YIELD");
 	const total = player.Stats.getNetYield(yieldType);
-	const perTurn = chip(url, Locale.compose("LOC_HUD_OVERHAUL_TIP_PER_TURN", signed(total)));
+	const perTurn = chip(url, Locale.compose("LOC_UI_X_PER_TURN", signed(total)));
 	const rows = [];
 	if (type == "YIELD_GOLD" && player.Treasury) rows.push(chips(chip(url, String(Math.floor(player.Treasury.goldBalance))), perTurn));
 	else if (type == "YIELD_DIPLOMACY" && player.DiplomacyTreasury) rows.push(chips(chip(url, String(Math.floor(player.DiplomacyTreasury.diplomacyBalance))), perTurn));
@@ -542,8 +628,9 @@ function yieldPanel(type, name, colour, detailed) {
 		.map((city) => [city, city.Yields.getNetYield(yieldType)])
 		.sort((a, b) => b[1] - a[1]);
 	const most = Math.max(1, ...cities.map(([, value]) => Math.abs(value)));
-	section(box, Locale.compose("LOC_HUD_OVERHAUL_TIP_SETTLEMENTS"));
+	section(box, Locale.compose("LOC_COMMERCE_SETTLEMENTS_TITLE"));
 	const index = GameInfo.Yields.findIndex((row) => row.YieldType == type);
+	const known = knownSources(player);
 	for (const [i, [city, value]] of (detailed ? cities : cities.slice(0, MAX_ROWS)).entries()) {
 		if (detailed && i) rule(box);
 		// Locked, the settlement and all its lines go to it on a click.
@@ -558,8 +645,9 @@ function yieldPanel(type, name, colour, detailed) {
 			block.append(bar);
 		}
 		// Each source on a line of its own, under the settlement.
-		for (const [source, amount] of detailed ? cityGroups(city, type, index, value) : []) {
+		for (const [source, amount, sourceIcon] of detailed ? withIcons(cityGroups(city, type, index, value), known) : []) {
 			const line = div("hud-overhaul-tip-row hud-overhaul-tip-effect hud-overhaul-tip-tag font-body text-2xs");
+			if (sourceIcon) line.append(icon(sourceIcon, 14, 3));
 			line.append(div("hud-overhaul-tip-name", source), div("hud-overhaul-tip-value", signed(amount)));
 			block.append(line);
 		}
@@ -568,10 +656,23 @@ function yieldPanel(type, name, colour, detailed) {
 	if (!cities.length) none(box);
 
 	const names = new Set(cities.map(([city]) => Locale.compose(city.name)));
-	const other = sources(player.Stats.getYields()?.[index], []).filter(([source]) => !names.has(source));
+	// One line per source: a key with no text joins the game's own other.
+	const merged = new Map();
+	for (const [source, value] of sources(player.Stats.getYields()?.[index], [])) merged.set(source, (merged.get(source) ?? 0) + value);
+	// Anything the game's breakdown leaves unnamed, such as Carthage's
+	// science from conquered settlements, as other.
+	const settlements = cities.reduce((sum, [, value]) => sum + value, 0);
+	// Lines too small to show count towards other too.
+	const counted = [...merged].reduce((sum, [source, value]) => sum + (names.has(source) || Math.abs(value) < 0.05 ? 0 : value), 0);
+	const rest = total - settlements - counted;
+	if (Math.abs(rest) >= 0.05) {
+		const key = Locale.compose("LOC_GLOBAL_YIELDS_OTHER");
+		merged.set(key, (merged.get(key) ?? 0) + rest);
+	}
+	const other = [...merged].filter(([source, value]) => !names.has(source) && Math.abs(value) >= 0.05);
 	if (other.length) {
-		section(box, Locale.compose("LOC_HUD_OVERHAUL_TIP_EMPIRE"));
-		for (const [source, value] of other) row(box, null, source, "", signed(value), url, value < 0);
+		section(box, Locale.compose("LOC_UI_MINI_MAP_EMPIRE"));
+		for (const [source, value, sourceIcon] of withIcons(other, known)) row(box, sourceIcon, source, "", signed(value), url, value < 0);
 	}
 	return box;
 }
@@ -607,7 +708,7 @@ function settlementsPanel(detailed) {
 		if (left <= 0) limitChip.lastChild.style.color = LIMIT_COLOUR;
 		caps.push(chips(limitChip));
 	}
-	head(box, Locale.compose("LOC_HUD_OVERHAUL_TIP_SETTLEMENTS"), chips(chipOf([settlementIcon(), split], [popIcon, String(population)])), ...caps);
+	head(box, Locale.compose("LOC_COMMERCE_SETTLEMENTS_TITLE"), chips(chipOf([settlementIcon(), split], [popIcon, String(population)])), ...caps);
 	for (const [title, list] of [
 		["LOC_HUD_OVERHAUL_TIP_CITIES", cities],
 		["LOC_HUD_OVERHAUL_TIP_TOWNS", towns],
@@ -737,7 +838,7 @@ function openVictoryTab(tab) {
 
 function victoriesPanel(detailed) {
 	const box = div("hud-overhaul-tip");
-	head(box, Locale.compose("LOC_HUD_OVERHAUL_TIP_VICTORIES"));
+	head(box, Locale.compose("LOC_SETUP_VICTORIES_NAME"));
 	const classes = victoryClasses();
 	for (const victory of standings()) {
 		const [, emblem, colour] = classes[victory.cls];
@@ -818,7 +919,7 @@ function treasurePanel(detailed) {
 	const unit = GameInfo.Units.lookup("UNIT_TREASURE_FLEET");
 	const atSea = unit && player?.Units ? player.Units.getNumUnitsOfType(unit.$hash) : 0;
 	if (atSea > 0) rows.push(chips(chip(fleet, Locale.compose("LOC_HUD_OVERHAUL_TIP_AT_SEA", atSea))));
-	head(box, Locale.compose("LOC_HUD_OVERHAUL_TIP_TREASURE"), ...rows);
+	head(box, Locale.compose("LOC_COMMERCE_TREASURE_FLEETS_TITLE"), ...rows);
 	const making = group(box, "treasure-making", Locale.compose("LOC_HUD_OVERHAUL_TIP_MAKING_CONVOYS"), list.length, detailed);
 	(making ? list.slice(0, MAX_ROWS) : []).forEach(({ city, turns, goal, gold, gdp, resources }, i) => {
 		if (detailed && i) rule(box);
@@ -964,7 +1065,7 @@ function tradePanel(detailed) {
 	const idle = player ? merchants(player) : 0;
 	const rows = [chip(trade, Locale.compose("LOC_HUD_OVERHAUL_TIP_TRADE_IN_USE", used, limit))];
 	if (idle) rows.push(chip(UI.getIconURL("UNIT_MERCHANT"), Locale.compose("LOC_HUD_OVERHAUL_TIP_MERCHANTS", idle)));
-	head(box, Locale.compose("LOC_HUD_OVERHAUL_TIP_TRADE"), chips(...rows));
+	head(box, Locale.compose("LOC_COMMERCE_TRADE_ROUTES_TITLE"), chips(...rows));
 	// Why there are none, when there are none.
 	const unlock = player ? merchantUnlock(player) : null;
 	if (unlock) message(box, Locale.compose("LOC_HUD_OVERHAUL_TIP_NEED_MERCHANTS", Locale.compose(unlock.Name)));
@@ -972,7 +1073,9 @@ function tradePanel(detailed) {
 		message(box, Locale.compose("LOC_HUD_OVERHAUL_TIP_MEET_LEADERS"));
 		return box;
 	}
-	if (active.length && group(box, "trade-active", Locale.compose("LOC_HUD_OVERHAUL_TIP_ACTIVE_ROUTES"), active.length, detailed)) {
+	// The game's own headings, in the player's language, with the count.
+	const counted = (key, count) => `${Locale.compose(key)} (${count})`;
+	if (active.length && group(box, "trade-active", counted("LOC_COMMERCE_ACTIVE_TRADE_ROUTES_TITLE", active.length), null, detailed, active.length)) {
 		for (const [i, route] of (detailed ? active : active.slice(0, MAX_ROWS)).entries()) {
 			if (detailed && i) rule(box);
 			routeRow(detailed ? settlementBlock(box, route.location) : box, route, detailed);
@@ -998,9 +1101,9 @@ function tradePanel(detailed) {
 		}
 		more(box, members.length - MAX_ROWS);
 	};
-	partnerGroup("trade-leaders", Locale.compose("LOC_HUD_OVERHAUL_TIP_LEADERS"), list.filter((partner) => !partner[4]));
-	partnerGroup("trade-city-states", Locale.compose("LOC_HUD_OVERHAUL_TIP_CITY_STATES"), list.filter((partner) => partner[4]));
-	const open = group(box, "trade-available", Locale.compose("LOC_HUD_OVERHAUL_TIP_AVAILABLE_ROUTES", available.length), null, detailed, available.length);
+	partnerGroup("trade-leaders", Locale.compose("LOC_PROFILE_TAB_LEADERS"), list.filter((partner) => !partner[4]));
+	partnerGroup("trade-city-states", Locale.compose("LOC_ADVANCED_OPTIONS_CITY_STATES"), list.filter((partner) => partner[4]));
+	const open = group(box, "trade-available", counted("LOC_COMMERCE_AVAILABLE_TRADE_ROUTES_TITLE", available.length), null, detailed, available.length);
 	if (!available.length) message(box, Locale.compose("LOC_HUD_OVERHAUL_TIP_NO_AVAILABLE_ROUTES"));
 	else if (!detailed) box.append(nameList(available.map((route) => route.city)));
 	else if (open) {
@@ -1056,14 +1159,14 @@ function greatWorksPanel(detailed) {
 	if (!player?.Cities) return box;
 	const { settlements, stored, total, slots, filled, yields } = greatWorks(player);
 	const rows = [chips(chip(GREAT_WORKS_ICON, Locale.compose("LOC_HUD_OVERHAUL_TIP_N_WORKS", total)), chip(null, Locale.compose("LOC_HUD_OVERHAUL_TIP_SLOTS_FILLED", filled, slots)))];
-	const totals = WORK_YIELDS.filter((type) => yields[type]).map((type) => [UI.getIconURL(type, "YIELD"), Locale.compose("LOC_HUD_OVERHAUL_TIP_PER_TURN", signed(yields[type]))]);
+	const totals = WORK_YIELDS.filter((type) => yields[type]).map((type) => [UI.getIconURL(type, "YIELD"), Locale.compose("LOC_UI_X_PER_TURN", signed(yields[type]))]);
 	if (totals.length) rows.push(chips(chipOf(...totals)));
-	head(box, Locale.compose("LOC_HUD_OVERHAUL_TIP_GREAT_WORKS"), ...rows);
+	head(box, Locale.compose("LOC_UI_GREAT_WORKS_TITLE"), ...rows);
 	if (!total) {
 		message(box, Locale.compose("LOC_HUD_OVERHAUL_TIP_NO_WORKS"));
 		return box;
 	}
-	section(box, Locale.compose("LOC_HUD_OVERHAUL_TIP_ON_DISPLAY"));
+	section(box, Locale.compose("LOC_UI_GREAT_WORKS_DISPLAY"));
 	const shown = settlements.filter((settlement) => settlement.works);
 	for (const [i, settlement] of (detailed ? shown : shown.slice(0, MAX_ROWS)).entries()) {
 		if (detailed && i) rule(box);
@@ -1153,12 +1256,12 @@ function religionPanel(detailed) {
 		name.append(icon(mine.icon, 20), label);
 		rows.push(name, chips(chip(mine.icon, Locale.compose("LOC_HUD_OVERHAUL_TIP_WORLD_SHARE", percent)), chip(settlementIcon(), Locale.compose("LOC_HUD_OVERHAUL_TIP_YOURS_FOLLOWING", following, settlements.length))));
 	}
-	head(box, Locale.compose("LOC_HUD_OVERHAUL_TIP_RELIGION"), ...rows);
+	head(box, Locale.compose("LOC_DIPLOMACY_ACTIONS_SUBHEADER_RELIGION"), ...rows);
 	if (!mine) message(box, Locale.compose(canFound ? "LOC_HUD_OVERHAUL_TIP_CAN_FOUND" : "LOC_HUD_OVERHAUL_TIP_NOT_FOUNDED"));
 	// Under the religion screen's headings, in its order: reliquary, founder,
 	// enhancer.
 	for (const [i, belief] of (detailed ? beliefs : []).entries()) {
-		if (belief.type != beliefs[i - 1]?.type) section(box, BELIEF_HEADINGS[belief.type] ? Locale.compose(BELIEF_HEADINGS[belief.type]) : belief.kind || Locale.compose("LOC_HUD_OVERHAUL_TIP_BELIEFS"));
+		if (belief.type != beliefs[i - 1]?.type) section(box, BELIEF_HEADINGS[belief.type] ? Locale.compose(BELIEF_HEADINGS[belief.type]) : belief.kind || Locale.compose("LOC_PEDIA_PAGEGROUP_BELIEFS_NAME"));
 		else rule(box);
 		row(box, null, belief.name, "", "");
 		// The game's own text, with its icons.
@@ -1166,7 +1269,7 @@ function religionPanel(detailed) {
 		effect.innerHTML = belief.text;
 		box.append(effect);
 	}
-	section(box, Locale.compose("LOC_HUD_OVERHAUL_TIP_YOUR_SETTLEMENTS"));
+	section(box, Locale.compose("LOC_DIPLOMACY_PEACE_DEAL_YOUR_SETTLEMENTS"));
 	peoplesKey(box);
 	// Those following your religion first.
 	const follows = (settlement) => (mine && settlement.majority?.type == mine.type ? 1 : 0);
@@ -1203,10 +1306,10 @@ function religionPanel(detailed) {
 		box.append(track);
 	};
 	for (const faith of world.religions) {
-		const owner = faith.owner == player.id ? Locale.compose("LOC_HUD_OVERHAUL_TIP_FOUNDED_BY_YOU") : faith.ownerName;
+		const owner = faith.owner == player.id ? Locale.compose("LOC_PLOT_TOOLTIP_YOU") : faith.ownerName;
 		shareRow(faith.icon, faith.name, owner, faith.settlements);
 	}
-	shareRow(null, Locale.compose("LOC_HUD_OVERHAUL_TIP_NO_RELIGION"), "", world.none);
+	shareRow(null, Locale.compose("LOC_DIPLOMACY_INFO_NO_RELIGION"), "", world.none);
 	return box;
 }
 
@@ -1229,7 +1332,7 @@ export function resourcesBox({ byClass, waiting }, detailed) {
 	const counts = shown.map(([type]) => [UI.getIconURL(type), String(byClass[type]?.length ?? 0)]);
 	const rows = [chips(chipOf(...counts))];
 	if (waiting > 0) rows.push(chips(chip(null, Locale.compose("LOC_HUD_OVERHAUL_TIP_TO_ASSIGN", waiting))));
-	head(box, Locale.compose("LOC_HUD_OVERHAUL_TIP_RESOURCES"), ...rows);
+	head(box, Locale.compose("LOC_UI_RESOURCE_ALLOCATION_RESOURCES"), ...rows);
 	for (const [type, name] of shown) {
 		const list = byClass[type] ?? [];
 		// Headed by the class's icon, the one the pill and chip show.
@@ -1442,7 +1545,7 @@ const OPEN_SLOTS = "#cea92f";
 
 // The game's land, sea and air domains, each a heading of its own.
 const DOMAINS = [
-	["DOMAIN_LAND", "LOC_HUD_OVERHAUL_TIP_LAND"],
+	["DOMAIN_LAND", "LOC_COMMERCE_TRADE_DOMAIN_LAND"],
 	["DOMAIN_SEA", "LOC_HUD_OVERHAUL_TIP_NAVAL"],
 	["DOMAIN_AIR", "LOC_HUD_OVERHAUL_TIP_AIR"],
 ];
@@ -1459,13 +1562,13 @@ function unitsPanel(detailed) {
 	};
 	// Combat strength, as the ribbon's row gives it (hud-overhaul-military.js).
 	const total = chip(UI.getIconURL("MILITARY"), Locale.compose("LOC_HUD_OVERHAUL_TIP_COMBAT_STRENGTH", player ? combatStrength(player)[0] : 0));
-	head(box, Locale.compose("LOC_HUD_OVERHAUL_UNITS_TITLE"), chips(kind(MILITARY_UNITS, Locale.compose("LOC_HUD_OVERHAUL_TIP_N_MILITARY", count.military)), kind(CIVILIAN, Locale.compose("LOC_HUD_OVERHAUL_TIP_N_CIVILIAN", count.civilian))), chips(total));
+	head(box, Locale.compose("LOC_UI_PRODUCTION_CATEGORY_UNITS"), chips(kind(MILITARY_UNITS, Locale.compose("LOC_HUD_OVERHAUL_TIP_N_MILITARY", count.military)), kind(CIVILIAN, Locale.compose("LOC_HUD_OVERHAUL_TIP_N_CIVILIAN", count.civilian))), chips(total));
 	// Military units by domain, each with units under its own heading; with
 	// none at all, one Military heading saying so.
 	const domains = DOMAINS.map(([domain, title]) => [title, military.filter((unit) => unit.domain == domain)]).filter(([, list]) => list.length);
-	if (!domains.length) domains.push(["LOC_HUD_OVERHAUL_TIP_MILITARY", []]);
+	if (!domains.length) domains.push(["LOC_TAG_MILITARY", []]);
 	for (const [title, list] of domains) unitGroup(box, Locale.compose(title), list, detailed);
-	unitGroup(box, Locale.compose("LOC_HUD_OVERHAUL_TIP_CIVILIANS"), civilian, detailed);
+	unitGroup(box, Locale.compose("LOC_PEDIA_PAGEGROUP_CIVILIAN_UNITS_NAME"), civilian, detailed);
 	if (detailed && military.length + civilian.length) message(box, Locale.compose("LOC_HUD_OVERHAUL_TIP_UNIT_CLICK"));
 	return box;
 }

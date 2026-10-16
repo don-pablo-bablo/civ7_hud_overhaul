@@ -73,6 +73,8 @@ Click the pill, or press the tooltip inspect key, K by default, for its detailed
 [*][b]a group's heading[/b], such as Cities or a victory, to close or open it.
 [/list]
 
+Sources the game gives no name, or a name with no text, add up to one Other line, under a settlement or the empire.
+
 While a detailed tooltip is open, the other pills show no tooltip on hover, so nothing pops up behind it. Click another pill to open its detailed tooltip instead.
 
 [h2]Compatibility[/h2]
@@ -82,6 +84,10 @@ HUD Overhaul changes the top bar, the dock, the leader ribbon, the minimap and t
 Adjusted to work together: Drongo's Leader Ribbons, Map Trix, Ready or Not and No Gradients.
 
 No changes needed: Readable Happiness Icons, Demographics, Drongo's Wonder Screen, Detailed Map Tacks, REWIND: Replay Map History, City Hall, Pablo's Better Yield Tooltip, Leugi's Diplomacy Icon Tweaks, Friends and Rivals, Flag Corps, Resource Re-sorts, Resource Page Warehouse Indicator, Leonardfactory's Policy Yield Previews, MantisMaestro's Compact Production Chooser, Zatygold's Town Focus Info, Drongo's Syncretism Revealer, Discovery Lens, Concise Specialists Lens, More Lenses, Improved Archaeology Lens, Ends Movement Highlights, Orion's Bonus Icons+, Orion's Civilopedia+, Mattifus's Memento Editor and nasuellia-non-sticky-selection.
+
+[h2]Languages[/h2]
+
+English, French, German, Italian, Polish, Portuguese (Brazil) and Spanish. The translations started as machine translation, with the game's own words for its terms, and may read oddly in places. Post corrections in the comments or on GitHub. In the game's other languages, the mod's own text shows in English.
 
 [h2]Saves[/h2]
 

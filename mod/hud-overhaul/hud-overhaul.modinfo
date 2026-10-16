@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- UI only: it changes no rules, yields or definitions. AffectsSavedGames is 0, so it can be
      added to or removed from a game in progress. -->
-<Mod id="pablo-hud-overhaul" version="1.1.1" xmlns="ModInfo">
+<Mod id="pablo-hud-overhaul" version="1.2.0" xmlns="ModInfo">
 	<Properties>
 		<Name>Pablo's HUD Overhaul</Name>
 		<Description>Lays out the main game screen more like Civilization VI: a top bar and panels in a colour of your choice, a World Tracker under the tech and civic dock, coloured yield pills with more of them, your units, detailed tooltips, and a compact leader ribbon. Each part can be resized or left as the game has it. Works with Drongo's Leader Ribbons, Map Trix, Ready or Not and No Gradients. Options are in Options > Add-ons.</Description>
@@ -99,9 +99,16 @@
 					     option, only while that mod is on. -->
 					<Item>ui/hud-overhaul-drongo.js</Item>
 				</UIScripts>
-				<!-- All the text players see: options, pills and tooltips. -->
+				<!-- All the text players see: options, pills and tooltips, in
+				     English and machine translated into each language. -->
 				<UpdateText>
 					<Item>text/en_us/InGameText.xml</Item>
+					<Item locale="de_DE">text/de_de/InGameText.xml</Item>
+					<Item locale="es_ES">text/es_es/InGameText.xml</Item>
+					<Item locale="fr_FR">text/fr_fr/InGameText.xml</Item>
+					<Item locale="it_IT">text/it_it/InGameText.xml</Item>
+					<Item locale="pl_PL">text/pl_pl/InGameText.xml</Item>
+					<Item locale="pt_BR">text/pt_br/InGameText.xml</Item>
 				</UpdateText>
 			</Actions>
 		</ActionGroup>

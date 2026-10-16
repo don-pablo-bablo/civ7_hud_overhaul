@@ -147,6 +147,9 @@ red for a loss. In a detailed tooltip, click:
 - **a unit** to select it and move the camera to it;
 - **a group's heading**, such as Cities or a victory, to close or open it.
 
+Sources the game gives no name, or a name with no text, add up to one
+Other line, under a settlement or the empire.
+
 While a detailed tooltip is open, the other pills show no tooltip on hover,
 so nothing pops up behind it. Click another pill to open its detailed
 tooltip instead.
@@ -414,6 +417,13 @@ No changes needed:
   **[Orion's Civilopedia+](https://steamcommunity.com/sharedfiles/filedetails/?id=3640054014)**,
   **[Mattifus's Memento Editor](https://steamcommunity.com/sharedfiles/filedetails/?id=3508036392)**
   and **[nasuellia-non-sticky-selection](https://steamcommunity.com/sharedfiles/filedetails/?id=3535775470)**.
+
+## Languages
+
+English, French, German, Italian, Polish, Portuguese (Brazil) and Spanish. The translations started as machine translation, with the game's
+own words for its terms, and may read oddly in places. Corrections are
+welcome as an issue or a pull request. In the game's other languages, the
+mod's own text shows in English.
 
 ## Saves
 
