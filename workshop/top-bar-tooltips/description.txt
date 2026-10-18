@@ -52,6 +52,7 @@ This mod does nothing while Pablo's HUD Overhaul is on, which has all of it. Eac
 It has been played with all of these enabled at once:
 
 [list]
+[*][b]Chronicles & Myths[/b]: its Legacy, Glory and Mythic pills sit after these, drawn as pills of their own colours.
 [*][b]Map Trix[/b]: its option for coloured top bar entries gives way to these pills.
 [*][b]No Gradients[/b]: it still removes the screen's vignette, and the pills sit on its top bar.
 [*][b]Readable Happiness Icons[/b]: its icons for each happiness level show in the happiness levels pill and its tooltip.

@@ -17,7 +17,7 @@ replacing them. Each script in `ui/` is listed in the modinfo.
 | `.../ui/hud-overhaul-yields.js` | empire food and production in the top bar, through the game's mod slot, and their option |
 | `.../ui/hud-overhaul-treasure.js` | treasure convoys in the Exploration Age as a pill in the top bar, through the game's mod slot, and its option |
 | `.../ui/hud-overhaul-celebration.js` | turns to the next celebration, added to the top bar's happiness pill, and its option |
-| `.../ui/hud-overhaul-pills.js` | coloured pills behind the top bar's yields |
+| `.../ui/hud-overhaul-pills.js` | coloured pills behind the top bar's yields, and behind Chronicles & Myths' |
 | `.../ui/hud-overhaul-settlements.js` | the settlement count in the top bar split into cities and towns, with the population, turning red when over the cap with the happiness lost, and their options |
 | `.../ui/hud-overhaul-commerce.js` | opens the commerce screen on a tab, for the resources, trade and treasure pills |
 | `.../ui/hud-overhaul-resources.js` | the empire's resources by class as a pill in the top bar, through the game's mod slot, and its option |
@@ -27,7 +27,7 @@ replacing them. Each script in `ui/` is listed in the modinfo.
 | `.../ui/hud-overhaul-units.js` | your military units and civilians as a pill in the top bar, through the game's mod slot, the list its tooltip reads, and its option |
 | `.../ui/hud-overhaul-happiness.js` | settlements at each happiness level as a pill in the top bar, through the game's mod slot, and its option |
 | `.../ui/hud-overhaul-victories.js` | your place in each victory as a pill in the top bar, through the game's mod slot, the standings its tooltip reads, and its option |
-| `.../ui/hud-overhaul-rows.js` | the top bar's pills on one row or two in a fixed order: moves the game's pills into the mods' slot, adds a line break, puts the victories at the end of the first row, and wraps what does not fit before the top right corner; the top bar's size, and the option for the rows |
+| `.../ui/hud-overhaul-rows.js` | the top bar's pills on one row or two in a fixed order: moves the game's pills into the mods' slot, adds a line break, puts the victories at the end of the first row, and wraps what does not fit before the top right corner; moves other mods' pills from after the slot into it; the top bar's size, and the option for the rows |
 | `.../ui/hud-overhaul-tooltips.js` | detailed tooltips on the top bar's pills, as components through `data-tooltip-component`, locked open with the inspect key |
 | `.../ui/hud-overhaul-ribbon.js` | the compact leader ribbon and its option |
 | `.../ui/hud-overhaul-strength.js` | combat strength by Drongo's formula, for the units tooltip and the ribbon's row |
@@ -93,6 +93,14 @@ The fixes for them:
   outrank them.
 - **Ready or Not**: `hud-overhaul-layout.js`. It makes the policies button a
   ring (`ring-gov`), which gets rules of its own in the dock row.
+- **Chronicles & Myths**: `hud-overhaul-rows.js`. It adds its pills to the
+  top bar after the mods' slot, which widens the bar past the screen. Any
+  such pill moves into the slot after this mod's, and
+  `hud-overhaul-pills.js` draws Chronicles' as pills. Its dock button is wrapped in a box of its own
+  in the dock's mod slot.
+- **My Cities Overview**: `hud-overhaul-layout.js`. It spaces the dock's mod
+  slot and everything in it with `!important` rules, so the dock row's
+  rules for that slot use `!important` too.
 - **No Gradients**: `hud-overhaul-theme.js`. It forces the top bar's
   background with `!important`, so the top bar rule uses it too.
 

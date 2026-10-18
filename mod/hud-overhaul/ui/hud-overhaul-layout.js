@@ -21,7 +21,7 @@ import { addOptions, enabled, onPart, onSize, onTextSize, OPTION_GROUPS, partOn,
 (() => {
 	const TAG = "[hud-overhaul]";
 	// Bump on every edit to this file. UI.log then shows which build ran.
-	const BUILD = "22";
+	const BUILD = "23";
 	const rem = (px) => `${(px / 18).toFixed(4)}rem`;
 	// Text: px at the game's Small text size, moved by the player's.
 	const text = (px) => rem(px + textOffset());
@@ -110,6 +110,17 @@ import { addOptions, enabled, onPart, onSize, onTextSize, OPTION_GROUPS, partOn,
 				transform: scale(${BUTTON});
 				transform-origin: 0 0;
 				margin: ${rem(buttonTop)} ${rem(buttonTrail)} 0 ${rem(buttonLead)};
+			}
+			/* Other mods' buttons in the dock's mod slot are spaced as the
+			   game's. My Cities Overview spaces the slot and all in it with
+			   !important rules of its own; a button that Chronicles & Myths
+			   puts there is wrapped in a box of its own. */
+			.harness panel-sub-system-dock #panel-sub-system-dock-mod-slot,
+			.harness panel-sub-system-dock #panel-sub-system-dock-mod-slot > * {
+				margin: 0 !important;
+			}
+			.harness panel-sub-system-dock #panel-sub-system-dock-mod-slot .ssb__button.ssb__element {
+				margin: ${rem(buttonTop)} ${rem(buttonTrail)} 0 ${rem(buttonLead)} !important;
 			}
 			/* BZ Ready or Not makes the policies button a ring of its own: a
 			   52px box with a 54px icon, and its counter in a smaller font
