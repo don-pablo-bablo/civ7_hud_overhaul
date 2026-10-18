@@ -23,6 +23,7 @@
 // own text colours, with their own icons at 20px rather than 36px.
 
 import { onTextSize, setStyle, textOffset } from "./hud-overhaul-settings.js";
+import { FULL } from "./hud-overhaul-edition.js";
 
 const rem = (px) => `${(px / 18).toFixed(4)}rem`;
 
@@ -86,15 +87,16 @@ ${pill(cls)}:hover {
 	background-color: rgba(${rgb}, 0.4);
 }`,
 ).join("\n")}
-/* Chronicles & Myths' pills, as tall as the yields'. Their own text size
-   and spacing go. */
+/* Chronicles & Myths' pills, as tall as the yields' and with the same text
+   size: 15px where HUD Overhaul sets the bar's text (hud-overhaul-layout.js),
+   the game's 18px in the top bar mod. Their own spacing goes. */
 .harness panel-yield-banner .panel-yield__top-bar-content #yield-banner-mod-slot .cm-banner__entry {
 	height: ${grow(24)};
 	margin: ${rem(4)} ${rem(0.5)};
 	padding: 0 ${rem(8)} 0 ${rem(4)};
 	border-radius: ${grow(12)};
 	border: ${rem(1)} solid transparent;
-	font-size: ${grow(16)};
+	font-size: ${grow(FULL ? 15 : 18)};
 }
 .harness panel-yield-banner .panel-yield__top-bar-content #yield-banner-mod-slot .cm-banner__icon {
 	width: ${grow(20)};
@@ -131,7 +133,7 @@ export function render(fixture) {
 
 const TAG = "[hud-overhaul]";
 // Bump on every edit to this file. UI.log then shows which build ran.
-const BUILD = "19";
+const BUILD = "21";
 
 function apply() {
 	setStyle("hud-overhaul-pills", styles(textOffset()));
