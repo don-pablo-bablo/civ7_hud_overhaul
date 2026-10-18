@@ -81,7 +81,7 @@ While a detailed tooltip is open, the other pills show no tooltip on hover, so n
 
 HUD Overhaul changes the top bar, the dock, the leader ribbon, the minimap and the turn dial. Other mods that change the same parts can clash with it. It has been played with all of these enabled at once.
 
-Adjusted to work together: Drongo's Leader Ribbons, Map Trix, Ready or Not and No Gradients.
+Adjusted to work together: Drongo's Leader Ribbons, Map Trix, Ready or Not, No Gradients, Chronicles & Myths and My Cities Overview.
 
 No changes needed: Readable Happiness Icons, Demographics, Drongo's Wonder Screen, Detailed Map Tacks, REWIND: Replay Map History, City Hall, Pablo's Better Yield Tooltip, Leugi's Diplomacy Icon Tweaks, Friends and Rivals, Flag Corps, Resource Re-sorts, Resource Page Warehouse Indicator, Leonardfactory's Policy Yield Previews, MantisMaestro's Compact Production Chooser, Zatygold's Town Focus Info, Drongo's Syncretism Revealer, Discovery Lens, Concise Specialists Lens, More Lenses, Improved Archaeology Lens, Ends Movement Highlights, Orion's Bonus Icons+, Orion's Civilopedia+, Mattifus's Memento Editor and nasuellia-non-sticky-selection.
 

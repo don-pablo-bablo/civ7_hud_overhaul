@@ -382,6 +382,12 @@ Adjusted to work together:
 - **[No Gradients](https://steamcommunity.com/sharedfiles/filedetails/?id=3509395646)**:
   it still removes the screen's vignette, and the top bar keeps HUD
   Overhaul's colour and opacity.
+- **[Chronicles & Myths](https://steamcommunity.com/sharedfiles/filedetails/?id=3799813821)**:
+  its Legacy, Glory and Mythic pills sit after HUD Overhaul's, drawn as
+  pills of their own colours. Its dock button lines up with the others.
+- **[My Cities Overview](https://steamcommunity.com/sharedfiles/filedetails/?id=3799474546)**:
+  its dock button lines up with the others, as do other mods' buttons beside
+  it.
 
 No changes needed:
 

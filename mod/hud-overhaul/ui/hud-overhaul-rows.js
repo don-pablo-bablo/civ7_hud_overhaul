@@ -27,8 +27,17 @@
 // the pills past it wrap. A victories pill that does not fit on the first
 // row goes last, rather than on a row of its own.
 //
+// Other mods' pills, such as Chronicles & Myths' Legacy, Glory and Mythic,
+// go in the bar after the slot, where they widen the bar past the screen and
+// push the turn and date off its edge. They move into the slot at the end of
+// the second row, after this mod's pills and before victories only when
+// victories go last, as they come after the game's pills in the base game,
+// and back with the mod off. hud-overhaul-pills.js draws them
+// as pills.
+//
 // A hidden element in the slot, put there through ModdingRegistry, arranges
-// the pills each time the top bar is rebuilt.
+// the pills each time the top bar is rebuilt, and again when another mod
+// adds a pill to the bar.
 //
 // The diplomacy screens have a top bar of their own, centred between the
 // two leaders' panels. It keeps to the game's pills on one row, as in the
@@ -43,13 +52,14 @@ import { addOptions, enabled, onSize, onTextSize, OPTION_GROUPS, readSettings, s
 
 const TAG = "[hud-overhaul]";
 // Bump on every edit to this file. UI.log then shows which build ran.
-const BUILD = "9";
+const BUILD = "15";
 const COMPONENT = "hud-overhaul-rows";
 const IN_SLOT = "hud-overhaul-in-slot"; // on the top bar while its pills are in the slot
 const TWO = "hud-overhaul-two-rows"; // on the top bar while it has two rows
 const SIZED = "hud-overhaul-sized"; // on the top bar while it is drawn at the player's size
 const BREAK = "hud-overhaul-row-break";
 const VICTORIES = "hud-overhaul-victories";
+const GUEST = "hud-overhaul-guest"; // on another mod's pill while it is in the slot
 // The game's own pills, in its order.
 const GAME = ["YIELD_GOLD", "YIELD_SCIENCE", "YIELD_CULTURE", "YIELD_HAPPINESS", "YIELD_DIPLOMACY"];
 // px left clear before the top right corner's turn and date or the ribbon.
@@ -58,6 +68,14 @@ const CLEAR = 8;
 const rem = (px) => `${(px / 18).toFixed(4)}rem`;
 
 const byIcon = (parent, icon) => [...parent.children].find((child) => child.dataset?.icon === icon);
+
+// Other mods' pills in the bar: whatever is after the slot. The game puts
+// its own pills before it, and this mod puts them back there.
+const afterSlot = (bar) => {
+	const children = [...bar.children];
+	const at = children.findIndex((child) => child.id === "yield-banner-mod-slot");
+	return at < 0 ? [] : children.slice(at + 1);
+};
 
 // This mod's pills in the order they show, the settlements being the game's
 // own entry. Their scripts load in no fixed order, and each puts its pill
@@ -88,6 +106,8 @@ panel-yield-banner.${IN_SLOT} #yield-banner-mod-slot { flex-wrap: wrap; }
 panel-yield-banner.${TWO} .${BREAK} { flex-basis: 100%; width: 100%; height: 0; }
 /* More room between the pills, which two rows have to spare. */
 panel-yield-banner.${TWO} #yield-banner-mod-slot yield-bar-entry { margin-right: ${rem(8)}; }
+/* Other mods' pills too, named to outrank hud-overhaul-pills.js. */
+.harness panel-yield-banner.${TWO} .panel-yield__top-bar-content #yield-banner-mod-slot .${GUEST} { margin-right: ${rem(8)}; }
 ${
 	k === 1
 		? ""
@@ -129,6 +149,10 @@ function arrange(slot) {
 	banner.classList.toggle(SIZED, on && !diplomacy);
 	const find = (name) => (name.startsWith("YIELD_") ? byIcon(slot, name) : slot.querySelector(name));
 	const game = GAME.map((icon) => byIcon(bar, icon) ?? byIcon(slot, icon)).filter((pill) => pill);
+	// Other mods' pills, in the slot or new in the bar, in the order they came.
+	// The diplomacy screens' bar keeps them as the game does.
+	const guests = [...slot.children].filter((child) => child.classList.contains(GUEST));
+	if (on && !diplomacy) guests.push(...afterSlot(bar));
 	let gap = slot.querySelector(`.${BREAK}`);
 	let wanted;
 	if (two) {
@@ -145,20 +169,26 @@ function arrange(slot) {
 		const first = [...game, ...yields, victories].filter((element) => element);
 		const last = width(first) > room;
 		const rest = ORDER.filter((name) => !name.startsWith("hud-overhaul-yield-totals") && name !== "hud-overhaul-celebration" && name !== VICTORIES).map(find);
-		wanted = [...game, ...yields, last ? null : victories, gap, ...rest, last ? victories : null];
+		wanted = [...game, ...yields, last ? null : victories, gap, ...rest, ...guests, last ? victories : null];
 	} else if (on) {
 		// One row: the game's pills, then this mod's in order.
 		gap?.remove();
 		fit(slot);
-		wanted = [...game, ...ORDER.map(find)];
+		wanted = [...game, ...ORDER.filter((name) => name !== VICTORIES).map(find), ...guests, find(VICTORIES)];
 	} else {
 		// Each of the game's pills back before the slot, in order.
 		for (const pill of game) if (pill.parentElement !== bar || pill.nextSibling !== slot) bar.insertBefore(pill, slot);
+		// Other mods' pills back after it.
+		for (const guest of guests) {
+			guest.classList.remove(GUEST);
+			bar.appendChild(guest);
+		}
 		gap?.remove();
 		slot.style.maxWidth = "";
 		wanted = ORDER.map(find);
 	}
 	wanted = wanted.filter((element) => element);
+	if (on) for (const guest of guests) guest.classList.add(GUEST);
 	wanted.forEach((element, index) => {
 		const here = slot.children[index];
 		if (here !== element) slot.insertBefore(element, here ?? null);
@@ -233,6 +263,14 @@ class Rows extends Component {
 			});
 			this.resized.observe(banner);
 		}
+		// Another mod's pill put in the bar, after the slot.
+		const bar = this.Root.parentElement?.parentElement;
+		if (bar) {
+			this.added = new MutationObserver((changes) => {
+				if (changes.some((change) => [...change.addedNodes].some((node) => afterSlot(bar).includes(node)))) this.onUpdate();
+			});
+			this.added.observe(bar, { childList: true });
+		}
 		this.onUpdate();
 		// After the rest of the bar and the ribbon are drawn, and again once
 		// the bar has slid in: measured while it moves, its place is off.
@@ -244,6 +282,7 @@ class Rows extends Component {
 	onDetach() {
 		for (const name of EVENTS) engine.off(name, this.onUpdate);
 		this.resized?.disconnect();
+		this.added?.disconnect();
 		attached.delete(this);
 		super.onDetach();
 	}
@@ -294,8 +333,17 @@ try {
 	// loaded, so it gets one now. Later ones ask for themselves.
 	const slot = document.getElementById("yield-banner-mod-slot");
 	if (slot && !slot.querySelector(COMPONENT)) slot.appendChild(document.createElement(COMPONENT));
-	// The whole mod's switch marks <html>; follow it.
-	new MutationObserver(updateAll).observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
+	// The whole mod's switch marks <html>; follow it. Turned back on, the
+	// game lays out the new row break before the stylesheet is back, and
+	// never again, so the rows run together: a frame later a new one goes in.
+	const rebreak = () => {
+		for (const gap of document.querySelectorAll(`.${BREAK}`)) gap.remove();
+		updateAll();
+	};
+	new MutationObserver(() => {
+		updateAll();
+		requestAnimationFrame(() => requestAnimationFrame(rebreak));
+	}).observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
 	// The room at the top right changes with the screen and the text size;
 	// after the text size, a frame later, once the ribbon has redrawn.
 	window.addEventListener("resize", updateAll);

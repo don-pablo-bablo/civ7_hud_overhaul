@@ -17,6 +17,10 @@
 // harness and the bar's content, which outranks them, and sets the game's
 // text colour back (core/ui/themes/default/default.css), which Map Trix
 // turns grey.
+//
+// Chronicles & Myths' Legacy, Glory and Mythic, which hud-overhaul-rows.js
+// moves into the bar's mods' slot, are drawn as pills too, tinted from their
+// own text colours, with their own icons at 20px rather than 36px.
 
 import { onTextSize, setStyle, textOffset } from "./hud-overhaul-settings.js";
 
@@ -44,6 +48,13 @@ export const PILLS = [
 	["hud-overhaul-greatworks-entry", "150, 110, 170"],
 	["hud-overhaul-religion-entry", "200, 185, 140"],
 	["hud-overhaul-units-entry", "225, 195, 150"],
+];
+
+// Chronicles & Myths' pills: [class, pill colour as r, g, b].
+const CHRONICLES = [
+	["cm-banner__entry--legacy", "200, 170, 110"],
+	["cm-banner__entry--glory", "230, 180, 50"],
+	["cm-banner__entry--mythic", "160, 120, 230"],
 ];
 
 // Sizes that hold text grow by offset, the px the player's text size adds
@@ -75,6 +86,31 @@ ${pill(cls)}:hover {
 	background-color: rgba(${rgb}, 0.4);
 }`,
 ).join("\n")}
+/* Chronicles & Myths' pills, as tall as the yields'. Their own text size
+   and spacing go. */
+.harness panel-yield-banner .panel-yield__top-bar-content #yield-banner-mod-slot .cm-banner__entry {
+	height: ${grow(24)};
+	margin: ${rem(4)} ${rem(0.5)};
+	padding: 0 ${rem(8)} 0 ${rem(4)};
+	border-radius: ${grow(12)};
+	border: ${rem(1)} solid transparent;
+	font-size: ${grow(16)};
+}
+.harness panel-yield-banner .panel-yield__top-bar-content #yield-banner-mod-slot .cm-banner__icon {
+	width: ${grow(20)};
+	height: ${grow(20)};
+	margin: 0 ${rem(3)} 0 0;
+}
+${CHRONICLES.map(([cls, rgb]) => {
+	const entry = `.harness panel-yield-banner .panel-yield__top-bar-content #yield-banner-mod-slot .${cls}`;
+	return `${entry} {
+	background-color: rgba(${rgb}, 0.22);
+	border-color: rgba(${rgb}, 0.55);
+}
+${entry}:hover {
+	background-color: rgba(${rgb}, 0.4);
+}`;
+}).join("\n")}
 `;
 }
 
@@ -95,7 +131,7 @@ export function render(fixture) {
 
 const TAG = "[hud-overhaul]";
 // Bump on every edit to this file. UI.log then shows which build ran.
-const BUILD = "17";
+const BUILD = "19";
 
 function apply() {
 	setStyle("hud-overhaul-pills", styles(textOffset()));
