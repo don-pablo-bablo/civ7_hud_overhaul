@@ -18,7 +18,7 @@ replacing them. Each script in `ui/` is listed in the modinfo.
 | `.../ui/hud-overhaul-treasure.js` | treasure convoys in the Exploration Age as a pill in the top bar, through the game's mod slot, and its option |
 | `.../ui/hud-overhaul-celebration.js` | turns to the next celebration, added to the top bar's happiness pill, and its option |
 | `.../ui/hud-overhaul-pills.js` | coloured pills behind the top bar's yields, and behind Chronicles & Myths' |
-| `.../ui/hud-overhaul-settlements.js` | the settlement count in the top bar split into cities and towns, with the population, turning red when over the cap with the happiness lost, and their options |
+| `.../ui/hud-overhaul-settlements.js` | the settlement count in the top bar split into cities and towns, with a slot for each settlement the cap allows and the population, turning red when over the cap with the happiness lost; the room left until the cap and until a settlement is unhappy, for the tooltip; and their options |
 | `.../ui/hud-overhaul-commerce.js` | opens the commerce screen on a tab, for the resources, trade and treasure pills |
 | `.../ui/hud-overhaul-resources.js` | the empire's resources by class as a pill in the top bar, through the game's mod slot, and its option |
 | `.../ui/hud-overhaul-greatworks.js` | the empire's great works as a pill in the top bar, through the game's mod slot, and its option |

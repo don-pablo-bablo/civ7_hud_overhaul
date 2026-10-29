@@ -254,9 +254,6 @@
 		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_CELEBRATION_DESCRIPTION" Language="pl_PL">
 			<Text>Dodaje do wskaźnika zadowolenia tury do następnych obchodów albo tury pozostałe do końca trwających.</Text>
 		</Replace>
-		<Replace Tag="LOC_HUD_OVERHAUL_SETTLEMENT_SPLIT" Language="pl_PL">
-			<Text>{1_Cities} + {2_Towns}/{3_Cap}</Text>
-		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_CITY_LIMIT_COUNT" Language="pl_PL">
 			<Text>{1_Cities}/{2_Limit}</Text>
 		</Replace>
@@ -264,7 +261,7 @@
 			<Text>Miasta i miasteczka</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_SETTLEMENT_SPLIT_DESCRIPTION" Language="pl_PL">
-			<Text>Dzieli liczbę osiedli na miasta i miasteczka: 3 + 4/6.</Text>
+			<Text>Dzieli liczbę osiedli na miasta i miasteczka, każde z ikoną, i dodaje pole na każde osiedle, na które pozwala limit.</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_TRADE_COUNT" Language="pl_PL">
 			<Text>{1_Used}/{2_Limit}</Text>
@@ -320,6 +317,15 @@
 		<Replace Tag="LOC_HUD_OVERHAUL_TIP_TOWNS" Language="pl_PL">
 			<Text>Miasteczka ({1_Count})</Text>
 		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_N_CITIES" Language="pl_PL">
+			<Text>{1_Count} {1_Count: plural 1?Miasto; 2?Miasta; other?Miast;}</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_N_TOWNS" Language="pl_PL">
+			<Text>{1_Count} {1_Count: plural 1?Miasteczko; 2?Miasteczka; other?Miasteczek;}</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_POPULATION" Language="pl_PL">
+			<Text>Populacja: {1_Count}</Text>
+		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_TIP_OVER_CAP" Language="pl_PL">
 			<Text>{1_Count} ponad limit</Text>
 		</Replace>
@@ -331,6 +337,12 @@
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_TIP_AT_CITY_LIMIT" Language="pl_PL">
 			<Text>Osiągnięto limit miast</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_BEFORE_UNHAPPY" Language="pl_PL">
+			<Text>Jeszcze {1_Count} do niezadowolenia</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_SOME_UNHAPPY" Language="pl_PL">
+			<Text>Niektóre osiedla są nieszczęśliwe</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_TIP_LEVELS" Language="pl_PL">
 			<Text>Poziomy zadowolenia</Text>

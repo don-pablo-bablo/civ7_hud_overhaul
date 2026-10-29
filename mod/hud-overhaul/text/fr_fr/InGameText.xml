@@ -254,9 +254,6 @@
 		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_CELEBRATION_DESCRIPTION" Language="fr_FR">
 			<Text>Ajoute à l'indicateur de bonheur les tours avant la prochaine célébration, ou les tours restants de celle en cours.</Text>
 		</Replace>
-		<Replace Tag="LOC_HUD_OVERHAUL_SETTLEMENT_SPLIT" Language="fr_FR">
-			<Text>{1_Cities} + {2_Towns}/{3_Cap}</Text>
-		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_CITY_LIMIT_COUNT" Language="fr_FR">
 			<Text>{1_Cities}/{2_Limit}</Text>
 		</Replace>
@@ -264,7 +261,7 @@
 			<Text>Villes et communes</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_SETTLEMENT_SPLIT_DESCRIPTION" Language="fr_FR">
-			<Text>Sépare le nombre de colonies en villes et communes : 3 + 4/6.</Text>
+			<Text>Sépare le nombre de colonies en villes et communes, chacune avec son icône, et ajoute une case pour chaque colonie que permet la limite.</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_TRADE_COUNT" Language="fr_FR">
 			<Text>{1_Used}/{2_Limit}</Text>
@@ -320,6 +317,15 @@
 		<Replace Tag="LOC_HUD_OVERHAUL_TIP_TOWNS" Language="fr_FR">
 			<Text>Communes ({1_Count})</Text>
 		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_N_CITIES" Language="fr_FR">
+			<Text>{1_Count} {1_Count: plural 1?Ville; other?Villes;}</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_N_TOWNS" Language="fr_FR">
+			<Text>{1_Count} {1_Count: plural 1?Commune; other?Communes;}</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_POPULATION" Language="fr_FR">
+			<Text>Population : {1_Count}</Text>
+		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_TIP_OVER_CAP" Language="fr_FR">
 			<Text>{1_Count} au-delà de la limite</Text>
 		</Replace>
@@ -331,6 +337,12 @@
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_TIP_AT_CITY_LIMIT" Language="fr_FR">
 			<Text>Limite de villes atteinte</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_BEFORE_UNHAPPY" Language="fr_FR">
+			<Text>{1_Count} de plus avant le mécontentement</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_SOME_UNHAPPY" Language="fr_FR">
+			<Text>Certaines colonies sont mécontentes</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_TIP_LEVELS" Language="fr_FR">
 			<Text>Niveaux de bonheur</Text>
