@@ -273,13 +273,16 @@
 			<Text>{1_Leader}: {2_Used}/{3_Limit}</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_UNITS_DESCRIPTION" Language="it_IT">
-			<Text>Le tue unità militari e civili. Il suggerimento le elenca per tipo; bloccato con il tasto di esame, elenca ogni unità, e un clic su una la seleziona.</Text>
+			<Text>Le tue unità militari e civili e i tuoi missionari. Il suggerimento le elenca per tipo; bloccato con il tasto di esame, elenca ogni unità, e un clic su una la seleziona.</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_TIP_N_MILITARY" Language="it_IT">
 			<Text>{1_Count} {1_Count : plural 1?militare;other?militari;}</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_TIP_N_CIVILIAN" Language="it_IT">
 			<Text>{1_Count} {1_Count : plural 1?civile;other?civili;}</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_N_MISSIONARY" Language="it_IT">
+			<Text>{1_Count} {1_Count : plural 1?missionario;other?missionari;}</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_TIP_NAVAL" Language="it_IT">
 			<Text>Navali</Text>

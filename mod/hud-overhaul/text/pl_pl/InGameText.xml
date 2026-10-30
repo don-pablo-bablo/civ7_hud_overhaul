@@ -273,13 +273,16 @@
 			<Text>{1_Leader}: {2_Used}/{3_Limit}</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_UNITS_DESCRIPTION" Language="pl_PL">
-			<Text>Twoje jednostki wojskowe i cywilne. Podpowiedź wymienia je według rodzaju; przypięta klawiszem sprawdzania wymienia każdą jednostkę, a kliknięcie jednej ją zaznacza.</Text>
+			<Text>Twoje jednostki wojskowe i cywilne oraz misjonarze. Podpowiedź wymienia je według rodzaju; przypięta klawiszem sprawdzania wymienia każdą jednostkę, a kliknięcie jednej ją zaznacza.</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_TIP_N_MILITARY" Language="pl_PL">
 			<Text>{1_Count} {1_Count : plural 1?wojskowa;2?wojskowe;other?wojskowych;}</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_TIP_N_CIVILIAN" Language="pl_PL">
 			<Text>{1_Count} {1_Count : plural 1?cywilna;2?cywilne;other?cywilnych;}</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_N_MISSIONARY" Language="pl_PL">
+			<Text>{1_Count} {1_Count : plural 1?misjonarz;other?misjonarzy;}</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_TIP_NAVAL" Language="pl_PL">
 			<Text>Morskie</Text>

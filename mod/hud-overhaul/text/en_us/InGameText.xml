@@ -272,13 +272,16 @@
 			<Text>{1_Leader}: {2_Used}/{3_Limit}</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_UNITS_DESCRIPTION" Language="en_US">
-			<Text>Your military units and civilians. The tooltip lists them by kind; locked with the inspect key, it lists each unit, and a click on one selects it.</Text>
+			<Text>Your military units, civilians and missionaries. The tooltip lists them by kind; locked with the inspect key, it lists each unit, and a click on one selects it.</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_TIP_N_MILITARY" Language="en_US">
 			<Text>{1_Count} military</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_TIP_N_CIVILIAN" Language="en_US">
 			<Text>{1_Count} {1_Count : plural 1?civilian;other?civilians;}</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_N_MISSIONARY" Language="en_US">
+			<Text>{1_Count} {1_Count : plural 1?missionary;other?missionaries;}</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_TIP_NAVAL" Language="en_US">
 			<Text>Naval</Text>

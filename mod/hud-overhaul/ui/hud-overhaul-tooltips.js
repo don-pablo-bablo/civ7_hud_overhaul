@@ -58,13 +58,13 @@ import { ICON as TRADE, merchants, partners, tradeRoutes } from "./hud-overhaul-
 import { convoyAge, convoys, ICON as TREASURE, idleTreasure } from "./hud-overhaul-treasure.js";
 import { CITY_COLOUR, cityLimit, happinessRoom, LIMIT_COLOUR, TOWN_COLOUR } from "./hud-overhaul-settlements.js";
 import { FULL } from "./hud-overhaul-edition.js";
-import { CIVILIAN, goTo, ICON as UNITS, iconURL, MILITARY as MILITARY_UNITS, units } from "./hud-overhaul-units.js";
+import { CIVILIAN, goTo, ICON as UNITS, iconURL, MILITARY as MILITARY_UNITS, MISSIONARY, missionariesShown, units } from "./hud-overhaul-units.js";
 import { combatStrength } from "./hud-overhaul-strength.js";
 import { ICON as VICTORIES, ordinal, standings, victoryClasses } from "./hud-overhaul-victories.js";
 
 const TAG = "[hud-overhaul]";
 // Bump on every edit to this file. UI.log then shows which build ran.
-const BUILD = "109";
+const BUILD = "112";
 const COMPONENT = "hud-overhaul-tooltips";
 const PINNED = "hud-overhaul-tip-pinned";
 const QUIET = "hud-overhaul-tip-quiet"; // on <html> while one is locked and the mouse is on the top bar
@@ -118,6 +118,9 @@ ${COMPONENT} { display: none; }
 .hud-overhaul-tip { display: flex; flex-direction: column; min-width: ${rem(260)}; max-width: ${rem(NARROW_PX)}; }
 .hud-overhaul-tip-head { display: flex; flex-direction: column; align-items: center; }
 .hud-overhaul-tip-chips { display: flex; flex-direction: row; justify-content: center; }
+/* A row as wide as the tooltip, its chips wrapping onto a line below when
+   they do not fit. */
+.hud-overhaul-tip-chips-wrap { flex-wrap: wrap; align-self: stretch; }
 .hud-overhaul-tip-chip {
 	display: flex;
 	flex-direction: row;
@@ -1576,8 +1579,10 @@ const DOMAINS = [
 function unitsPanel(detailed) {
 	const player = Players.get(GameContext.localObserverID);
 	const box = div("hud-overhaul-tip");
-	const { military, civilian, count } = player ? units(player) : { military: [], civilian: [], count: { military: 0, civilian: 0 } };
-	// The chips marked as the pill marks the two counts.
+	const { military, civilian, missionary, count } = player ? units(player) : { military: [], civilian: [], missionary: [], count: { military: 0, civilian: 0, missionary: 0 } };
+	// The chips marked as the pill marks its counts; missionaries in the
+	// Exploration Age only, as the pill shows them.
+	const missionaries = missionariesShown();
 	const kind = ([name, tint], text) => {
 		const el = chip(iconURL(name), text, 17, 4);
 		el.firstChild.style.fxsBackgroundImageTint = tint;
@@ -1585,14 +1590,18 @@ function unitsPanel(detailed) {
 	};
 	// Combat strength, as the ribbon's row gives it (hud-overhaul-military.js).
 	const total = chip(UI.getIconURL("MILITARY"), Locale.compose("LOC_HUD_OVERHAUL_TIP_COMBAT_STRENGTH", player ? combatStrength(player)[0] : 0));
-	head(box, Locale.compose("LOC_UI_PRODUCTION_CATEGORY_UNITS"), chips(kind(MILITARY_UNITS, Locale.compose("LOC_HUD_OVERHAUL_TIP_N_MILITARY", count.military)), kind(CIVILIAN, Locale.compose("LOC_HUD_OVERHAUL_TIP_N_CIVILIAN", count.civilian))), chips(total));
+	const counts = chips(kind(MILITARY_UNITS, Locale.compose("LOC_HUD_OVERHAUL_TIP_N_MILITARY", count.military)), kind(CIVILIAN, Locale.compose("LOC_HUD_OVERHAUL_TIP_N_CIVILIAN", count.civilian)), ...(missionaries ? [kind(MISSIONARY, Locale.compose("LOC_HUD_OVERHAUL_TIP_N_MISSIONARY", count.missionary))] : []));
+	// Three counts are wider than the tooltip: missionaries wrap below.
+	counts.classList.add("hud-overhaul-tip-chips-wrap");
+	head(box, Locale.compose("LOC_UI_PRODUCTION_CATEGORY_UNITS"), counts, chips(total));
 	// Military units by domain, each with units under its own heading; with
 	// none at all, one Military heading saying so.
 	const domains = DOMAINS.map(([domain, title]) => [title, military.filter((unit) => unit.domain == domain)]).filter(([, list]) => list.length);
 	if (!domains.length) domains.push(["LOC_TAG_MILITARY", []]);
 	for (const [title, list] of domains) unitGroup(box, Locale.compose(title), list, detailed);
 	unitGroup(box, Locale.compose("LOC_PEDIA_PAGEGROUP_CIVILIAN_UNITS_NAME"), civilian, detailed);
-	if (detailed && military.length + civilian.length) message(box, Locale.compose("LOC_HUD_OVERHAUL_TIP_UNIT_CLICK"));
+	if (missionaries) unitGroup(box, Locale.compose("LOC_TUTORIAL_MISSIONARY_AVAILABLE_TITLE"), missionary, detailed);
+	if (detailed && military.length + civilian.length + missionary.length) message(box, Locale.compose("LOC_HUD_OVERHAUL_TIP_UNIT_CLICK"));
 	return box;
 }
 

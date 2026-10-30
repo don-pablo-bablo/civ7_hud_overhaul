@@ -273,13 +273,16 @@
 			<Text>{1_Leader}: {2_Used}/{3_Limit}</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_UNITS_DESCRIPTION" Language="de_DE">
-			<Text>Eure Militär- und Zivileinheiten. Die Kurzinfo listet sie nach Art; mit der Untersuchen-Taste fixiert, listet sie jede Einheit, und ein Klick auf eine wählt sie aus.</Text>
+			<Text>Eure Militär- und Zivileinheiten und Missionare. Die Kurzinfo listet sie nach Art; mit der Untersuchen-Taste fixiert, listet sie jede Einheit, und ein Klick auf eine wählt sie aus.</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_TIP_N_MILITARY" Language="de_DE">
 			<Text>{1_Count} militärisch</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_TIP_N_CIVILIAN" Language="de_DE">
 			<Text>{1_Count} {1_Count : plural 1?Zivilist;other?Zivilisten;}</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_N_MISSIONARY" Language="de_DE">
+			<Text>{1_Count} {1_Count : plural 1?Missionar;other?Missionare;}</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_TIP_NAVAL" Language="de_DE">
 			<Text>See</Text>
