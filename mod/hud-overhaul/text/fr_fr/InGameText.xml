@@ -273,13 +273,16 @@
 			<Text>{1_Leader} : {2_Used}/{3_Limit}</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_UNITS_DESCRIPTION" Language="fr_FR">
-			<Text>Vos unités militaires et civiles. L'infobulle les classe par type ; verrouillée avec la touche d'inspection, elle liste chaque unité, et un clic sur l'une la sélectionne.</Text>
+			<Text>Vos unités militaires et civiles, et vos missionnaires. L'infobulle les classe par type ; verrouillée avec la touche d'inspection, elle liste chaque unité, et un clic sur l'une la sélectionne.</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_TIP_N_MILITARY" Language="fr_FR">
 			<Text>{1_Count} {1_Count : plural 1?militaire;other?militaires;}</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_TIP_N_CIVILIAN" Language="fr_FR">
 			<Text>{1_Count} {1_Count : plural 1?civil;other?civils;}</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_N_MISSIONARY" Language="fr_FR">
+			<Text>{1_Count} {1_Count : plural 1?missionnaire;other?missionnaires;}</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_TIP_NAVAL" Language="fr_FR">
 			<Text>Navales</Text>

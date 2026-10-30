@@ -50,7 +50,7 @@ science, culture, happiness, influence and settlements:
 - Food
 - Production
 - Cities and towns, with your population, in the settlements pill
-- Units, military and civilian
+- Units: military, civilians and, in the Exploration Age, missionaries
 - Happiness levels of your settlements
 - Trade routes
 - Resources
@@ -224,9 +224,10 @@ settlement's growth, urban and rural population and specialists.
 
 ### Units
 
-Your military units and your civilians. The compact tooltip gives your
-combat strength, then your land, naval and air units and your civilians by
-kind. The detailed one lists each unit with the settlement it is in, its
+Your military units, your civilians and, in the Exploration Age, your
+missionaries, the civs' own among them. The compact tooltip gives your
+combat strength, then your land, naval and air units, your civilians and
+your missionaries by kind. The detailed one lists each unit with the settlement it is in, its
 health, moves and strength, and each commander's army slots, in yellow while
 some are open. An arrow shows the units in an army. Trade ships and caravans
 are left out, as they take no orders.

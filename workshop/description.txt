@@ -19,7 +19,7 @@ The top bar's text is smaller, and it adds these to the game's gold, science, cu
 [*]Food
 [*]Production
 [*]Cities and towns, with your population, in the settlements pill
-[*]Units, military and civilian
+[*]Units: military, civilians and, in the Exploration Age, missionaries
 [*]Happiness levels of your settlements
 [*]Trade routes
 [*]Resources
