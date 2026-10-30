@@ -1,6 +1,8 @@
 // A compact leader ribbon, as Civ VI's: each leader's yields sit straight
 // under the portrait, without the civ banner that hangs between them. The
-// civ symbol from that banner becomes a badge on the panel's bottom tip.
+// civ symbol from that banner becomes a badge on the panel's bottom tip,
+// which stays when the yields are hidden: the panel then ends just under the
+// portrait, with the badge at its foot.
 // The player picks in Options > Add-ons when the yields show: on hover for
 // everyone, as stock; yours always and the others on hover, as Civ VI; or
 // everyone's always.
@@ -26,12 +28,15 @@ import { addOptions, enabled, ENABLED_EVENT, onPart, onSize, onTextSize, OPTION_
 const rem = (px) => `${(px / 18).toFixed(4)}rem`;
 const TAG = "[hud-overhaul]";
 // Bump on every edit to this file. UI.log then shows which build ran.
-const BUILD = "17";
+const BUILD = "18";
 const SYMBOL = "hud-overhaul-civ-symbol";
 const IMAGE = "hud-overhaul-civ-symbol__image"; // the symbol inside the badge's disc
 const IN_SLOT = "hud-overhaul-civ-symbol--in-slot"; // on the badge when the religion slot is empty
 const BARE = "hud-overhaul-relation--bare"; // on a relationship icon whose art has no disc
 const BOX = 36; // px: a bare icon's box
+const BADGE = 40; // px: the civ symbol's badge
+const PULL = 12; // px the badge and the yields move up, closing the gap under the portrait
+const ROOM = BADGE - 28; // px above the religion slot, for the badge that overfills it
 const WAR_IMAGE = 52; // px wide: icon_war at this width puts its swords at about 32px
 const WAR_ASPECT = 0.5; // icon_war's image is twice as wide as it is tall (stock box 72x36)
 // Relationship icons drawn without a disc of their own, which vanish on the
@@ -183,8 +188,25 @@ export function styles(offset = 0, k = 1, bar = 1) {
 .harness panel-diplo-ribbon .diplo-ribbon__upper-bg {
 	display: none;
 }
+/* The portrait's box ends below its art. Pulling up what follows it puts the
+   badge right under the portrait when the yields are hidden; the yields
+   take back the pull, so the open panel keeps its layout. The badge is
+   larger than the 32px religion slot it sits in, so the slot has room above
+   it, whatever rows come before it, such as a second box from another
+   mod. The pull takes that room back when the yields are hidden. */
+.harness panel-diplo-ribbon .diplo-ribbon__tokens {
+	margin-bottom: ${rem(-PULL - ROOM)};
+}
 .harness panel-diplo-ribbon .diplo-ribbon__yields {
-	margin-top: ${rem(-23)};
+	margin-top: ${rem(-23 + PULL + ROOM)};
+}
+.harness panel-diplo-ribbon .diplo-ribbon__religion {
+	margin-top: ${rem(ROOM)};
+}
+/* The backing stays when the yields are hidden, and ends under the portrait
+   and the religion slot, which stock keeps in place. */
+.harness panel-diplo-ribbon .diplo-ribbon-outer .diplo-ribbon__bg-container {
+	display: flex;
 }
 .harness panel-diplo-ribbon .yield-item {
 	height: ${grow(ROW)};
@@ -194,13 +216,13 @@ export function styles(offset = 0, k = 1, bar = 1) {
 	height: ${grow(ICON)};
 }
 .harness panel-diplo-ribbon .${SYMBOL} {
-	display: none;
+	display: flex;
 	position: absolute;
 	left: 50%;
 	bottom: ${rem(-30)};
-	width: ${rem(28)};
-	height: ${rem(28)};
-	margin-left: ${rem(-14)};
+	width: ${rem(BADGE)};
+	height: ${rem(BADGE)};
+	margin-left: ${rem(-BADGE / 2)};
 	border-radius: 50%;
 	/* The engine takes var() only in longhand properties, and border-color
 	   counts as shorthand. */
@@ -225,9 +247,6 @@ export function styles(offset = 0, k = 1, bar = 1) {
 /* No religion: the badge takes the empty religion slot, 32px at the bottom. */
 .harness panel-diplo-ribbon .${SYMBOL}.${IN_SLOT} {
 	bottom: ${rem(2)};
-}
-${OPEN.map((open) => `.harness panel-diplo-ribbon ${open} .${SYMBOL}`).join(",\n")} {
-	display: flex;
 }
 ${OPEN.slice(-1).map((open) => [".diplo-ribbon__yields", ".diplo-ribbon__bottom-spacer", ".diplo-ribbon__bg-container"].map((part) => `.harness panel-diplo-ribbon ${open} ${part}`).join(",\n"))} {
 	display: flex;

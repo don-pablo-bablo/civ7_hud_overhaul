@@ -32,7 +32,7 @@ import { addOptions, enabled as modEnabled, ENABLED_EVENT, onPart, OPTION_GROUPS
 
 const TAG = "[hud-overhaul]";
 // Bump on every edit to this file. UI.log then shows which build ran.
-const BUILD = "9";
+const BUILD = "10";
 const DRONGO = "drongos-leader-ribbons"; // the mod's id in its modinfo
 const COMBAT = "combat"; // Drongo's combat row's type
 const MILITARY = "military"; // this mod's combat strength row's type
@@ -60,6 +60,10 @@ const STYLES = `
 	left: auto;
 	width: ${rem(96)} !important;
 	transform: none;
+	/* Drongo ends the backing at the panel's foot; the game's runs past it,
+	   below the civ badge. */
+	bottom: auto;
+	height: 100%;
 }
 .harness panel-diplo-ribbon .diplo-ribbon__yields {
 	padding-left: ${rem(4)} !important;
@@ -88,8 +92,8 @@ const DRONGO_STYLES = `
    sits here (hud-overhaul-ribbon.js), so it moves to the badge's right,
    level with it. */
 .harness panel-diplo-ribbon .drongos-secondary-toggle {
-	margin-left: ${rem(26)};
-	bottom: ${rem(10)};
+	margin-left: ${rem(30)};
+	bottom: ${rem(15)};
 }
 `;
 
