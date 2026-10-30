@@ -1,27 +1,21 @@
 # Pablo's HUD Overhaul
 
-This mod reworks the main game screen, drawing on Civilization VI and on
-popular UI mods for Civ VI and VII. It does three things:
-
-- **Less wasted space**: oversized elements are smaller and sit flush with
-  the screen's edges. They still follow the game's text size and UI scaling,
-  and each can be made bigger or smaller, or given back to the game.
-- **More information at a glance**: the top bar gains pills for food,
-  production, your units, happiness levels, trade routes, resources,
-  treasure convoys, great works, religion and victory standings.
-- **Compact and detailed tooltips**: hover a pill for a summary, or click it
-  for a complete breakdown, settlement by settlement and source by source.
-  Your whole game is there from the main screen.
+HUD Overhaul makes the main screen's panels smaller and sets them flush
+with the screen's edges, as in Civilization VI. The top bar gets pills for
+food, production, your units, happiness levels, trade routes, resources,
+treasure convoys, great works, religion and victory standings. Hover a pill
+for a summary of where its number comes from, or click it for each
+settlement's figures by source. Each part follows the game's text size and
+UI scaling, and can be resized or given back to the game.
 
 It aims to work alongside other UI mods: see [Compatibility](#compatibility)
 for the ones tested with it.
 
-Only want the pills and tooltips? See
+For the pills and tooltips without the rest, see
 [Pablo's Top Bar and Tooltips](#pablos-top-bar-and-tooltips).
 
-Want to know where a tile's yields come from as well?
 [Pablo's Better Yield Tooltip](https://steamcommunity.com/sharedfiles/filedetails/?id=3809254963)
-breaks them down when you hover a tile.
+breaks down a tile's yields when you hover it.
 
 **Before**
 
@@ -74,8 +68,8 @@ when it has none.
 
 ### World Tracker
 
-Straight from Civ VI: your current research and civic under the dock, with
-a progress bar and the turns left. Click a row to choose the next one, or
+As in Civ VI, your current research and civic sit under the dock, with a
+progress bar and the turns left. Click a row to choose the next one, or
 the +/- on the heading to collapse it. You can show the World Tracker, the
 dock's research and civic rings, or both.
 
@@ -88,8 +82,8 @@ dock's research and civic rings, or both.
 The leader ribbon moves into the top right corner, as in Civ VI, smaller and
 with no gaps between leaders. Your own leader stays in the corner, and each
 leader you meet lines up to the left. Each leader's yields sit straight
-under the portrait, with their civ's symbol below, and you choose when they
-show.
+under the portrait, with their civ's symbol below. The symbol always shows.
+You choose when the yields show.
 
 It adds rows for combat strength, religion with its share of the world, and
 in the Modern Age ideology. War support is a larger badge on the portrait's
@@ -98,10 +92,10 @@ corner.
 Combat strength uses the formula from
 [Drongo's Leader Ribbons](https://steamcommunity.com/sharedfiles/filedetails/?id=3734152860),
 with thanks to its author, Drongo from One More Turn, so both mods show the
-same value. Each unit that can attack counts 4 to the power of its best
-strength divided by 17, so a unit 17 points stronger counts four times as
-much. This gives strong units more weight than adding the strengths up
-would, as in combat a few strong units can beat many weak ones.
+same value. Each unit that can attack counts 4^(S/17), where S is its best
+strength, so a unit 17 points stronger counts four times as much. This
+gives strong units more weight than adding the strengths up would, as in
+combat a few strong units can beat many weak ones.
 
 ## Minimap and turn dial
 
@@ -115,8 +109,8 @@ corners, as do the notifications above the dial.
 
 ## Themes and transparency
 
-Don't like the panel colour from the main Civ VII theme? Choose another,
-such as Civ VI blue or my favourite, verdigris. You also set how much of the
+The panels can take another colour in place of Civ VII brown, such as Civ
+VI blue or verdigris. You also set how much of the
 map shows through the top bar, the other panels and the leader ribbon, each
 on its own. Some themes look best at a lower opacity. See [Options](#options).
 
@@ -206,15 +200,13 @@ source.
 ### Settlements
 
 The pill shows your cities and towns, each with its icon, then a slot for
-each settlement the cap allows, then your population. The slots fill with
-your cities in blue and your towns in cream. Settlements over the cap are
-orange, and red once they have made a settlement unhappy. Past the cap,
-faint orange slots show how many more settlements you can found before one
-turns unhappy, with a + when there is room for more than five. The pill
-turns red when you are over the cap, and shows the happiness each
-settlement loses for it: "(-10 each)". For a civ with a limit on cities,
-such as Carthage, the cities show against it, "1/1", in gold once towns can
-no longer become cities.
+each settlement the cap allows, then your population. Cities fill the slots
+in blue and towns in cream. A settlement over the cap is orange, or red once
+settlements start to lose happiness. Faint orange slots show how many more
+you can found before that happens, with a + past five. Over the cap, the
+pill turns red and shows the happiness each settlement loses, such as "(-10
+each)". A civ with a limit on cities, such as Carthage, shows its cities
+against that limit, "1/1", in gold once no more towns can become cities.
 
 The tooltip gives how many more settlements you can found until the cap and
 until one is unhappy. The detailed one gives each town's focus and each
@@ -225,12 +217,12 @@ settlement's growth, urban and rural population and specialists.
 ### Units
 
 Your military units, your civilians and, in the Exploration Age, your
-missionaries, the civs' own among them. The compact tooltip gives your
-combat strength, then your land, naval and air units, your civilians and
-your missionaries by kind. The detailed one lists each unit with the settlement it is in, its
-health, moves and strength, and each commander's army slots, in yellow while
-some are open. An arrow shows the units in an army. Trade ships and caravans
-are left out, as they take no orders.
+missionaries, including civs' unique missionaries. The compact tooltip gives
+your combat strength, then your land, naval and air units, your civilians
+and your missionaries by kind. The detailed one lists each unit with the
+settlement it is in, its health, moves and strength, and each commander's
+army slots, in yellow while some are open. An arrow shows the units in an
+army. Trade ships and caravans are left out, as they take no orders.
 
 ![The units pill's detailed tooltip](docs/images/units-tooltip.png)
 
@@ -299,8 +291,8 @@ winning.
 All in **Options > Add-ons**, in three groups. Changes show at once.
 
 - **Pablo's HUD Overhaul**:
-  - **Enable HUD Overhaul**: turn it off to see the game's own HUD, and on again.
-    Your other choices are kept.
+  - **Enable HUD Overhaul**: turn it off to see the game's own HUD, and on
+    again. Your other choices are kept.
   - **Theme**: the colour of the top bar, the dock, the World
     Tracker, the Journal and the leader ribbon's backing. Civ VII brown, the
     game's own; Civ VI blue, with a navy top bar; charcoal; walnut;
@@ -318,18 +310,21 @@ All in **Options > Add-ons**, in three groups. Changes show at once.
   - **Top bar size**: the pills, and the turn and date at the top right.
   - **Detailed tooltips**, with **Tooltip size**: off, the pills show the
     game's text tooltips.
-  - **Rings and World Tracker**, with the size of each and **World
-    Tracker**: where your research and civic show. Both, in the World
-    Tracker and in the research and civic rings at the top of the dock; the
-    World Tracker only, with the rings hidden; or the rings only, with the
-    World Tracker hidden. Off, the game's own dock and Journal.
-  - **Leader ribbon**, with its size and **Leader ribbon opacity**, how
-    much of the map shows through its backing. **Leader ribbon yields**:
-    when each leader's yields show. On hover, as in the base game; yours
-    always and the others on hover, as in Civilization VI; or always for
-    everyone. **With Drongo's Leader Ribbons**: only with that mod on. See
-    [Compatibility](#compatibility). Off, the game's own ribbon, or
+  - **Rings and World Tracker**, with the size of each. Off, the game's own
+    dock and Journal.
+    - **World Tracker**: where your research and civic show. Both, in the
+      World Tracker and in the research and civic rings at the top of the
+      dock; the World Tracker only, with the rings hidden; or the rings
+      only, with the World Tracker hidden.
+  - **Leader ribbon**, with its size. Off, the game's own ribbon, or
     Drongo's.
+    - **Leader ribbon opacity**: how much of the map shows through its
+      backing.
+    - **Leader ribbon yields**: when each leader's yields show. On hover, as
+      in the base game; yours always and the others on hover, as in
+      Civilization VI; or always for everyone.
+    - **With Drongo's Leader Ribbons**: only with that mod on. See
+      [Compatibility](#compatibility).
   - **Minimap**, with its size.
   - **Turn dial and notifications**, with the size of each.
 - **Pablo's HUD Overhaul: Top bar**: **Top bar rows**, one or two, and each
@@ -357,6 +352,9 @@ settings are its own, so switching between the two keeps each one's choices.
 
 It has been played with all of these enabled at once:
 
+- **[Chronicles & Myths](https://steamcommunity.com/sharedfiles/filedetails/?id=3799813821)**:
+  its Legacy, Glory and Mythic pills sit after these, drawn as pills of
+  their own colours.
 - **[Map Trix](https://steamcommunity.com/sharedfiles/filedetails/?id=3507072814)**:
   its option for coloured top bar entries gives way to these pills.
 - **[No Gradients](https://steamcommunity.com/sharedfiles/filedetails/?id=3509395646)**:
@@ -434,8 +432,9 @@ No changes needed:
 
 ## Languages
 
-English, French, German, Italian, Polish, Portuguese (Brazil) and Spanish. The translations started as machine translation, with the game's
-own words for its terms, and may read oddly in places. Corrections are
+English, French, German, Italian, Polish, Portuguese (Brazil) and Spanish.
+The translations started as machine translation, with the game's own words
+for its terms, and may read oddly in places. Corrections are
 welcome as an issue or a pull request. In the game's other languages, the
 mod's own text shows in English.
 

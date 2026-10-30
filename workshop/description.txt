@@ -1,10 +1,4 @@
-This mod reworks the main game screen, drawing on Civilization VI and on popular UI mods for Civ VI and VII. It does three things:
-
-[list]
-[*][b]Less wasted space[/b]: oversized elements are smaller and sit flush with the screen's edges. They still follow the game's text size and UI scaling.
-[*][b]More information at a glance[/b]: the top bar gains pills for food, production, your units, happiness levels, trade routes, resources, treasure convoys, great works, religion and victory standings.
-[*][b]Compact and detailed tooltips[/b]: hover a pill for a summary, or click it for a complete breakdown, settlement by settlement and source by source. Your whole game is there from the main screen.
-[/list]
+HUD Overhaul makes the main screen's panels smaller and sets them flush with the screen's edges, as in Civilization VI. The top bar gets pills for food, production, your units, happiness levels, trade routes, resources, treasure convoys, great works, religion and victory standings. Hover a pill for a summary of where its number comes from, or click it for each settlement's figures by source. Each part follows the game's text size and UI scaling, and can be resized or given back to the game.
 
 It aims to work alongside other UI mods: see Compatibility below for the ones tested with it. The screenshots show it before and after, and each detailed tooltip.
 
@@ -37,15 +31,15 @@ The dock's rings sit smaller and in a line under the top bar. The dock, with its
 
 [h3]World Tracker[/h3]
 
-Straight from Civ VI: your current research and civic under the dock, with a progress bar and the turns left. Click a row to choose the next one, or the +/- on the heading to collapse it. You can show the World Tracker, the dock's research and civic rings, or both.
+As in Civ VI, your current research and civic sit under the dock, with a progress bar and the turns left. Click a row to choose the next one, or the +/- on the heading to collapse it. You can show the World Tracker, the dock's research and civic rings, or both.
 
 [h2]Leader ribbon[/h2]
 
-The leader ribbon moves into the top right corner, as in Civ VI, smaller and with no gaps between leaders. Your own leader stays in the corner, and each leader you meet lines up to the left. Each leader's yields sit straight under the portrait, with their civ's symbol below, and you choose when they show.
+The leader ribbon moves into the top right corner, as in Civ VI, smaller and with no gaps between leaders. Your own leader stays in the corner, and each leader you meet lines up to the left. Each leader's yields sit straight under the portrait, with their civ's symbol below. The symbol always shows. You choose when the yields show.
 
 It adds rows for combat strength, religion with its share of the world, and in the Modern Age ideology. War support is a larger badge on the portrait's corner.
 
-Combat strength uses the formula from [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3734152860]Drongo's Leader Ribbons[/url], with thanks to its author, Drongo from One More Turn, so both mods show the same value. Each unit that can attack counts 4 to the power of its best strength divided by 17, so a unit 17 points stronger counts four times as much. This gives strong units more weight than adding the strengths up would, as in combat a few strong units can beat many weak ones.
+Combat strength uses the formula from [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3734152860]Drongo's Leader Ribbons[/url], with thanks to its author, Drongo from One More Turn, so both mods show the same value. Each unit that can attack counts 4^(S/17), where S is its best strength, so a unit 17 points stronger counts four times as much. This gives strong units more weight than adding the strengths up would, as in combat a few strong units can beat many weak ones.
 
 [h2]Minimap and turn dial[/h2]
 
@@ -53,11 +47,11 @@ The minimap and the turn dial are smaller and sit flush in the bottom corners, a
 
 [h2]Themes and transparency[/h2]
 
-Don't like the panel colour from the main Civ VII theme? Choose another, such as Civ VI blue or my favourite, verdigris. You also set how much of the map shows through the top bar, the other panels and the leader ribbon, each on its own. Some themes look best at a lower opacity. The options are in Options > Add-ons.
+The panels can take another colour in place of Civ VII brown, such as Civ VI blue or verdigris. You also set how much of the map shows through the top bar, the other panels and the leader ribbon, each on its own. Some themes look best at a lower opacity. The options are in Options > Add-ons.
 
 [h2]Sizes and parts[/h2]
 
-Too small for your screen? Each part has its own size, from 75% to 150%: the top bar, the tooltips, the rings, the World Tracker and Journal, the leader ribbon, the minimap, the turn dial and the notifications. Each slider says what the base game's size is. Want only some of the mod? Turn off a part, such as the leader ribbon or the minimap, to use the game's version instead.
+Each part has its own size, from 75% to 150%: the top bar, the tooltips, the rings, the World Tracker and Journal, the leader ribbon, the minimap, the turn dial and the notifications. Each slider says what the base game's size is. Turn off a part, such as the leader ribbon or the minimap, to use the game's version instead.
 
 [h2]Tooltips[/h2]
 
@@ -102,6 +96,6 @@ The code and the full README are on [url=https://github.com/don-pablo-bablo/civ7
 
 [h2]Other mods[/h2]
 
-Only want the pills and tooltips? [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3820425965]Pablo's Top Bar and Tooltips[/url] has those on their own, on the game's top bar or another mod's.
+For the pills and tooltips without the rest, see [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3820425965]Pablo's Top Bar and Tooltips[/url]. It puts them on the game's top bar or another mod's.
 
-Want to know where a tile's yields come from as well? [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809254963]Pablo's Better Yield Tooltip[/url] breaks them down when you hover a tile.
+[url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809254963]Pablo's Better Yield Tooltip[/url] breaks down a tile's yields when you hover it.

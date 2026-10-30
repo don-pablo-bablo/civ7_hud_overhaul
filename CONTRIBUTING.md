@@ -24,7 +24,7 @@ replacing them. Each script in `ui/` is listed in the modinfo.
 | `.../ui/hud-overhaul-greatworks.js` | the empire's great works as a pill in the top bar, through the game's mod slot, and its option |
 | `.../ui/hud-overhaul-religion.js` | your religion's share of the world's settlements as a pill in the top bar, through the game's mod slot, the data its tooltip reads, and its option |
 | `.../ui/hud-overhaul-trade.js` | trade routes in use against the limit as a pill in the top bar, through the game's mod slot, and its option |
-| `.../ui/hud-overhaul-units.js` | your military units and civilians as a pill in the top bar, through the game's mod slot, the list its tooltip reads, and its option |
+| `.../ui/hud-overhaul-units.js` | your military units, civilians and, in the Exploration Age, missionaries as a pill in the top bar, through the game's mod slot, the list its tooltip reads, and its option |
 | `.../ui/hud-overhaul-happiness.js` | settlements at each happiness level as a pill in the top bar, through the game's mod slot, and its option |
 | `.../ui/hud-overhaul-victories.js` | your place in each victory as a pill in the top bar, through the game's mod slot, the standings its tooltip reads, and its option |
 | `.../ui/hud-overhaul-rows.js` | the top bar's pills on one row or two in a fixed order: moves the game's pills into the mods' slot, adds a line break, puts the victories at the end of the first row, and wraps what does not fit before the top right corner; moves other mods' pills from after the slot into it; the top bar's size, and the option for the rows |
@@ -96,8 +96,8 @@ The fixes for them:
 - **Chronicles & Myths**: `hud-overhaul-rows.js`. It adds its pills to the
   top bar after the mods' slot, which widens the bar past the screen. Any
   such pill moves into the slot after this mod's, and
-  `hud-overhaul-pills.js` draws Chronicles' as pills. Its dock button is wrapped in a box of its own
-  in the dock's mod slot.
+  `hud-overhaul-pills.js` draws Chronicles' as pills. Its dock button is
+  wrapped in a box of its own in the dock's mod slot.
 - **My Cities Overview**: `hud-overhaul-layout.js`. It spaces the dock's mod
   slot and everything in it with `!important` rules, so the dock row's
   rules for that slot use `!important` too.
@@ -154,9 +154,9 @@ cannot load, so the mocks draw flat stand-ins.
 - **Log and bail, never throw**: a throw during load takes other scripts with
   it. `console.error` reaches UI.log; `console.log` does not. Tag log lines
   `[hud-overhaul]`.
-- **Build stamps**: each script that runs on its own has a `BUILD` constant that its "loaded"
-  line in UI.log prints. Bump it on every edit to that file, and
-  `civ7lab logs stamps` shows which build ran.
+- **Build stamps**: each script that runs on its own has a `BUILD` constant
+  that its "loaded" line in UI.log prints. Bump it on every edit to that
+  file, and `civ7lab logs stamps` shows which build ran.
 - **Load-time code**: a new top-level constant, rule or listener only takes
   effect after a game restart. So does a new file or a modinfo change.
 - **Imports**: most scripts import from the game with relative paths
@@ -212,9 +212,9 @@ cannot load, so the mocks draw flat stand-ins.
   without `--game` when `reference/` links there. It also checks the game
   keys against the game, with `--write` to refresh `tools/game-keys.txt`
   and `tools/game-text.txt` after a game patch, and fails on text of the
-  mods' own that the game has too. Switch each to the game's key, or list it in `tools/own-text.txt`
-  with why it stays. It ends with the game's yield labels that have no text,
-  which the tooltips show as Other.
+  mods' own that the game has too. Switch each to the game's key, or list it
+  in `tools/own-text.txt` with why it stays. It ends with the game's yield
+  labels that have no text, which the tooltips show as Other.
 - Bump `version` in the modinfo.
 - If the README's player-facing text changed, update
   `workshop/description.txt` to match. It follows the README's feature
@@ -252,6 +252,23 @@ to say it.
 - **Filler**: every sentence must add a fact, an example or a consequence.
   Do not write meta-framing such as "X is the default; Y is the exception".
   State the rule and give the case.
+- **Questions**: do not ask a question and answer it straight away, such as
+  "Want only some of the mod? Turn off a part". State the fact.
+- **Contrast formulas**: no "not just X", "more than X" or "It's not X,
+  it's Y".
+- **Slogans**: no lists of three bold catchphrases, and no paragraph that
+  ends on a punchline such as "Your whole game is there".
+- **Asides for effect**: no "my favourite", "honestly" or jokes. Say what
+  something does.
+- **Staging**: no "It's worth noting", "The key is", "Notice that" or
+  "Here's the thing".
+- **Decoration**: avoid words such as crucial, seamless, robust, powerful,
+  leverage, unlock and complete when they add no fact.
+- **Clarity**: each sentence must make sense on the first read. Split a run
+  of rules into one sentence each, and write a formula as a formula, such as
+  4^(S/17).
+- **Repeats**: say each thing once. Point to the section that has it rather
+  than copying it.
 - **Names**: do not name individual people in the code, docs or commits.
 
 ## Commit messages
