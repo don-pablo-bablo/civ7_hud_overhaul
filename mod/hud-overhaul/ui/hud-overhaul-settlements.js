@@ -1,7 +1,14 @@
-// The settlement count in the top bar, split into cities and towns:
-// "3 + 4/6", then the empire's population after its icon. It turns red
-// when the empire is over the cap, and adds the happiness each settlement
-// loses for it: "3 + 5/6 (-10 each)".
+// The settlement count in the top bar, split into cities and towns: the
+// city and town icons with their counts, then a slot for each settlement
+// the cap allows, then the empire's population after its icon. It turns
+// red when the empire is over the cap, and adds the happiness each
+// settlement loses for it: "(-10 each)".
+//
+// The slots fill with the cities, then the towns, each in the colour of
+// its icon. Settlements over the cap are orange while every settlement
+// still has 0 happiness or more, and red for those that took one below 0.
+// Past the cap, faint orange slots show how many more settlements every
+// settlement can take before one goes below 0.
 //
 // The penalty is the game's TRAIT_MOD_PENALTY_OVER_SETTLEMENT_CAP_SETTLEMENTS:
 // for each settlement over the cap, every settlement loses 5 happiness, with
@@ -10,7 +17,8 @@
 // The cap is the game's own yield-bar-entry. This marks it rather than
 // replacing it: a class for the colour, and spans of its own after the
 // game's text, which the game leaves alone when it rewrites the "8/6". For
-// the split, the game's text is hidden and a span shows the split instead.
+// the split, the game's icon and text are hidden and a span shows the
+// split instead.
 // A hidden element in the top bar's mod slot, put there through
 // ModdingRegistry, finds the entry each time the top bar is rebuilt. It
 // also moves the entry into the mod slot, just before itself, so the
@@ -18,8 +26,8 @@
 //
 // Some civs, such as Carthage, have a hard limit on cities, for which the
 // game adds a City Limit pill of its own. With the split, that pill is
-// hidden and the cities show against the limit instead: "1/1 + 0/3",
-// gold at the limit, when towns can no longer become cities. Without the
+// hidden and the cities show against the limit instead: "1/1", gold at
+// the limit, when towns can no longer become cities. Without the
 // split, the game's pill moves to just after the settlements.
 //
 // Two options in Options > Add-ons turn the split and the warning off.
@@ -28,23 +36,49 @@
 // below the mod root. Log and bail, never throw.
 
 import { ModdingRegistry } from "../../core/ui/modding-registry-handler/modding-registry-handler.js";
-import { addOptions, OPTION_GROUPS, readSettings, setStyle, writeSetting } from "./hud-overhaul-settings.js";
+import { addOptions, onTextSize, OPTION_GROUPS, readSettings, setStyle, textOffset, writeSetting } from "./hud-overhaul-settings.js";
+import { FULL } from "./hud-overhaul-edition.js";
 
 const TAG = "[hud-overhaul]";
 const rem = (px) => `${(px / 18).toFixed(4)}rem`;
 // Bump on every edit to this file. UI.log then shows which build ran.
-const BUILD = "9";
+const BUILD = "17";
 const COMPONENT = "hud-overhaul-settlement-cap";
 const OVER = "hud-overhaul-over-cap";
 const PENALTY = "hud-overhaul-cap-penalty";
 const SPLIT = "hud-overhaul-split"; // on the entry while the split shows
 const COUNT = "hud-overhaul-settlement-count";
 const POP = "hud-overhaul-settlement-pop";
+const CITY = "hud-overhaul-settlement-city"; // the city icon
+const TOWN = "hud-overhaul-settlement-town"; // the town icon
+const SLOTS = "hud-overhaul-settlement-slots";
+// A slot's class for each kind: a city, a town, over the cap, over and
+// unhappy, room past the cap; an empty slot has none.
+const SLOT = { city: CITY, town: TOWN, over: "hud-overhaul-slot-over", unhappy: "hud-overhaul-slot-unhappy", spare: "hud-overhaul-slot-spare" };
+// The most faint slots past the cap, so very happy settlements do not
+// stretch the bar. A "+" after them says there is more room; the tooltip
+// gives the full count.
+const MAX_SPARE = 5;
+const MORE = "hud-overhaul-settlement-more";
 const HIDDEN = "hud-overhaul-hidden";
 const MODIFIER = "TRAIT_MOD_PENALTY_OVER_SETTLEMENT_CAP_SETTLEMENTS";
 
-// [data-icon] lifts these over the yield pills' colours.
-const STYLES = `
+// The colours of the city and town icons and their slots, in the pill and
+// its tooltip.
+export const CITY_COLOUR = "rgb(150, 180, 215)";
+export const TOWN_COLOUR = "rgb(235, 220, 185)";
+
+// The icons' size and offsets that make them as tall as the digits, measured
+// from screenshots at 1080p: the bar's text is 15px in HUD Overhaul and the
+// game's 18px in the top bar mod (hud-overhaul-pills.js), and the game's
+// pictures leave room around them. The population's picture sits higher in
+// its square than the city's and town's. lead keeps the city's centre over
+// the other pills' icons, which are 19px and the text size's offset.
+const ICON = FULL ? { size: 17, top: 0, popTop: 1, lead: 1 } : { size: 20, top: -1, popTop: 0, lead: 0 };
+
+// [data-icon] lifts these over the yield pills' colours. The icons are
+// named under the bar's content to outrank the pills' icon size.
+const styles = () => `
 ${COMPONENT} { display: none; }
 panel-yield-banner yield-bar-entry.${OVER}[data-icon] {
 	color: rgb(255, 170, 160);
@@ -55,10 +89,23 @@ panel-yield-banner yield-bar-entry.${OVER}[data-icon]:hover {
 	background-color: rgba(190, 40, 30, 0.55);
 }
 .${PENALTY} { white-space: nowrap; margin-left: 0.2222rem; }
-.${COUNT} { white-space: nowrap; }
+.${COUNT} { display: flex; flex-direction: row; align-items: center; white-space: nowrap; }
+panel-yield-banner .panel-yield__top-bar-content .${COUNT} > img { width: ${rem(ICON.size + textOffset())}; height: ${rem(ICON.size + textOffset())}; margin: 0 ${rem(2)} 0 ${rem(5)}; position: relative; top: ${rem(ICON.top)}; }
+panel-yield-banner .panel-yield__top-bar-content .${COUNT} > img:first-child { margin-left: ${rem(ICON.lead)}; }
+.${COUNT} > img.${CITY} { filter: fxs-color-mask(${CITY_COLOUR}); }
+.${COUNT} > img.${TOWN} { filter: fxs-color-mask(${TOWN_COLOUR}); }
+.${SLOTS} { display: flex; flex-direction: row; align-items: center; margin-left: ${rem(7)}; }
+.${SLOTS} > div { width: ${rem(5)}; height: ${rem(14)}; margin-right: ${rem(2)}; border-radius: ${rem(1)}; border: ${rem(1)} solid rgba(230, 210, 170, 0.5); }
+.${SLOTS} > div.${CITY} { background-color: ${CITY_COLOUR}; border-color: ${CITY_COLOUR}; }
+.${SLOTS} > div.${TOWN} { background-color: ${TOWN_COLOUR}; border-color: ${TOWN_COLOUR}; }
+.${SLOTS} > div.${SLOT.over} { background-color: rgb(240, 150, 50); border-color: rgb(255, 190, 110); }
+.${SLOTS} > div.${SLOT.unhappy} { background-color: rgb(230, 60, 50); border-color: rgb(255, 120, 110); }
+.${SLOTS} > div.${SLOT.spare} { background-color: rgba(240, 150, 50, 0.3); border-color: rgb(240, 150, 50); }
+.${MORE} { color: rgb(255, 180, 80); font-size: 1.4em; font-weight: bold; line-height: 1; margin-left: ${rem(-3)}; }
 .${POP} { display: flex; flex-direction: row; align-items: center; white-space: nowrap; margin-left: ${rem(6)}; }
-.${POP} img { width: ${rem(17)}; height: ${rem(17)}; margin-right: ${rem(2)}; }
-panel-yield-banner yield-bar-entry.${SPLIT} > span.whitespace-nowrap { display: none; }
+panel-yield-banner .panel-yield__top-bar-content .${POP} img { width: ${rem(ICON.size + textOffset())}; height: ${rem(ICON.size + textOffset())}; margin-right: ${rem(2)}; position: relative; top: ${rem(ICON.popTop)}; }
+panel-yield-banner yield-bar-entry.${SPLIT} > span.whitespace-nowrap,
+panel-yield-banner yield-bar-entry.${SPLIT} > img { display: none; }
 panel-yield-banner yield-bar-entry.${HIDDEN} { display: none; }
 `;
 
@@ -71,26 +118,6 @@ export function cityLimit(player) {
 	return player?.Cities?.getCityLimit?.() || 0;
 }
 
-// Writes the split, "3 + 4/6", into el. With a city limit the cities
-// show against it in a span of their own, "1/1 + 0/3", gold at the
-// limit. hud-overhaul-tooltips.js writes its heading's chip with it too.
-export function writeSplit(el, cities, towns, cap, limit) {
-	if (!limit) {
-		el.textContent = Locale.compose("LOC_HUD_OVERHAUL_SETTLEMENT_SPLIT", cities, towns, cap);
-		return;
-	}
-	// The span goes where the text puts the cities.
-	const MARK = "\u0001";
-	const [before, after = ""] = Locale.compose("LOC_HUD_OVERHAUL_SETTLEMENT_SPLIT", MARK, towns, cap).split(MARK);
-	const count = document.createElement("span");
-	count.textContent = Locale.compose("LOC_HUD_OVERHAUL_CITY_LIMIT_COUNT", cities, limit);
-	if (cities >= limit) count.style.color = LIMIT_COLOUR;
-	// The game's browser has no replaceChildren, and drops a space where
-	// text meets a span, so those spaces are non-breaking.
-	el.textContent = before.replace(/ $/, "\u00a0");
-	el.append(count, after.replace(/^ /, "\u00a0"));
-}
-
 // Happiness each settlement loses per settlement over the cap.
 let perSettlement = null;
 function penaltyAmount() {
@@ -99,6 +126,73 @@ function penaltyAmount() {
 		perSettlement = Number(arg?.Value) || 5;
 	}
 	return perSettlement;
+}
+
+// The happiness of the least happy settlement, or null without any.
+function leastHappiness(player) {
+	const levels = (player?.Cities?.getCities() ?? []).map((city) => city.Yields?.getYield(YieldTypes.YIELD_HAPPINESS)).filter((value) => value != null);
+	return levels.length ? Math.min(...levels) : null;
+}
+
+// How many more settlements past the cap every settlement can take before
+// the least happy one goes below 0.
+function spareAfterCap(least) {
+	return least >= 0 ? Math.floor(least / penaltyAmount()) : 0;
+}
+
+// How many more settlements before the least happy one goes below 0: those
+// left before the cap, then those past it that every settlement can take.
+// Also whether one already has. Null without settlements.
+// hud-overhaul-tooltips.js shows it.
+export function happinessRoom(player) {
+	const least = leastHappiness(player);
+	const stats = player?.Stats;
+	if (least == null || !stats) return null;
+	if (least < 0) return { unhappy: true, more: 0 };
+	return { unhappy: false, more: Math.max(0, stats.settlementCap - stats.numSettlements) + spareAfterCap(least) };
+}
+
+// Writes the pill's split into el: the city and town icons with their
+// counts, the cities against the limit if there is one, then the slots.
+function writeMeter(el, cities, towns, cap, limit, least) {
+	const icon = (id, kind) => {
+		const img = document.createElement("img");
+		img.src = UI.getIconURL(id);
+		img.classList.add(kind);
+		return img;
+	};
+	const cityCount = document.createElement("span");
+	cityCount.textContent = limit ? Locale.compose("LOC_HUD_OVERHAUL_CITY_LIMIT_COUNT", cities, limit) : String(cities);
+	if (limit && cities >= limit) cityCount.style.color = LIMIT_COLOUR;
+	const townCount = document.createElement("span");
+	townCount.textContent = String(towns);
+	const count = cities + towns;
+	const over = Math.max(0, count - cap);
+	// The last settlements over the cap, which took the least happy below 0.
+	const unhappy = least < 0 ? Math.min(over, Math.ceil(-least / penaltyAmount())) : 0;
+	const slots = document.createElement("div");
+	slots.classList.add(SLOTS);
+	const slot = (kind) => {
+		const div = document.createElement("div");
+		if (kind) div.classList.add(SLOT[kind]);
+		slots.appendChild(div);
+	};
+	for (let i = 0; i < Math.max(count, cap); i++) {
+		if (i >= count) slot(null);
+		else if (i >= count - unhappy) slot("unhappy");
+		else if (i >= cap) slot("over");
+		else slot(i < cities ? "city" : "town");
+	}
+	const spare = least == null ? 0 : spareAfterCap(least);
+	for (let i = 0; i < Math.min(spare, MAX_SPARE); i++) slot("spare");
+	el.textContent = "";
+	el.append(icon("YIELD_CITIES", CITY), cityCount, icon("YIELD_TOWNS", TOWN), townCount, slots);
+	if (spare > MAX_SPARE) {
+		const more = document.createElement("span");
+		more.classList.add(MORE);
+		more.textContent = "+";
+		el.append(more);
+	}
 }
 
 // Each one on screen, for the option to update at once.
@@ -125,6 +219,7 @@ class SettlementCap extends Component {
 		engine.on("CityGovernmentLevelChanged", this.onUpdate);
 		engine.on("PlayerTurnActivated", this.onUpdate);
 		engine.on("CityPopulationChanged", this.onUpdate);
+		engine.on("CityYieldChanged", this.onUpdate);
 	}
 
 	onDetach() {
@@ -134,6 +229,7 @@ class SettlementCap extends Component {
 		engine.off("CityGovernmentLevelChanged", this.onUpdate);
 		engine.off("PlayerTurnActivated", this.onUpdate);
 		engine.off("CityPopulationChanged", this.onUpdate);
+		engine.off("CityYieldChanged", this.onUpdate);
 		attached.delete(this);
 		super.onDetach();
 	}
@@ -144,7 +240,7 @@ class SettlementCap extends Component {
 		if (entry.nextSibling !== this.Root) this.Root.parentNode?.insertBefore(entry, this.Root);
 		const player = Players.get(GameContext.localObserverID);
 		const stats = player?.Stats;
-		this.updateSplit(entry, stats, cityLimit(player));
+		this.updateSplit(entry, player, cityLimit(player));
 		this.updateLimitPill(entry);
 		this.updatePopulation(entry);
 		const over = enabled() && stats ? stats.numSettlements - stats.settlementCap : 0;
@@ -162,7 +258,8 @@ class SettlementCap extends Component {
 		span.textContent = Locale.compose("LOC_HUD_OVERHAUL_SETTLEMENT_PENALTY", -over * penaltyAmount());
 	}
 
-	updateSplit(entry, stats, limit) {
+	updateSplit(entry, player, limit) {
+		const stats = player?.Stats;
 		const on = splitEnabled() && !!stats;
 		entry.classList.toggle(SPLIT, on);
 		let span = entry.querySelector(`.${COUNT}`);
@@ -178,7 +275,7 @@ class SettlementCap extends Component {
 		// when the game draws its text after this first runs.
 		const next = entry.querySelector(`.${POP}`) ?? entry.querySelector(`.${PENALTY}`);
 		if (span.nextSibling !== next || span.parentNode !== entry) entry.insertBefore(span, next);
-		writeSplit(span, stats.numCities, stats.numTowns, stats.settlementCap, limit);
+		writeMeter(span, stats.numCities, stats.numTowns, stats.settlementCap, limit, leastHappiness(player));
 	}
 
 	// The game's City Limit pill: hidden while the split shows the limit,
@@ -262,7 +359,9 @@ function addOption() {
 }
 
 try {
-	setStyle("hud-overhaul-settlements", STYLES);
+	const restyle = () => setStyle("hud-overhaul-settlements", styles());
+	restyle();
+	onTextSize(restyle);
 	Controls.define(COMPONENT, { createInstance: SettlementCap });
 	ModdingRegistry.add({ parentID: "panel-yield-banner", componentTag: COMPONENT, modSlot: "yield-banner-mod-slot" });
 	// A top bar already on screen has asked for its mod elements before this

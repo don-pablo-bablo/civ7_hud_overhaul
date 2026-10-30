@@ -254,9 +254,6 @@
 		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_CELEBRATION_DESCRIPTION" Language="es_ES">
 			<Text>Añade al indicador de felicidad los turnos hasta la próxima celebración, o los que le quedan a la actual.</Text>
 		</Replace>
-		<Replace Tag="LOC_HUD_OVERHAUL_SETTLEMENT_SPLIT" Language="es_ES">
-			<Text>{1_Cities} + {2_Towns}/{3_Cap}</Text>
-		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_CITY_LIMIT_COUNT" Language="es_ES">
 			<Text>{1_Cities}/{2_Limit}</Text>
 		</Replace>
@@ -264,7 +261,7 @@
 			<Text>Ciudades y pueblos</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_SETTLEMENT_SPLIT_DESCRIPTION" Language="es_ES">
-			<Text>Divide el número de asentamientos en ciudades y pueblos: 3 + 4/6.</Text>
+			<Text>Divide el número de asentamientos en ciudades y pueblos, cada uno con su icono, y añade una casilla por cada asentamiento que permite el límite.</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_TRADE_COUNT" Language="es_ES">
 			<Text>{1_Used}/{2_Limit}</Text>
@@ -320,17 +317,32 @@
 		<Replace Tag="LOC_HUD_OVERHAUL_TIP_TOWNS" Language="es_ES">
 			<Text>Pueblos ({1_Count})</Text>
 		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_N_CITIES" Language="es_ES">
+			<Text>{1_Count} {1_Count: plural 1?Ciudad; other?Ciudades;}</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_N_TOWNS" Language="es_ES">
+			<Text>{1_Count} {1_Count: plural 1?Pueblo; other?Pueblos;}</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_POPULATION" Language="es_ES">
+			<Text>Población: {1_Count}</Text>
+		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_TIP_OVER_CAP" Language="es_ES">
 			<Text>{1_Count} por encima del límite</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_TIP_UNDER_CAP" Language="es_ES">
-			<Text>{1_Count} más antes del límite</Text>
+			<Text>{1_Count} más hasta el límite</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_TIP_UNDER_CITY_LIMIT" Language="es_ES">
 			<Text>{1_Count} {1_Count: plural 1?ciudad; other?ciudades;} más antes del límite</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_TIP_AT_CITY_LIMIT" Language="es_ES">
 			<Text>Límite de ciudades alcanzado</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_BEFORE_UNHAPPY" Language="es_ES">
+			<Text>{1_Count} más hasta el descontento</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_SOME_UNHAPPY" Language="es_ES">
+			<Text>Algunos asentamientos son infelices</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_TIP_LEVELS" Language="es_ES">
 			<Text>Niveles de felicidad</Text>

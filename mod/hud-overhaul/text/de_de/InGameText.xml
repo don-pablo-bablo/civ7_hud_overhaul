@@ -254,9 +254,6 @@
 		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_CELEBRATION_DESCRIPTION" Language="de_DE">
 			<Text>Ergänzt die Zufriedenheitsanzeige um die Runden bis zur nächsten Feier oder die verbleibenden Runden der laufenden.</Text>
 		</Replace>
-		<Replace Tag="LOC_HUD_OVERHAUL_SETTLEMENT_SPLIT" Language="de_DE">
-			<Text>{1_Cities} + {2_Towns}/{3_Cap}</Text>
-		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_CITY_LIMIT_COUNT" Language="de_DE">
 			<Text>{1_Cities}/{2_Limit}</Text>
 		</Replace>
@@ -264,7 +261,7 @@
 			<Text>Städte und Gemeinden</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_SETTLEMENT_SPLIT_DESCRIPTION" Language="de_DE">
-			<Text>Teilt die Zahl der Siedlungen in Städte und Gemeinden auf: 3 + 4/6.</Text>
+			<Text>Teilt die Zahl der Siedlungen in Städte und Gemeinden auf, jeweils mit ihrem Symbol, und zeigt ein Feld für jede Siedlung, die das Limit erlaubt.</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_TRADE_COUNT" Language="de_DE">
 			<Text>{1_Used}/{2_Limit}</Text>
@@ -320,17 +317,32 @@
 		<Replace Tag="LOC_HUD_OVERHAUL_TIP_TOWNS" Language="de_DE">
 			<Text>Gemeinden ({1_Count})</Text>
 		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_N_CITIES" Language="de_DE">
+			<Text>{1_Count} {1_Count: plural 1?Stadt; other?Städte;}</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_N_TOWNS" Language="de_DE">
+			<Text>{1_Count} {1_Count: plural 1?Gemeinde; other?Gemeinden;}</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_POPULATION" Language="de_DE">
+			<Text>Bevölkerung: {1_Count}</Text>
+		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_TIP_OVER_CAP" Language="de_DE">
 			<Text>{1_Count} über dem Limit</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_TIP_UNDER_CAP" Language="de_DE">
-			<Text>{1_Count} bis zum Limit</Text>
+			<Text>Noch {1_Count} bis zum Limit</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_TIP_UNDER_CITY_LIMIT" Language="de_DE">
 			<Text>Noch {1_Count} {1_Count: plural 1?Stadt; other?Städte;} bis zum Limit</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_TIP_AT_CITY_LIMIT" Language="de_DE">
 			<Text>Städtelimit erreicht</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_BEFORE_UNHAPPY" Language="de_DE">
+			<Text>Noch {1_Count} bis zur Unzufriedenheit</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_SOME_UNHAPPY" Language="de_DE">
+			<Text>Einige Siedlungen sind unzufrieden</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_TIP_LEVELS" Language="de_DE">
 			<Text>Zufriedenheitsstufen</Text>

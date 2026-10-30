@@ -56,14 +56,15 @@ import { CLASSES as RESOURCE_CLASSES, holdings, ICON as RESOURCES } from "./hud-
 import { openReligion, religion, ICON as RELIGION } from "./hud-overhaul-religion.js";
 import { ICON as TRADE, merchants, partners, tradeRoutes } from "./hud-overhaul-trade.js";
 import { convoyAge, convoys, ICON as TREASURE, idleTreasure } from "./hud-overhaul-treasure.js";
-import { cityLimit, LIMIT_COLOUR, writeSplit } from "./hud-overhaul-settlements.js";
+import { CITY_COLOUR, cityLimit, happinessRoom, LIMIT_COLOUR, TOWN_COLOUR } from "./hud-overhaul-settlements.js";
+import { FULL } from "./hud-overhaul-edition.js";
 import { CIVILIAN, goTo, ICON as UNITS, iconURL, MILITARY as MILITARY_UNITS, units } from "./hud-overhaul-units.js";
 import { combatStrength } from "./hud-overhaul-strength.js";
 import { ICON as VICTORIES, ordinal, standings, victoryClasses } from "./hud-overhaul-victories.js";
 
 const TAG = "[hud-overhaul]";
 // Bump on every edit to this file. UI.log then shows which build ran.
-const BUILD = "101";
+const BUILD = "109";
 const COMPONENT = "hud-overhaul-tooltips";
 const PINNED = "hud-overhaul-tip-pinned";
 const QUIET = "hud-overhaul-tip-quiet"; // on <html> while one is locked and the mouse is on the top bar
@@ -264,7 +265,7 @@ function chip(url, text, px = 20, gap = 0) {
 	return el;
 }
 
-// One chip with several icon and text pairs, as the settlement pill reads.
+// One chip with several icon and text pairs.
 function chipOf(...pairs) {
 	const el = div("hud-overhaul-tip-chip font-body text-xs");
 	pairs.forEach(([url, text], i) => {
@@ -310,8 +311,19 @@ function row(box, url, name, tag, value, valueIcon, negative) {
 	el.append(div("hud-overhaul-tip-name", name));
 	if (tag) el.append(div("hud-overhaul-tip-tag text-2xs", tag));
 	const right = div(`hud-overhaul-tip-value${negative ? " hud-overhaul-tip-negative" : ""}`);
+	// The icon before the value, as in the chips. The game's icons leave
+	// room around the picture, and its rows do not grow with the text's in
+	// step, so the size and offset that cover the digits' rows were measured
+	// from screenshots at 1080p in each mod at its own default size: 18px,
+	// 1px below the middle, in HUD Overhaul; 24px, in the middle, in the top
+	// bar mod, whose tooltips are 1.25 times as big.
+	if (valueIcon) {
+		const el = icon(valueIcon, FULL ? 18 : 24 / 1.25, 2);
+		el.style.position = "relative";
+		el.style.top = rem(FULL ? 1 : 0);
+		right.append(el);
+	}
 	right.append(value instanceof Element ? value : div("", value));
-	if (valueIcon) right.append(icon(valueIcon, 16));
 	el.append(right);
 	box.append(el);
 }
@@ -695,12 +707,20 @@ function settlementsPanel(detailed) {
 	// Some civs, such as Carthage, have a hard limit on cities.
 	// Its chip goes on a line of its own under the cap's, gold at the limit.
 	const limit = cityLimit(player);
-	// A span, as in the pill: the game stacks a div's text and spans in
-	// lines of their own.
-	const split = document.createElement("span");
-	split.style.whiteSpace = "nowrap";
-	writeSplit(split, cities.length, towns.length, stats.settlementCap, limit);
-	const caps = [chips(chip(null, cap))];
+	// The city and town icons in their colours in the pill.
+	const tinted = (id, colour, text) => {
+		const el = chip(UI.getIconURL(id), text);
+		el.firstChild.style.filter = `fxs-color-mask(${colour})`;
+		return el;
+	};
+	const caps = [chips(chip(UI.getIconURL("SETTLEMENT_LIMIT"), cap))];
+	// Then how many more before a settlement is unhappy.
+	const room = happinessRoom(player);
+	if (room) {
+		caps.push(chips(room.unhappy
+			? chip(UI.getIconURL("YIELD_UNHAPPY", "YIELD"), Locale.compose("LOC_HUD_OVERHAUL_TIP_SOME_UNHAPPY"))
+			: chip(UI.getIconURL("YIELD_HAPPINESS", "YIELD"), Locale.compose("LOC_HUD_OVERHAUL_TIP_BEFORE_UNHAPPY", room.more))));
+	}
 	if (limit) {
 		const left = limit - cities.length;
 		const text = left > 0 ? Locale.compose("LOC_HUD_OVERHAUL_TIP_UNDER_CITY_LIMIT", left) : Locale.compose("LOC_HUD_OVERHAUL_TIP_AT_CITY_LIMIT");
@@ -708,7 +728,10 @@ function settlementsPanel(detailed) {
 		if (left <= 0) limitChip.lastChild.style.color = LIMIT_COLOUR;
 		caps.push(chips(limitChip));
 	}
-	head(box, Locale.compose("LOC_COMMERCE_SETTLEMENTS_TITLE"), chips(chipOf([settlementIcon(), split], [popIcon, String(population)])), ...caps);
+	head(box, Locale.compose("LOC_COMMERCE_SETTLEMENTS_TITLE"), chips(
+		tinted("YIELD_CITIES", CITY_COLOUR, Locale.compose("LOC_HUD_OVERHAUL_TIP_N_CITIES", cities.length)),
+		tinted("YIELD_TOWNS", TOWN_COLOUR, Locale.compose("LOC_HUD_OVERHAUL_TIP_N_TOWNS", towns.length)),
+	), chips(chip(popIcon, Locale.compose("LOC_HUD_OVERHAUL_TIP_POPULATION", population))), ...caps);
 	for (const [title, list] of [
 		["LOC_HUD_OVERHAUL_TIP_CITIES", cities],
 		["LOC_HUD_OVERHAUL_TIP_TOWNS", towns],

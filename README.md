@@ -205,13 +205,20 @@ source.
 
 ### Settlements
 
-The pill splits the count into cities and towns, "3 + 4/6", with your
-population after it. It turns red when you are over the cap, and shows the
-happiness each settlement loses for it: "3 + 5/6 (-10 each)". For a civ with
-a limit on cities, such as Carthage, the cities show against it, "1/1 +
-2/4", in gold once towns can no longer become cities. The detailed tooltip
-gives each town's focus and each settlement's growth, urban and rural
-population and specialists.
+The pill shows your cities and towns, each with its icon, then a slot for
+each settlement the cap allows, then your population. The slots fill with
+your cities in blue and your towns in cream. Settlements over the cap are
+orange, and red once they have made a settlement unhappy. Past the cap,
+faint orange slots show how many more settlements you can found before one
+turns unhappy, with a + when there is room for more than five. The pill
+turns red when you are over the cap, and shows the happiness each
+settlement loses for it: "(-10 each)". For a civ with a limit on cities,
+such as Carthage, the cities show against it, "1/1", in gold once towns can
+no longer become cities.
+
+The tooltip gives how many more settlements you can found until the cap and
+until one is unhappy. The detailed one gives each town's focus and each
+settlement's growth, urban and rural population and specialists.
 
 ![The settlements pill's detailed tooltip](docs/images/settlements-tooltip.png)
 

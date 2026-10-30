@@ -253,9 +253,6 @@
 		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_CELEBRATION_DESCRIPTION" Language="en_US">
 			<Text>Adds the turns to the next celebration, or the turns left in the one running, to the happiness pill.</Text>
 		</Replace>
-		<Replace Tag="LOC_HUD_OVERHAUL_SETTLEMENT_SPLIT" Language="en_US">
-			<Text>{1_Cities} + {2_Towns}/{3_Cap}</Text>
-		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_CITY_LIMIT_COUNT" Language="en_US">
 			<Text>{1_Cities}/{2_Limit}</Text>
 		</Replace>
@@ -263,7 +260,7 @@
 			<Text>Cities and towns</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_SETTLEMENT_SPLIT_DESCRIPTION" Language="en_US">
-			<Text>Splits the settlement count into cities and towns: 3 + 4/6.</Text>
+			<Text>Splits the settlement count into cities and towns, each with its icon, and adds a slot for each settlement the cap allows.</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_TRADE_COUNT" Language="en_US">
 			<Text>{1_Used}/{2_Limit}</Text>
@@ -322,17 +319,32 @@
 		<Replace Tag="LOC_HUD_OVERHAUL_TIP_TOWNS" Language="en_US">
 			<Text>Towns ({1_Count})</Text>
 		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_N_CITIES" Language="en_US">
+			<Text>{1_Count} {1_Count: plural 1?City; other?Cities;}</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_N_TOWNS" Language="en_US">
+			<Text>{1_Count} {1_Count: plural 1?Town; other?Towns;}</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_POPULATION" Language="en_US">
+			<Text>{1_Count} Population</Text>
+		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_TIP_OVER_CAP" Language="en_US">
 			<Text>{1_Count} over the cap</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_TIP_UNDER_CAP" Language="en_US">
-			<Text>{1_Count} more before the cap</Text>
+			<Text>{1_Count} more until cap</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_TIP_UNDER_CITY_LIMIT" Language="en_US">
 			<Text>{1_Count} more {1_Count: plural 1?city; other?cities;} before the limit</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_TIP_AT_CITY_LIMIT" Language="en_US">
 			<Text>At City Limit</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_BEFORE_UNHAPPY" Language="en_US">
+			<Text>{1_Count} more until unhappy</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_TIP_SOME_UNHAPPY" Language="en_US">
+			<Text>Some settlements are unhappy</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_TIP_LEVELS" Language="en_US">
 			<Text>Happiness levels</Text>
