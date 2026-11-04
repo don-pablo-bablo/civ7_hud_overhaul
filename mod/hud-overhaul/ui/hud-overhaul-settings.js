@@ -129,6 +129,42 @@ const TOP_BAR_ORDER = ["rows", "celebration", "yields", "settlements", "units", 
 // What addOptions has been given, added together when the options load.
 const pending = [];
 
+// Slider changes waiting for the options' Confirm, by setting. A drag sends
+// many changes, and saving and restyling on each slows the game, so only the
+// last one is kept. Cancel drops them.
+const unconfirmed = new Map();
+
+// Runs `apply` when the player confirms the options, in place of any earlier
+// change to this setting.
+export function onConfirm(setting, apply) {
+	unconfirmed.set(setting, apply);
+}
+
+// Drops a setting's waiting change. For a slider's restoreListener, which the
+// game calls on Cancel, or when the slider goes back to its saved value.
+export function dropUnconfirmed(setting) {
+	unconfirmed.delete(setting);
+}
+
+// The game saves every option in Options.commitOptions, called with no category
+// on Confirm, including before a UI reload. It has no event of its own for this.
+function applyOnConfirm(Options) {
+	const commit = Options.commitOptions;
+	Options.commitOptions = function (category) {
+		if (!category) {
+			for (const apply of unconfirmed.values()) {
+				try {
+					apply();
+				} catch (error) {
+					console.error(`[hud-overhaul] settings: cannot apply option: ${error}`);
+				}
+			}
+			unconfirmed.clear();
+		}
+		return commit.call(this, category);
+	};
+}
+
 // Adds options to the Add-ons tab, in one of OPTION_GROUPS. `build` gets the
 // game's option types and returns the options, without category or group.
 // A top bar script names itself, `name`, for its place in TOP_BAR_ORDER.
@@ -154,6 +190,7 @@ export async function addOptions(group, build, name = "") {
 	};
 	pending.push({ group, build, place: TOP_BAR_ORDER.indexOf(name) });
 	if (pending.length > 1) return;
+	applyOnConfirm(Options);
 	Options.addInitCallback(() => {
 		try {
 			addGroupNotes();
@@ -372,14 +409,18 @@ function addPartOptions() {
 			updateListener: (info, value) => {
 				info.currentValue = Math.round(value);
 				info.formattedValue = `${info.currentValue}%`;
-				if (info.currentValue === percent(name)) return;
-				try {
-					writeSetting("sizes", { ...readSettings().sizes, [name]: info.currentValue });
-				} catch (error) {
-					console.error(`[hud-overhaul] settings: cannot save size: ${error}`);
+				const setting = `size-${name}`;
+				if (info.currentValue === percent(name)) {
+					dropUnconfirmed(setting);
+					return;
 				}
-				window.dispatchEvent(new CustomEvent(SIZE_EVENT, { detail: name }));
+				const chosen = info.currentValue;
+				onConfirm(setting, () => {
+					writeSetting("sizes", { ...readSettings().sizes, [name]: chosen });
+					window.dispatchEvent(new CustomEvent(SIZE_EVENT, { detail: name }));
+				});
 			},
+			restoreListener: () => dropUnconfirmed(`size-${name}`),
 		})),
 	]);
 }

@@ -288,7 +288,8 @@ winning.
 
 ## Options
 
-All in **Options > Add-ons**, in three groups. Changes show at once.
+All in **Options > Add-ons**, in three groups. Sizes and opacities show when
+you press Confirm, and other changes show at once.
 
 - **Pablo's HUD Overhaul**:
   - **Enable HUD Overhaul**: turn it off to see the game's own HUD, and on
