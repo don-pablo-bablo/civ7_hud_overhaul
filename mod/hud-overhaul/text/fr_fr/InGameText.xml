@@ -201,7 +201,13 @@
 			<Text>La taille du bandeau des dirigeants. Plus grand affiche moins de dirigeants à l'écran. Celle du jeu de base est de 125 %.</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_SIZE_MINIMAP_DESCRIPTION" Language="fr_FR">
-			<Text>La taille de la minicarte et de ses boutons de filtres. Celle du jeu de base est de 125 %.</Text>
+			<Text>La taille de la carte. Ses boutons et menus ont leur propre taille. Celle du jeu de base est de 125 %.</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_SIZE_MINIMAP_CONTROLS" Language="fr_FR">
+			<Text>Taille des boutons et menus de la minicarte</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_SIZE_MINIMAP_CONTROLS_DESCRIPTION" Language="fr_FR">
+			<Text>La taille des boutons au-dessus de la minicarte et des menus qu'ils ouvrent. Celle du jeu de base est de 125 %.</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_SIZE_DIAL" Language="fr_FR">
 			<Text>Taille du cadran de tour</Text>

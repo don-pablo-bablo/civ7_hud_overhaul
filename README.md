@@ -304,7 +304,8 @@ All in **Options > Add-ons**, in three groups. Changes show at once.
     Journal. Each goes from fully clear to fully solid.
 - **Pablo's HUD Overhaul: Size and layout**: each part of the screen on or
   off, and its size. Turn off a part to use the game's version instead, and
-  its other options hide. Sizes go from 75% to 150% of the mod's default,
+  its other options hide. Sizes go from 75% to 150% of the mod's default, and
+  the map to 250%,
   and each slider says what the base game's size is, such as 125% for the
   turn dial.
   - **Top bar size**: the pills, and the turn and date at the top right.
@@ -325,7 +326,8 @@ All in **Options > Add-ons**, in three groups. Changes show at once.
       Civilization VI; or always for everyone.
     - **With Drongo's Leader Ribbons**: only with that mod on. See
       [Compatibility](#compatibility).
-  - **Minimap**, with its size.
+  - **Minimap**, with the map's size, up to 250%, and a separate size for its
+    buttons and menus.
   - **Turn dial and notifications**, with the size of each.
 - **Pablo's HUD Overhaul: Top bar**: **Top bar rows**, one or two, and each
   of the added pills on or off. See [Two rows of pills](#two-rows-of-pills).
@@ -407,7 +409,7 @@ No changes needed:
   included; it runs only when you press it, and says first what it clears.
 - **[Detailed Map Tacks](https://steamcommunity.com/sharedfiles/filedetails/?id=3507297712)**
   and **[REWIND: Replay Map History](https://steamcommunity.com/sharedfiles/filedetails/?id=3759409080)**:
-  their minimap buttons shrink with the minimap.
+  their minimap buttons follow the minimap's buttons and menus size.
 - These change other parts of the screen:
   **[City Hall](https://steamcommunity.com/sharedfiles/filedetails/?id=3507102289)**,
   **[Pablo's Better Yield Tooltip](https://steamcommunity.com/sharedfiles/filedetails/?id=3809254963)**,

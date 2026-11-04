@@ -201,7 +201,13 @@
 			<Text>Le dimensioni della barra dei leader. Più grande mostra meno leader sullo schermo. Quelle del gioco base sono il 125%.</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_SIZE_MINIMAP_DESCRIPTION" Language="it_IT">
-			<Text>Le dimensioni della minimappa e dei suoi pulsanti delle lenti. Quelle del gioco base sono il 125%.</Text>
+			<Text>Le dimensioni della mappa. I suoi pulsanti e menu hanno dimensioni proprie. Quelle del gioco base sono il 125%.</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_SIZE_MINIMAP_CONTROLS" Language="it_IT">
+			<Text>Dimensioni dei pulsanti e dei menu della minimappa</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_SIZE_MINIMAP_CONTROLS_DESCRIPTION" Language="it_IT">
+			<Text>Le dimensioni dei pulsanti sopra la minimappa e dei menu che aprono. Quelle del gioco base sono il 125%.</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_SIZE_DIAL" Language="it_IT">
 			<Text>Dimensioni dell'indicatore del turno</Text>

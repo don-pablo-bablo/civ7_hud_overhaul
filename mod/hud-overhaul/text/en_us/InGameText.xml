@@ -200,7 +200,13 @@
 			<Text>The size of the leader ribbon. Bigger fits fewer leaders on screen. The base game's is 125%.</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_SIZE_MINIMAP_DESCRIPTION" Language="en_US">
-			<Text>The size of the minimap and its lens buttons. The base game's is 125%.</Text>
+			<Text>The size of the map. Its buttons and menus have their own size. The base game's is 125%.</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_SIZE_MINIMAP_CONTROLS" Language="en_US">
+			<Text>Minimap buttons and menus size</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_SIZE_MINIMAP_CONTROLS_DESCRIPTION" Language="en_US">
+			<Text>The size of the buttons above the minimap and the menus they open. The base game's is 125%.</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_SIZE_DIAL" Language="en_US">
 			<Text>Turn dial size</Text>
