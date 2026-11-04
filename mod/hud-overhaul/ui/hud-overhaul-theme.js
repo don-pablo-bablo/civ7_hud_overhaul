@@ -1,6 +1,6 @@
 // The colour of the top bar and the plates under it, and how much of the map
-// shows through them. The player picks both in Options > Add-ons, and a
-// change shows at once.
+// shows through them. The player picks both in Options > Add-ons. A colour
+// shows at once, and an opacity when the options are confirmed.
 //
 // The plates are the dock's and the column's, which holds the World Tracker
 // and the Journal as one panel. Each is one flat colour, so the two plates
@@ -21,11 +21,11 @@
 // uses. Settings and options go through hud-overhaul-settings.js. Log and
 // bail, never throw.
 
-import { addOptions, onPart, OPTION_GROUPS, partOn, readSettings, setStyle, writeSetting } from "./hud-overhaul-settings.js";
+import { addOptions, dropUnconfirmed, onConfirm, onPart, OPTION_GROUPS, partOn, readSettings, setStyle, writeSetting } from "./hud-overhaul-settings.js";
 
 const TAG = "[hud-overhaul]";
 // Bump on every edit to this file. UI.log then shows which build ran.
-const BUILD = "12";
+const BUILD = "13";
 const STYLE_ID = "hud-overhaul-theme";
 
 const rem = (px) => `${(px / 18).toFixed(4)}rem`;
@@ -217,8 +217,10 @@ function opacityOption(OptionType, [part, [setting, id, label, description]]) {
 		updateListener: (info, value) => {
 			info.currentValue = Math.round(value);
 			info.formattedValue = `${info.currentValue}%`;
-			save(setting, info.currentValue);
+			const chosen = info.currentValue;
+			onConfirm(setting, () => save(setting, chosen));
 		},
+		restoreListener: () => dropUnconfirmed(setting),
 	};
 }
 
