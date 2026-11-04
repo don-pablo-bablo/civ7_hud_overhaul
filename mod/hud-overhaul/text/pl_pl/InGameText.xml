@@ -201,7 +201,13 @@
 			<Text>Rozmiar paska przywódców. Większy mieści mniej przywódców na ekranie. W podstawowej grze to 125%.</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_SIZE_MINIMAP_DESCRIPTION" Language="pl_PL">
-			<Text>Rozmiar minimapy i jej przycisków soczewek. W podstawowej grze to 125%.</Text>
+			<Text>Rozmiar mapy. Jej przyciski i menu mają własny rozmiar. W podstawowej grze to 125%.</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_SIZE_MINIMAP_CONTROLS" Language="pl_PL">
+			<Text>Rozmiar przycisków i menu minimapy</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_SIZE_MINIMAP_CONTROLS_DESCRIPTION" Language="pl_PL">
+			<Text>Rozmiar przycisków nad minimapą i otwieranych przez nie menu. W podstawowej grze to 125%.</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_SIZE_DIAL" Language="pl_PL">
 			<Text>Rozmiar wskaźnika tury</Text>

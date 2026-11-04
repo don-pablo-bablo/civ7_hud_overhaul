@@ -201,7 +201,13 @@
 			<Text>Die Größe der Anführerleiste. Größer zeigt weniger Anführer auf dem Bildschirm. Die des Grundspiels liegt bei 125 %.</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_SIZE_MINIMAP_DESCRIPTION" Language="de_DE">
-			<Text>Die Größe der Minikarte und ihrer Linsen-Schaltflächen. Die des Grundspiels liegt bei 125 %.</Text>
+			<Text>Die Größe der Karte. Ihre Schaltflächen und Menüs haben eine eigene Größe. Die des Grundspiels liegt bei 125 %.</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_SIZE_MINIMAP_CONTROLS" Language="de_DE">
+			<Text>Größe der Minikarten-Schaltflächen und -Menüs</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_SIZE_MINIMAP_CONTROLS_DESCRIPTION" Language="de_DE">
+			<Text>Die Größe der Schaltflächen über der Minikarte und der Menüs, die sie öffnen. Die des Grundspiels liegt bei 125 %.</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_SIZE_DIAL" Language="de_DE">
 			<Text>Größe der Rundenanzeige</Text>

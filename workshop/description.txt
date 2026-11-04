@@ -51,7 +51,7 @@ The panels can take another colour in place of Civ VII brown, such as Civ VI blu
 
 [h2]Sizes and parts[/h2]
 
-Each part has its own size, from 75% to 150%: the top bar, the tooltips, the rings, the World Tracker and Journal, the leader ribbon, the minimap, the turn dial and the notifications. Each slider says what the base game's size is. Turn off a part, such as the leader ribbon or the minimap, to use the game's version instead.
+Each part has its own size, from 75% to 150%: the top bar, the tooltips, the rings, the World Tracker and Journal, the leader ribbon, the minimap, the turn dial and the notifications. The map itself goes up to 250%, with a separate size for its buttons and menus. Each slider says what the base game's size is. Turn off a part, such as the leader ribbon or the minimap, to use the game's version instead.
 
 [h2]Tooltips[/h2]
 

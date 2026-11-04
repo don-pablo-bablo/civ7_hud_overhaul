@@ -21,7 +21,7 @@ import { addOptions, enabled, onPart, onSize, onTextSize, OPTION_GROUPS, partOn,
 (() => {
 	const TAG = "[hud-overhaul]";
 	// Bump on every edit to this file. UI.log then shows which build ran.
-	const BUILD = "23";
+	const BUILD = "25";
 	const rem = (px) => `${(px / 18).toFixed(4)}rem`;
 	// Text: px at the game's Small text size, moved by the player's.
 	const text = (px) => rem(px + textOffset());
@@ -148,6 +148,7 @@ import { addOptions, enabled, onPart, onSize, onTextSize, OPTION_GROUPS, partOn,
 		const round = (value) => Math.round(value * 10000) / 10000;
 		const dial = round(DIAL * size("dial"));
 		const map = round(MAP * size("minimap"));
+		const controls = round(MAP * size("minimapControls"));
 		const notifications = round(NOTIFICATIONS * size("notifications"));
 		const column = size("tracker");
 		// Each part's rules, while it is on (partOn in hud-overhaul-settings.js).
@@ -264,20 +265,44 @@ import { addOptions, enabled, onPart, onSize, onTextSize, OPTION_GROUPS, partOn,
 		.harness quest-list { margin-left: 0; }
 		${dockRules(size("dock"))}
 	`;
+		// The map against its buttons and menus, which set the scale below.
+		const mapGrowth = map / controls;
 		const minimapCss = `
-		/* The minimap is drawn at MAP of its size, times the player's, from its bottom left
-		   corner. Its frame art starts 12px inside its box, so the box goes
-		   past the left and bottom edges by that, scaled. The scale goes on
-		   its child, which fills it: the game slides the minimap in with an
-		   animated transform, which would replace the scale while it runs. */
+		/* The minimap is drawn at MAP of its size, times the player's size for
+		   its buttons and menus, from its bottom left corner. Its frame art
+		   starts 12px inside its box, so the box goes past the left and bottom
+		   edges by that, scaled. The scale goes on its child, which fills it:
+		   the game slides the minimap in with an animated transform, which
+		   would replace the scale while it runs. */
 		.harness panel-mini-map {
-			margin-left: ${rem(-12 * map)};
-			margin-bottom: ${rem(-12 * map)};
+			margin-left: ${rem(-12 * controls)};
+			margin-bottom: ${rem(-12 * controls)};
 		}
 		.harness panel-mini-map > .mini-map-container {
-			transform: scale(${map});
+			transform: scale(${controls});
 			transform-origin: 0 100%;
 		}
+		${map === controls ? "" : `
+		/* The map's own size goes on its box rather than in the scale, so the
+		   buttons and menus keep theirs. The box is 380 by 204px with the map
+		   350 by 174px inside it, and the game stretches the map to fit, so the
+		   30px around it stays fixed to keep the map's shape. Hiding the map
+		   still shrinks the box to the game's 30px. */
+		.harness panel-mini-map .mini-map__main {
+			width: ${rem(350 * mapGrowth + 30)};
+			height: ${rem(174 * mapGrowth + 30)};
+		}
+		.harness panel-mini-map .mini-map__main.mini-map__main-minimized {
+			height: ${rem(30)};
+		}
+		/* A small map under big buttons: the row grows to the right rather
+		   than past the screen's left edge. It stays centred while it fits. */
+		.harness panel-mini-map .mini-map__button-row {
+			left: 0;
+			width: auto;
+			min-width: 100%;
+			padding: 0 ${rem(12)};
+		}`}
 	`;
 		const dialCss = `
 		/* Flush to the screen edge, beside the dial. */
@@ -426,7 +451,7 @@ import { addOptions, enabled, onPart, onSize, onTextSize, OPTION_GROUPS, partOn,
 		const restyle = () => setStyle("hud-overhaul-styles", styles());
 		restyle();
 		onTextSize(restyle);
-		onSize(["dial", "minimap", "notifications", "tracker", "dock"], restyle);
+		onSize(["dial", "minimap", "minimapControls", "notifications", "tracker", "dock"], restyle);
 		onPart(["dock", "minimap", "dial"], restyle);
 		watchJournal();
 		setInterval(() => {

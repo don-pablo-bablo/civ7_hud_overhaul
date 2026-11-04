@@ -201,7 +201,13 @@
 			<Text>O tamanho da faixa de líderes. Maior mostra menos líderes na tela. O do jogo base é de 125%.</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_SIZE_MINIMAP_DESCRIPTION" Language="pt_BR">
-			<Text>O tamanho do minimapa e de seus botões de lentes. O do jogo base é de 125%.</Text>
+			<Text>O tamanho do mapa. Seus botões e menus têm tamanho próprio. O do jogo base é de 125%.</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_SIZE_MINIMAP_CONTROLS" Language="pt_BR">
+			<Text>Tamanho dos botões e menus do minimapa</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_SIZE_MINIMAP_CONTROLS_DESCRIPTION" Language="pt_BR">
+			<Text>O tamanho dos botões acima do minimapa e dos menus que eles abrem. O do jogo base é de 125%.</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_SIZE_DIAL" Language="pt_BR">
 			<Text>Tamanho do indicador de turno</Text>

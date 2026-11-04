@@ -201,7 +201,13 @@
 			<Text>El tamaño de la franja de líderes. Más grande muestra menos líderes en pantalla. El del juego base es del 125 %.</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_SIZE_MINIMAP_DESCRIPTION" Language="es_ES">
-			<Text>El tamaño del minimapa y sus botones de lentes. El del juego base es del 125 %.</Text>
+			<Text>El tamaño del mapa. Sus botones y menús tienen su propio tamaño. El del juego base es del 125 %.</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_SIZE_MINIMAP_CONTROLS" Language="es_ES">
+			<Text>Tamaño de los botones y menús del minimapa</Text>
+		</Replace>
+		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_SIZE_MINIMAP_CONTROLS_DESCRIPTION" Language="es_ES">
+			<Text>El tamaño de los botones sobre el minimapa y de los menús que abren. El del juego base es del 125 %.</Text>
 		</Replace>
 		<Replace Tag="LOC_HUD_OVERHAUL_OPTION_SIZE_DIAL" Language="es_ES">
 			<Text>Tamaño del indicador de turno</Text>

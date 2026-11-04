@@ -282,11 +282,14 @@ const ALL_SIZES = [
 	["tracker", "dock", "LOC_HUD_OVERHAUL_OPTION_SIZE_TRACKER", "LOC_HUD_OVERHAUL_OPTION_SIZE_TRACKER_DESCRIPTION"],
 	["ribbon", "ribbon", "LOC_HUD_OVERHAUL_OPTION_SIZE_RIBBON", "LOC_HUD_OVERHAUL_OPTION_SIZE_RIBBON_DESCRIPTION"],
 	["minimap", "minimap", "LOC_OPTIONS_MINIMAP_SIZE", "LOC_HUD_OVERHAUL_OPTION_SIZE_MINIMAP_DESCRIPTION"],
+	["minimapControls", "minimap", "LOC_HUD_OVERHAUL_OPTION_SIZE_MINIMAP_CONTROLS", "LOC_HUD_OVERHAUL_OPTION_SIZE_MINIMAP_CONTROLS_DESCRIPTION"],
 	["dial", "dial", "LOC_HUD_OVERHAUL_OPTION_SIZE_DIAL", "LOC_HUD_OVERHAUL_OPTION_SIZE_DIAL_DESCRIPTION"],
 	["notifications", "dial", "LOC_HUD_OVERHAUL_OPTION_SIZE_NOTIFICATIONS", "LOC_HUD_OVERHAUL_OPTION_SIZE_NOTIFICATIONS_DESCRIPTION"],
 ];
 export const SIZES = FULL ? ALL_SIZES : ALL_SIZES.filter(([name]) => name === "topBar" || name === "tooltips");
 const SIZE = { min: 75, max: 150, steps: 15, initial: 100 }; // percent, 5 a step
+const RANGES = { minimap: { ...SIZE, max: 250, steps: 35 } }; // sizes that go further than SIZE
+const range = (name) => RANGES[name] ?? SIZE;
 
 // Sent on window after a size changes, with the part as its detail.
 const SIZE_EVENT = "hud-overhaul-size";
@@ -294,7 +297,8 @@ const SIZE_EVENT = "hud-overhaul-size";
 // A part's slider, in percent.
 function percent(part) {
 	const value = Number(readSettings().sizes?.[part]);
-	return Number.isFinite(value) && value >= SIZE.min && value <= SIZE.max ? Math.round(value) : SIZE.initial;
+	const { min, max, initial } = range(part);
+	return Number.isFinite(value) && value >= min && value <= max ? Math.round(value) : initial;
 }
 
 // A part's size against the mod's own, 1 at 100% unless BASE_SIZES in
@@ -308,6 +312,18 @@ export function onSize(parts, callback) {
 	window.addEventListener(SIZE_EVENT, (event) => {
 		if (parts.includes(event.detail)) callback();
 	});
+}
+
+// The minimap's slider used to size its buttons and menus too. They keep that
+// size once, on the first load since they got a slider of their own.
+function keepMinimapControls() {
+	const sizes = readSettings().sizes;
+	if (!FULL || sizes?.minimapControls !== undefined) return;
+	try {
+		writeSetting("sizes", { ...sizes, minimapControls: sizes?.minimap ?? SIZE.initial });
+	} catch (error) {
+		console.error(`[hud-overhaul] settings: cannot save size: ${error}`);
+	}
 }
 
 // Each part's switch and each size's slider.
@@ -346,9 +362,9 @@ function addPartOptions() {
 			description,
 			part,
 			size: true,
-			min: SIZE.min,
-			max: SIZE.max,
-			steps: SIZE.steps,
+			min: range(name).min,
+			max: range(name).max,
+			steps: range(name).steps,
 			initListener: (info) => {
 				info.currentValue = percent(name);
 				info.formattedValue = `${info.currentValue}%`;
@@ -395,5 +411,6 @@ if (typeof engine !== "undefined" && !document.getElementById("hud-overhaul-hide
 	document.head.append(style);
 	document.documentElement.classList.toggle(OFF, !enabled());
 	syncParts();
+	keepMinimapControls();
 	addPartOptions().catch((error) => console.error(`[hud-overhaul] settings: part options not added: ${error}`));
 }
